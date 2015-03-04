@@ -1,0 +1,37 @@
+Source code notes
+-----------------
+
+BattleBall is about 10,000 lines of C++ source code, not including
+the Standard Template and BSP libraries that it uses.  The source code
+compiles and runs on Unix / X11 Windows platforms.
+
+
+Source directories
+------------------
+
+The BB source code distribution includes four directories:
+
+stl/      HP's version of the C++ Standard Template Library
+bsp/      A.T. Campbell's BSP C library, v1.0, modified
+lib3d/    my 3-D modeling/rendering library (needs a real name :-)
+bb/       BattleBall 2.0
+
+The 3D modeling/rendering library in lib3d/ defines classes for
+geometric primitives such as points, angles, polygons, and arbitrary
+polygonal 3-D shapes.  The code in lib3d to rotate/transform and render
+3-D shapes is optimized for speed.  Lib3d contains no code specific to
+the game of BattleBall, and was written with the goal of being reusable
+outside of BB.  Lib3d does not use OpenGL or Mesa.
+
+The source code in bb/ implements all the gameplay of BattleBall.  It
+has a fairly nice (IMO) object-oriented model for game objects and how
+they behave/interact, which is new in version 2.0 of BB.  It also has
+an algorithm for aiming projectiles at moving targets in the presence
+of gravity.  If you want to modify BB or build your own game using BB's
+infrastructure, the code in this directory is probably what you'll want
+to modify.
+
+You may see the mysterious comment "-PAH" sprinkled liberally thoughout
+the source code.  For the most part, just ignore these.  They mark
+places in the source code that have kludges or that could use further
+work someday.

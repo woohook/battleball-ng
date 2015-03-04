@@ -1,0 +1,96 @@
+                                BattleBall 2.0
+                  A 3D single/multiplayer game for X Windows
+                                      by
+                               Philip A. Hardin
+
+
+How to play
+===========
+
+BattleBall is essentially the game of soccer, played with military
+vehicles rather than with people.  Each player drives a tank or flies
+a helicopter, and tries to move the ball down the playfield to the
+other team's goal.  In BattleBall, the teams' "goals" are their
+headquarters buildings, positioned at the ends of the playfield.
+Hitting another team's headquarters building with the ball scores a
+point, knocking the building over in the process.  Yes, realism was
+my ultimate goal in this game.
+
+Players are organized into teams.  Up to six teams can play at once, and
+teams may have any combination of human and computer players.  All teams
+compete on the playfield simultaneously.  To reduce disorientation and
+chaos, players' vehicles are painted with their team's colors, and
+headquarters buildings are marked with their team's insignia.
+
+Vehicles are, of course, armed with cannons, but these are primarily a
+means to an end.  Gunfire is good for forcing obstinate opponents out of
+your way, but gunfire doesn't destroy anything.  Gunfire is also good
+for blasting the ball across the playfield and into your opponent's HQ.
+
+-Scoring-
+
+When there are two teams, scoring is the same as it is in soccer:
+scoring a "goal" is worth 1 point.  When there are more than two teams,
+scoring a goal earns 2 points, and the other teams besides the losing
+team receive 1 point each for defending their headquarters.
+
+-Controls-
+
+BattleBall is played with keyboard controls, which are shown in the game
+window.  If the window isn't large enough to show them all, "more->"
+appears at the edge of the window, indicating that the window can be
+resized to show more controls.
+
+
+Command-Line Options
+====================
+
+Run the game with the flag "-help" to see all the command-line options.
+
+
+About the application
+=====================
+
+BattleBall runs under X11 Windows, and uses X11 to open game windows on
+multiple machines.  This has a couple of implications.
+
+First, even though BattleBall is a multiplayer game and can be played
+(very) short distances over the internet, it runs as a single process
+on one machine.  That one machine has to do almost all the work to
+render a 3D scene in each game window.  In other words, the game runs
+*slow* with too many human players!  There are several things you
+can do to get more speed out of the game:
+
+o  open game windows on machines other than the machine running the game
+o  use the -id option to lower the inter-frame delay
+o  turn off shadows
+o  turn on "simple" graphics
+o  use smaller game windows
+o  use wireframe rendering
+
+Second, the machine on which BattleBall runs must have "permission" to
+open windows on the other machines where the game will be played.  The
+"xhost" command gives this permission.  Type "xhost +" in a Unix shell
+on each machine where you plan to play the game.  Otherwise, you may
+see an error message like "cannot connect to X server so-and-so" when
+you try to start a multiplayer game.
+
+
+Copyright
+=========
+
+BattleBall is copyright (c) 1996, 1997 Philip A. Hardin.
+
+As of July 29, 1998, BattleBall is released under the terms of the
+GNU General Public License.  See the file "COPYING" for details.
+
+BattleBall comes with NO WARRANTY, not even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  It's free...what
+else would you expect?
+
+
+Web Page
+========
+
+Executables and source code are available from the BattleBall web page
+at http://www.cs.utexas.edu/users/pahardin/bb.html.

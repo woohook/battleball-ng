@@ -1,0 +1,11 @@
+#!/bin/csh -f
+
+set CC="xlC"
+set MISC="-c -fdefault-inline -O2 -unroll=5"
+set INCL="-I../lib3d -I../bsp -I../stl"
+set LIBS="-lX11 -lm"
+
+cd bsp;      $CC $MISC $INCL *.C
+cd ../lib3d; $CC $MISC $INCL *.C
+cd ../bb;    $CC $MISC $INCL *.C
+cd ..;       $CC lib3d/*.o bsp/*.o bb/*.o $LIBS -o battleball

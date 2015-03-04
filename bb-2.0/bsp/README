@@ -1,0 +1,11 @@
+Binary Space Partition (BSP) tree library
+-----------------------------------------
+
+This BSP code is from A. T. Campbell's C BSP library, v1.0.  It has been
+modified slightly for increased speed.  If you plan to use this BSP library
+in your own work, you should get an untainted, more recent copy from
+A. T.'s web page at
+
+  http://www.arlut.utexas.edu/~atc
+
+...and you'll also get documentation which isn't here.

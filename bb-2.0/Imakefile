@@ -1,0 +1,28 @@
+CXX = g++
+PROGRAMS = battleball
+
+XCOMM  If your compiler doesn't have STL in its default include path, add
+XCOMM  -Istl to the line below.  (shouldn't have to do this for g++ 2.7.x)
+INCLUDES = -Ilib3d -Ibsp
+
+LOCAL_LIBRARIES = -lm $(XLIB)
+DEPLIBS = $(DEPXLIB)
+
+OBJS=	bsp/brep.o bsp/bsp.o bsp/polygon.o \
+	lib3d/ang3d.o lib3d/bsppanel3d.o lib3d/bspregion3d.o \
+	lib3d/dimension.o lib3d/dimentable.o lib3d/edgetable.o \
+	lib3d/fastpts.o lib3d/general.o lib3d/gfxtarget.o \
+	lib3d/panel3d.o lib3d/pt2d.o lib3d/pt3d.o lib3d/region2d.o \
+	lib3d/region3d.o lib3d/shdregion3d.o lib3d/view.o \
+	lib3d/xform.o lib3d/xpanel3d.o lib3d/xregion3d.o \
+	bb/bbcolor.o bb/bbgfxtarget.o bb/gob.o bb/gobs.o bb/main.o \
+	bb/player.o bb/shapes.o bb/team.o
+
+XCOMM If your compiler supports the optimization loop unrolling, use it.
+XCOMM For g++, loop unrolling is:  -funroll-loops
+XCOMM For Solaris's CC and AIX's xlC, loop unrolling is:  -unroll=5
+
+%.o : %.C
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
+
+ComplexCplusplusProgramTarget(battleball)

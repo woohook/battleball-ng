@@ -1,0 +1,121 @@
+Version 2.0 Changes
+===================
+
+Made computer players shoot.  Their targetting accuracy and firing
+frequency are adjustable and can be set when the game is started.  Human
+players also have "auto-gunner" capability.
+
+Added more collision detection and interaction between objects.
+
+Made objects cast simple shadows.
+
+Improved the helicopter's dribbling and auto-pilot.  It can now beat the
+tank in a one-on-one match almost half the time.
+
+Added team colors to differentiate vehicles on different teams.
+
+Added an optional train running on a partially elevated track.  Cool!
+
+Made the Tab key switch the text area of the game window between the
+status display and the list of teams & players.
+
+Put the saucer ship (gone since v1.0) back into the fly-bys.
+
+Enhanced the scenery outside of the playfield.
+
+Revamped the command-line options to make them less cryptic, and added
+many new options.
+
+Made "fancy" graphics the default.
+
+Internal improvements:
+* Overhauled the game object classes to make them more object-oriented
+  and easier to specialize.  Big improvement :-)
+* Split (and simplified) the transformation matrix class into two
+  classes.
+* Optimized bsp traversal and determination of polygon drawing order in
+  the xregion3d class.
+* Optimized affine transformation in the fastPts class a little further.
+
+
+Version 1.1 Changes
+===================
+
+Added double-buffering for smoother animation.
+
+Made several elements of the game configurable via command-line parameters:
+* the radius of the playfield ("-ra")
+* whether vehicles are allowed to go outside the playfield ("-ou")
+* the strength of gravity ("-g")
+* shell velocity ("-sv")
+
+The fancy graphics option ("-f") now gives you snazzier looking tanks.
+
+Made numerous optimizations which greatly speed up solid-modeled rendering.
+
+Added a pause-game feature.
+
+Fixed a bug which occasionally prevented the playfield boundary from being
+drawn in wireframe mode.
+
+Made several major internal architectural changes.  One is worth mentioning:
+prior to this release, all 3D coordinates were stored and in fixed point 
+format and processed using fixed point arithmetic!  For the most part, the 3D
+modeling/rendering engine did its computation in fixed-point, if you can
+believe that.  Now everything is floating point.  Believe me, I don't
+miss the headaches associated with fixed-point arithmetic.  Although in
+principle fixed-point arithmetic can be done faster than floating-point
+arithmetic, you can make certain optimizations on a floating-point 3D
+graphics engine that you can't make on a fixed-point 3D engine, and I
+found that, on the whole, the floating-point engine is the faster one.
+All that headache for nothing!
+
+Fixed a bug which was screwing up memory management in a major way.  This
+bug was present in the previous releases of BattleBall, but AIX 3.2's
+memory manager was so forgiving I wasn't even aware of the bug until
+I tried to port the game to Solaris.
+
+Numerous other minor improvements/fixes.
+
+
+Version 1.0 Changes (with respect to Beta version 49):
+===================
+
+Added a horizon line in wireframe mode, and a blue sky/green grass
+horizon in solid-modeled mode.
+
+Fixed an integer overflow bug which caused large polygons (e.g. the
+playfield boundary) to be draw malformed sometimes.
+
+Added blocked friendly fire mode (-b option) and transparent friendly
+fire mode (-t option).  In blocked mode, when a teammate's shell hits
+another teammate's vehicle, the shell is blocked, but not detonated.
+In transparent mode, teammates' shells pass through other teammates'
+vehicles without being blocked or detonated.  By default, friendly
+fire is still dangerous.
+
+For games with 3 or more teams, scoring is a little different.  When
+the ball hits the headquarters building of one team, all the other teams
+receive a point just as before.  In addition, the team that last hit or
+shot the ball now receives an extra point.
+
+The helicopter can no longer slide around on the ground without taking
+off, nor can it fly upside down.
+
+Added a little more scenery outside of the playfield.
+
+When the player's viewpoint is inside the tank turret or the helicopter,
+the turret or helicopter is drawn wireframe (even in solid modeled
+mode).
+
+Using the fancy graphics option (-f) now puts a Battle Ball logo on the
+playfield.
+
+The scenery (mountains & trees) now stays the same from round to round.
+
+Made the helicopter automatic pilot less stupid (before, it just used
+the same automatic pilot as the tank).
+
+X Windows is now informed about which polygons being drawn are convex
+(most of them are), which should result in better server performance
+in solid-modeled mode.

@@ -1,0 +1,60 @@
+Compiling with the Imakefile
+----------------------------
+
+To simplify compilation, BattleBall comes with a short Imakefile.
+To compile, make any desired edits to the Imakefile, and type
+
+  xmkmf
+  make
+
+That should do it.  A binary named "battleball" should be created in
+the current directory.
+
+If you have problems with make, check that you are using the GNU
+version of make (highly recommended).
+
+
+
+Using a compiler besides g++
+----------------------------
+
+The Imakefile is set up to use g++, which is the recommended compiler
+for BB.  If you use a different compiler, it must be able to handle the
+Standard Template Library (STL).  A list of STL-compatible (and
+incompatible) compilers is available at
+
+  http://www.cyberport.com/~tangent/programming/stl/compatibility.html
+
+If your compiler can handle STL, but doesn't have STL in its default
+include path, add -Istl to the INCLUDES line in the Imakefile.  This
+will make your compiler use the STL source directory that comes with BB.
+
+AIX note:
+  the AIX version of g++ 2.7.2 will successfully compile BattleBall, but
+  the binary it generates does not run correctly (at least it didn't for
+  me).  Use xlC instead to compile BB under AIX.
+
+
+
+Non-Imakefile compilation
+-------------------------
+
+If you have problems with the Imakefile, or if your system doesn't come
+with xmkmf, you can use a script to compile BB.  Several short scripts
+are provided to compile BB on a variety of platforms:
+
+  cmpl.aix      (compiles under AIX using xlC)
+  cmpl.linux    (compiles under Linux using g++)
+  cmpl.solar    (compiles under Solaris using g++)
+  cmpl.solar.CC (compiles under Solaris using CC)
+
+Edit one of these scripts (if necessary) for your system, and run it
+to compile BB.
+
+
+
+~~~~~
+Send suggestions for improvements to the Imakefile or compilation
+scripts to pahardin@cs.utexas.edu.
+
+Good luck!

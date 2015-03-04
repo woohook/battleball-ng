@@ -1,0 +1,12 @@
+#!/bin/csh -f
+
+set CC="g++"
+set MISC="-c -fdefault-inline -O2 -funroll-loops"
+set INCL="-I../lib3d -I../bsp -I/usr/openwin/include"
+set LIBS="-lm -L/usr/openwin/lib -lX11 -lsocket"
+setenv LD_LIBRARY_PATH /usr/openwin/lib
+
+cd bsp;      $CC $MISC $INCL *.C
+cd ../lib3d; $CC $MISC $INCL *.C
+cd ../bb;    $CC $MISC $INCL *.C
+cd ..;       $CC lib3d/*.o bsp/*.o bb/*.o $LIBS -o battleball

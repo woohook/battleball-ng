@@ -1,0 +1,11 @@
+#!/bin/csh -f
+
+set CC="g++"
+set MISC="-c -fdefault-inline -O2 -m486 -funroll-loops"
+set INCL="-I../lib3d -I../bsp -I/usr/local/X11/include"
+set LIBS="-lm -L/usr/local/X11/lib -lX11"
+
+cd bsp;      $CC $MISC $INCL *.C
+cd ../lib3d; $CC $MISC $INCL *.C
+cd ../bb;    $CC $MISC $INCL *.C
+cd ..;       $CC lib3d/*.o bsp/*.o bb/*.o $LIBS -o battleball
