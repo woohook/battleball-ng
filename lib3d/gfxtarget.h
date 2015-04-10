@@ -114,7 +114,7 @@ struct gfxTarget
   ulong	*Colors();
   void  GetColor(char *name, ulong& colorPixel);
 
-  void  DrawSegments(XSegment* segs, int numSegs) const;
+  void  DrawSegments(pt2d* segs, int numSegs) const;
   void  DrawLine(int x1, int y1, int x2, int y2);
   void  DrawLines(pt2d* points, int npoints);
   void	DrawRectangle(const pt2d& p,const pt2d& sz);

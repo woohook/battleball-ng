@@ -60,14 +60,15 @@ void xregion3d::DrawEdges(const pt3d viewPts[], const pt2d& clip,
 			  const gfxTarget& gt) {
   int i;
   int numSegs= 0;
-  static XSegment segs[1000]; //-PAH
+  static pt2d segs[2000]; //-PAH
 
   if ((xcode&49)==0 and (ycode&17)==0) { // if all pts were w/in drawable,
-    for(i=0; i <edges.Num(); i++)        // don't bother to clip, just draw
-    { segs[i].x1= (short) prjPts[edges[i].beginPtNum].x;
-      segs[i].y1= (short) prjPts[edges[i].beginPtNum].y;
-      segs[i].x2= (short) prjPts[edges[i].endPtNum  ].x;
-      segs[i].y2= (short) prjPts[edges[i].endPtNum  ].y;
+    for(i=0; i < edges.Num(); i++)        // don't bother to clip, just draw
+    {
+      segs[i*2].x   = (short) prjPts[edges[i].beginPtNum].x;
+      segs[i*2].y   = (short) prjPts[edges[i].beginPtNum].y;
+      segs[i*2+1].x = (short) prjPts[edges[i].endPtNum  ].x;
+      segs[i*2+1].y = (short) prjPts[edges[i].endPtNum  ].y;
     }
     gt.DrawSegments(segs,edges.Num());
     return;
@@ -105,10 +106,10 @@ void xregion3d::DrawEdges(const pt3d viewPts[], const pt2d& clip,
 	  Get2dXCrossing(endPt2d,beginPt2d,0);
       }
       
-      segs[numSegs].x1= (short) beginPt2d.x;
-      segs[numSegs].y1= (short) beginPt2d.y;
-      segs[numSegs].x2= (short) endPt2d.x;
-      segs[numSegs].y2= (short) endPt2d.y;
+      segs[numSegs*2].x   = (short) beginPt2d.x;
+      segs[numSegs*2].y   = (short) beginPt2d.y;
+      segs[numSegs*2+1].x = (short) endPt2d.x;
+      segs[numSegs*2+1].y = (short) endPt2d.y;
       numSegs++;
     }
     gt.DrawSegments(segs,numSegs);
@@ -188,10 +189,10 @@ void xregion3d::DrawEdges(const pt3d viewPts[], const pt2d& clip,
         Get2dYCrossing(endPt2d,beginPt2d,0);
     }
 
-    segs[numSegs].x1= (short) beginPt2d.x;
-    segs[numSegs].y1= (short) beginPt2d.y;
-    segs[numSegs].x2= (short) endPt2d.x;
-    segs[numSegs].y2= (short) endPt2d.y;
+    segs[numSegs*2].x   = (short) beginPt2d.x;
+    segs[numSegs*2].y   = (short) beginPt2d.y;
+    segs[numSegs*2+1].x = (short) endPt2d.x;
+    segs[numSegs*2+1].y = (short) endPt2d.y;
     numSegs++;
   }
   gt.DrawSegments(segs,numSegs);

@@ -136,9 +136,18 @@ void gfxTarget::FillRectangle(const pt2d& p,const pt2d& sz)
   XFillRectangle(disp,win,gc,(int)p.x,(int)p.y,(int)sz.x,(int)sz.y);
 }
 
-void gfxTarget::DrawSegments(XSegment* segs, int numSegs) const
+void gfxTarget::DrawSegments(pt2d* segs, int numSegs) const
 {
-  XDrawSegments(disp,win,gc,segs,numSegs);
+  int i;
+  XSegment xsegs[1000];
+  for(i=0; i < numSegs; i++)
+  {
+    xsegs[i].x1 = segs[i*2].x;
+    xsegs[i].y1 = segs[i*2].y;
+    xsegs[i].x2 = segs[i*2+1].x;
+    xsegs[i].y2 = segs[i*2+1].y;
+  }
+  XDrawSegments(disp,win,gc,xsegs,numSegs);
 }
 
 void gfxTarget::DrawLine(int x1, int y1, int x2, int y2)
