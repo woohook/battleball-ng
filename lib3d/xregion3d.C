@@ -211,13 +211,6 @@ void xregion3d::DrawPolys(const pt3d viewPts[], const pt2d& clip,
 			  const pt3d& viewPos) {
   bool fast= (xcode&49)==0 and (ycode&17)==0; //if all pts are w/in drawable
   
-  static XPoint xprjPts[1000]; //-PAH
-  if (fast)
-    forii(pts.Num()) {
-    xprjPts[i].x= (short) prjPts[i].x;
-    xprjPts[i].y= (short) prjPts[i].y;
-  }
-  
   Vec3f viewPos3f;
   pt3d2Vec3f(viewPos,viewPos3f);
 
@@ -234,7 +227,7 @@ void xregion3d::DrawPolys(const pt3d viewPts[], const pt2d& clip,
 	xpanel3d* panel= (xpanel3d*) poly->material_index;
 	if (sp->facesViewer==poly->facesForward /*panel->Faces(pts.Array(),viewPos)*/ or panel->doubleSided)
 	  if (fast)
-	    panel->DrawFast(xprjPts,colors,gt);
+	    panel->DrawFast(prjPts,colors,gt);
 	  else
 	    panel->Draw(viewPts,clip,prjPts,colors,gt);
       }

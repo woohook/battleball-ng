@@ -48,7 +48,7 @@ protected:
  public:
   void	Draw(const pt3d viewPts[], const pt2d& clip, const pt2d prjPts[],
 	     const ulong colors[], const gfxTarget& gt);
-  void	DrawFast(const XPoint xprjPts[], const ulong colors[],
+  void	DrawFast(const pt2d prjPts[], const ulong colors[],
 		 const gfxTarget& gt);
 };
 

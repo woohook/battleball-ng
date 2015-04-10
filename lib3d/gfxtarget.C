@@ -156,14 +156,46 @@ void gfxTarget::DrawRectangle(int x, int y, unsigned int width, unsigned int hei
   XDrawRectangle(disp, win, gc, x, y, width, height);
 }
 
-void gfxTarget::DrawLines(XPoint* points, int npoints, int mode)
+void getXPoints(pt2d* pts, XPoint* xpts, int count)
 {
-  XDrawLines(disp, win, gc, points, npoints, mode);
+  forii(count) {
+    xpts[i].x= (short) pts[i].x;
+    xpts[i].y= (short) pts[i].y;
+  }
 }
 
-void gfxTarget::FillPolygon(XPoint* points, int npoints, int shape, int mode) const
+void gfxTarget::DrawLines(pt2d* points, int npoints)
 {
-  XFillPolygon(disp, win, gc, points, npoints, shape, mode);
+#ifdef __GNUC__
+  XPoint xpts[100];
+#else
+  XPoint *xpts= new XPoint[npoints];
+#endif
+  getXPoints(points, xpts, npoints);
+  XDrawLines(disp, win, gc, xpts, npoints, CoordModeOrigin);
+#ifndef __GNUC__
+  delete [] xpts;
+#endif
+}
+
+void gfxTarget::FillPolygon(pt2d* points, int npoints, bool convex) const
+{
+  int shape = Convex;
+  if(!convex)
+  {
+    shape = Nonconvex;
+  }
+
+#ifdef __GNUC__
+  XPoint xpts[100];
+#else
+  XPoint *xpts= new XPoint[npoints];
+#endif
+  getXPoints(points, xpts, npoints);
+  XFillPolygon(disp, win, gc, xpts, npoints, shape, CoordModeOrigin);
+#ifndef __GNUC__
+  delete [] xpts;
+#endif
 }
 
 void gfxTarget::LoadFont(const char *name)

@@ -338,28 +338,26 @@ bool gob::WillBeHitBy(const pt3d& startPos, const pt3d& dir) const {
 // off is in screen coords.
 
 void Draw(rgn2 *rgn, gfxTarget& gt, const pt2d& off, ang2d ang,
-	  const pt2d& sc, bool solid) {
-
+	  const pt2d& sc, bool solid)
+{
 #ifdef __GNUC__
   pt2d pts[100];
-  XPoint xpts[100];
 #else
   pt2d *pts= new pt2d[rgn->numSides];
-  XPoint *xpts= new XPoint[rgn->numSides+1];
 #endif
+
   rgn->TransformTo(off,ang,sc,pts);
-  forii(rgn->numSides) {
-    xpts[i].x= (short) pts[i].x;
-    xpts[i].y= (short) pts[i].y;
-  }
-  xpts[rgn->numSides].x= (short) pts[0].x;
-  xpts[rgn->numSides].y= (short) pts[0].y;
+
   if (solid)
-    gt.FillPolygon(xpts,rgn->numSides+1,Nonconvex,CoordModeOrigin);
+  {
+    gt.FillPolygon(pts,rgn->numSides,false);
+  }
   else
-    gt.DrawLines(xpts,rgn->numSides+1,CoordModeOrigin);
+  {
+    gt.DrawLines(pts,rgn->numSides);
+  }
+
 #ifndef __GNUC__
-  delete [] xpts;
   delete [] pts;
 #endif
 }

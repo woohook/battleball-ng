@@ -116,14 +116,14 @@ struct gfxTarget
 
   void  DrawSegments(XSegment* segs, int numSegs) const;
   void  DrawLine(int x1, int y1, int x2, int y2);
-  void  DrawLines(XPoint* points, int npoints, int mode);
+  void  DrawLines(pt2d* points, int npoints);
   void	DrawRectangle(const pt2d& p,const pt2d& sz);
   void  DrawRectangle(int x, int y, unsigned int width, unsigned int height);
   void	DrawString(const pt2d& p,const char* s);
   void  DrawImageString(int x, int y, const char* string, int length);
 
   void	FillRectangle(const pt2d& p,const pt2d& sz);
-  void  FillPolygon(XPoint* points, int npoints, int shape, int mode) const;
+  void  FillPolygon(pt2d* points, int npoints, bool convex) const;
 
   void	DoubleBufferBegin();
   void	DoubleBufferEnd();
