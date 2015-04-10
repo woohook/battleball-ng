@@ -57,4 +57,38 @@ void gfxTarget::ConnectToWM(char *argv[], int argc, char *progName,
                    &size_hints,&wm_hints,&class_hints);
 }
 
+ulong gfxTarget::Black() const
+{
+  return BlackPixel(disp,screenNo);
+}
+
+ulong gfxTarget::White() const
+{
+  return WhitePixel(disp,screenNo);
+}
+
+void gfxTarget::SetForeground(ulong color) const  // should this really be const?
+{
+  XSetForeground(disp,gc,color);
+}
+
+void gfxTarget::DrawString(const pt2d& p,const char* s)
+{
+  XDrawImageString(disp,win,gc,(int)p.x,(int)p.y,s,strlen(s));
+}
+
+void gfxTarget::DrawRectangle(const pt2d& p,const pt2d& sz)
+{
+  XDrawRectangle(disp,win,gc,(int)p.x,(int)p.y,(int)sz.x,(int)sz.y);
+}
+
+void gfxTarget::FillRectangle(const pt2d& p,const pt2d& sz)
+{
+  XFillRectangle(disp,win,gc,(int)p.x,(int)p.y,(int)sz.x,(int)sz.y);
+}
+
+void gfxTarget::ResizeWindow(const pt2d& sz)
+{
+  XResizeWindow(disp,win,(int)sz.x,(int)sz.y);
+}
 

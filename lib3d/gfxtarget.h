@@ -36,24 +36,13 @@ struct gfxTarget
   bool	OpenDisplay(char*);
   void	ConnectToWM(char*[],int,char*,short,short,short,short);
 
-  ulong	Black() const {return BlackPixel(disp,screenNo);}
-  ulong	White() const {return WhitePixel(disp,screenNo);}
-  void	SetForeground(ulong color) const {  // should this really be const?
-    XSetForeground(disp,gc,color);
-  }
-
-  void	DrawString(const pt2d& p,const char* s) {
-    XDrawImageString(disp,win,gc,(int)p.x,(int)p.y,s,strlen(s));
-  }
-  void	DrawRectangle(const pt2d& p,const pt2d& sz) {
-    XDrawRectangle(disp,win,gc,(int)p.x,(int)p.y,(int)sz.x,(int)sz.y);
-  }
-  void	FillRectangle(const pt2d& p,const pt2d& sz) {
-    XFillRectangle(disp,win,gc,(int)p.x,(int)p.y,(int)sz.x,(int)sz.y);
-  }
-  void	ResizeWindow(const pt2d& sz) {
-    XResizeWindow(disp,win,(int)sz.x,(int)sz.y);
-  }
+  ulong	Black() const;
+  ulong	White() const;
+  void	SetForeground(ulong color) const;  // should this really be const?
+  void	DrawString(const pt2d& p,const char* s);
+  void	DrawRectangle(const pt2d& p,const pt2d& sz);
+  void	FillRectangle(const pt2d& p,const pt2d& sz);
+  void	ResizeWindow(const pt2d& sz);
 };
 
 
