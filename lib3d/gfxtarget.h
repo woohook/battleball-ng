@@ -7,11 +7,6 @@
 #define GFXTARGET_h
 
 
-#include <stdlib.h>
-#include <string.h>
-#include <X11/Xlib.h>
-#include <X11/Xutil.h>
-#include "general.h"
 #include "pt2d.h"
 #include "bbcolor.h"
 
@@ -85,63 +80,49 @@ struct BBEvent
 };
 
 struct gfxTarget
-{ Display       *disp;		// X Display
-  Drawable      win;		// window on the display
-  Window        rootWin;	// root window of the display
-  int           screenNo;	// default screen of the display
-  GC            gc;		// graphics context for window 'win'
-  Pixmap        pm;		// Pixmap for double-buffering window 'win'
-  GC            pmgc;		// graphics context for the pixmap
-  XFontStruct   *font;
-  Drawable	savedWin;             // X window; used for double-buffering
-  GC		savedGc;              // X GC;     used for double-buffering
-  ulong         colors[totalColors];  // X color lookup table
-  XWindowAttributes winAttribs;       // X11 window attributes
-  bool          doubleBuffer;         // double buffer game window
+{
+  virtual bool	OpenDisplay(char *dispName, int argc, char *argv[]) = 0;
+  virtual void  CloseDisplay() = 0;
+  virtual void	ResizeWindow(const pt2d& sz) = 0;
+  virtual void  CreateWindow(int argc, char *argv[]) = 0;
+  virtual void	ConnectToWM(char*[],int,char*,short,short,short,short) = 0;
+  virtual void  HandleResize(BBEvent *event, bool refit) = 0;
 
-  bool	OpenDisplay(char *dispName, int argc, char *argv[]);
-  void  CloseDisplay();
-  void	ResizeWindow(const pt2d& sz);
-  void  CreateWindow(int argc, char *argv[]);
-  void	ConnectToWM(char*[],int,char*,short,short,short,short);
-  void  HandleResize(BBEvent *event, bool refit);
+  virtual ulong	Black() const = 0;
+  virtual ulong	White() const = 0;
+  virtual void	SetForeground(ulong color) const = 0;  // should this really be const?
+  virtual void  SetBackground(ulong color) const = 0;
+  virtual void  AllocColors(char *colorNames[], int numColors) = 0;
+  virtual ulong	*Colors() = 0;
+  virtual void  GetColor(char *name, ulong& colorPixel) = 0;
 
-  ulong	Black() const;
-  ulong	White() const;
-  void	SetForeground(ulong color) const;  // should this really be const?
-  void  SetBackground(ulong color) const;
-  void  AllocColors(char *colorNames[], int numColors);
-  ulong	*Colors();
-  void  GetColor(char *name, ulong& colorPixel);
+  virtual void  DrawSegments(pt2d* segs, int numSegs) const = 0;
+  virtual void  DrawLine(int x1, int y1, int x2, int y2) = 0;
+  virtual void  DrawLines(pt2d* points, int npoints) = 0;
+  virtual void	DrawRectangle(const pt2d& p,const pt2d& sz) = 0;
+  virtual void  DrawRectangle(int x, int y, unsigned int width, unsigned int height) = 0;
+  virtual void	DrawString(const pt2d& p,const char* s) = 0;
+  virtual void  DrawImageString(int x, int y, const char* string, int length) = 0;
 
-  void  DrawSegments(pt2d* segs, int numSegs) const;
-  void  DrawLine(int x1, int y1, int x2, int y2);
-  void  DrawLines(pt2d* points, int npoints);
-  void	DrawRectangle(const pt2d& p,const pt2d& sz);
-  void  DrawRectangle(int x, int y, unsigned int width, unsigned int height);
-  void	DrawString(const pt2d& p,const char* s);
-  void  DrawImageString(int x, int y, const char* string, int length);
+  virtual void	FillRectangle(const pt2d& p,const pt2d& sz) = 0;
+  virtual void  FillPolygon(pt2d* points, int npoints, bool convex) const = 0;
 
-  void	FillRectangle(const pt2d& p,const pt2d& sz);
-  void  FillPolygon(pt2d* points, int npoints, bool convex) const;
+  virtual void	DoubleBufferBegin() = 0;
+  virtual void	DoubleBufferEnd() = 0;
+  virtual void  Flush() = 0;
 
-  void	DoubleBufferBegin();
-  void	DoubleBufferEnd();
-  void  Flush();
+  virtual void  LoadFont(const char* name) = 0;
+  virtual void  UnloadFont() = 0;
+  virtual void  SetFont() = 0;
 
-  void  LoadFont(const char* name);
-  void  UnloadFont();
-  void  SetFont();
+  virtual void  FreePixmap() = 0;
+  virtual void	GetGC() = 0;
+  virtual void  FreeGC() = 0;
 
-  void  FreePixmap();
-  void	GetGC();
-  void  FreeGC();
+  virtual void  SetLineAttributes(unsigned int line_width, int line_style, int cap_style, int join_style) = 0;
 
-  void  SetLineAttributes(unsigned int line_width, int line_style, int cap_style, int join_style);
-
-  int   Pending();
-  BBEvent NextEvent();
-  KB_Key LookupKeysym(XKeyEvent* key_event);
+  virtual int   Pending() = 0;
+  virtual BBEvent NextEvent() = 0;
 };
 
 

@@ -70,5 +70,5 @@ void bbGfxTarget::HandleResize(BBEvent *event, bool refit)
   if (refit)
     ResizeWindow(gfxSize +pt2d(0,textSize.y));
 
-  gfxTarget::HandleResize(event, refit);
+  gfxTargetX11::HandleResize(event, refit);
 }

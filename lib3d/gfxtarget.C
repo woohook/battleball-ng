@@ -4,7 +4,10 @@
 
 
 #include <iostream>
-#include "gfxtarget.h"
+#include "gfxtargetx11.h"
+#include <stdlib.h>
+#include <string.h>
+#include "general.h"
 
 using namespace std;
 
@@ -13,7 +16,7 @@ using namespace std;
 // Out:	disp, screenNo, & rootWin member fields set if display was opened
 //   	successfully
 // Returns true if display was opened successfully, false otherwise
-bool gfxTarget::OpenDisplay(char *dispName, int argc, char *argv[]) {
+bool gfxTargetX11::OpenDisplay(char *dispName, int argc, char *argv[]) {
   disp= XOpenDisplay(dispName);
   if (disp==NULL) {
     cerr << "cannot connect to X server " << XDisplayName(dispName) << endl;
@@ -29,7 +32,7 @@ bool gfxTarget::OpenDisplay(char *dispName, int argc, char *argv[]) {
 
 
 /*----------------------------------------------------------------------*/
-void gfxTarget::CreateWindow(int argc, char *argv[])
+void gfxTargetX11::CreateWindow(int argc, char *argv[])
 {
   static short	x=48, y=48;
 
@@ -48,7 +51,7 @@ void gfxTarget::CreateWindow(int argc, char *argv[])
 }
 
 
-void gfxTarget::ConnectToWM(char *argv[], int argc, char *progName,
+void gfxTargetX11::ConnectToWM(char *argv[], int argc, char *progName,
 			    short x, short y, short width, short height)
 { XSizeHints	size_hints;
   XWMHints	wm_hints;
@@ -80,39 +83,39 @@ void gfxTarget::ConnectToWM(char *argv[], int argc, char *progName,
                    &size_hints,&wm_hints,&class_hints);
 }
 
-ulong gfxTarget::Black() const
+ulong gfxTargetX11::Black() const
 {
   return BlackPixel(disp,screenNo);
 }
 
-ulong gfxTarget::White() const
+ulong gfxTargetX11::White() const
 {
   return WhitePixel(disp,screenNo);
 }
 
-void gfxTarget::SetForeground(ulong color) const  // should this really be const?
+void gfxTargetX11::SetForeground(ulong color) const  // should this really be const?
 {
   XSetForeground(disp,gc,color);
   XSetForeground(disp,pmgc,color);
 }
 
-void gfxTarget::SetBackground(ulong color) const  // should this really be const?
+void gfxTargetX11::SetBackground(ulong color) const  // should this really be const?
 {
   XSetBackground(disp,gc,color);
   XSetBackground(disp,pmgc,color);
 }
 
-void gfxTarget::AllocColors(char *colorNames[], int numColors) {
+void gfxTargetX11::AllocColors(char *colorNames[], int numColors) {
   forii(numColors)
     GetColor(colorNames[i],colors[i]);
 }
 
-ulong* gfxTarget::Colors()
+ulong* gfxTargetX11::Colors()
 {
   return colors;
 };
 
-void gfxTarget::GetColor(char *name, ulong& colorPixel)
+void gfxTargetX11::GetColor(char *name, ulong& colorPixel)
 { Colormap	cmap;
   XColor	color1,color2;
   
@@ -121,22 +124,22 @@ void gfxTarget::GetColor(char *name, ulong& colorPixel)
   colorPixel= color1.pixel;
 }
 
-void gfxTarget::DrawString(const pt2d& p,const char* s)
+void gfxTargetX11::DrawString(const pt2d& p,const char* s)
 {
   XDrawImageString(disp,win,gc,(int)p.x,(int)p.y,s,strlen(s));
 }
 
-void gfxTarget::DrawRectangle(const pt2d& p,const pt2d& sz)
+void gfxTargetX11::DrawRectangle(const pt2d& p,const pt2d& sz)
 {
   XDrawRectangle(disp,win,gc,(int)p.x,(int)p.y,(int)sz.x,(int)sz.y);
 }
 
-void gfxTarget::FillRectangle(const pt2d& p,const pt2d& sz)
+void gfxTargetX11::FillRectangle(const pt2d& p,const pt2d& sz)
 {
   XFillRectangle(disp,win,gc,(int)p.x,(int)p.y,(int)sz.x,(int)sz.y);
 }
 
-void gfxTarget::DrawSegments(pt2d* segs, int numSegs) const
+void gfxTargetX11::DrawSegments(pt2d* segs, int numSegs) const
 {
   int i;
   XSegment xsegs[1000];
@@ -150,17 +153,17 @@ void gfxTarget::DrawSegments(pt2d* segs, int numSegs) const
   XDrawSegments(disp,win,gc,xsegs,numSegs);
 }
 
-void gfxTarget::DrawLine(int x1, int y1, int x2, int y2)
+void gfxTargetX11::DrawLine(int x1, int y1, int x2, int y2)
 {
   XDrawLine(disp,win,gc, x1, y1, x2, y2);
 }
 
-void gfxTarget::DrawImageString(int x, int y, const char* string, int length)
+void gfxTargetX11::DrawImageString(int x, int y, const char* string, int length)
 {
   XDrawImageString(disp, win, gc, x, y, string, length);
 }
 
-void gfxTarget::DrawRectangle(int x, int y, unsigned int width, unsigned int height)
+void gfxTargetX11::DrawRectangle(int x, int y, unsigned int width, unsigned int height)
 {
   XDrawRectangle(disp, win, gc, x, y, width, height);
 }
@@ -173,7 +176,7 @@ void getXPoints(pt2d* pts, XPoint* xpts, int count)
   }
 }
 
-void gfxTarget::DrawLines(pt2d* points, int npoints)
+void gfxTargetX11::DrawLines(pt2d* points, int npoints)
 {
 #ifdef __GNUC__
   XPoint xpts[100];
@@ -187,7 +190,7 @@ void gfxTarget::DrawLines(pt2d* points, int npoints)
 #endif
 }
 
-void gfxTarget::FillPolygon(pt2d* points, int npoints, bool convex) const
+void gfxTargetX11::FillPolygon(pt2d* points, int npoints, bool convex) const
 {
   int shape = Convex;
   if(!convex)
@@ -207,7 +210,7 @@ void gfxTarget::FillPolygon(pt2d* points, int npoints, bool convex) const
 #endif
 }
 
-void gfxTarget::LoadFont(const char *name)
+void gfxTargetX11::LoadFont(const char *name)
 {
   font= XLoadQueryFont(disp, name);
   if (font==NULL) {
@@ -216,23 +219,23 @@ void gfxTarget::LoadFont(const char *name)
   }
 }
 
-void gfxTarget::UnloadFont()
+void gfxTargetX11::UnloadFont()
 {
   XUnloadFont(disp, font->fid);
 }
 
-void gfxTarget::SetFont()
+void gfxTargetX11::SetFont()
 {
   XSetFont(disp, gc, font->fid);
   XSetFont(disp, pmgc, font->fid);
 }
 
-void gfxTarget::FreePixmap()
+void gfxTargetX11::FreePixmap()
 {
   XFreePixmap(disp, pm);
 }
 
-void gfxTarget::GetGC()
+void gfxTargetX11::GetGC()
 { unsigned long valuemask= 0;
   XGCValues values;
   
@@ -245,13 +248,13 @@ void gfxTarget::GetGC()
   SetFont();
 }
 
-void gfxTarget::FreeGC()
+void gfxTargetX11::FreeGC()
 {
   XFreeGC(disp, gc);
   XFreeGC(disp, pmgc);
 }
 
-void gfxTarget::CloseDisplay()
+void gfxTargetX11::CloseDisplay()
 {
   if(disp != NULL)
   {
@@ -259,13 +262,13 @@ void gfxTarget::CloseDisplay()
   }
 }
 
-void gfxTarget::SetLineAttributes(unsigned int line_width, int line_style, int cap_style, int join_style)
+void gfxTargetX11::SetLineAttributes(unsigned int line_width, int line_style, int cap_style, int join_style)
 {
   XSetLineAttributes(disp, gc, line_width, line_style, cap_style, join_style);
   XSetLineAttributes(disp, pmgc, line_width, line_style, cap_style, join_style);
 }
 
-void gfxTarget::DoubleBufferBegin() {
+void gfxTargetX11::DoubleBufferBegin() {
   savedWin= win;
   savedGc= gc;
   win= pm;
@@ -273,7 +276,7 @@ void gfxTarget::DoubleBufferBegin() {
   doubleBuffer = true;
 }
 
-void gfxTarget::DoubleBufferEnd() {
+void gfxTargetX11::DoubleBufferEnd() {
   win= savedWin;
   gc= savedGc;
 
@@ -289,31 +292,31 @@ void gfxTarget::DoubleBufferEnd() {
   doubleBuffer = false;
 }
 
-void gfxTarget::Flush()
+void gfxTargetX11::Flush()
 {
   if(doubleBuffer)
     DoubleBufferEnd();
   XFlush(disp);
 }
 
-void gfxTarget::ResizeWindow(const pt2d& sz)
+void gfxTargetX11::ResizeWindow(const pt2d& sz)
 {
   XResizeWindow(disp,win,(int)sz.x,(int)sz.y);
 }
 
-void gfxTarget::HandleResize(BBEvent *event, bool refit)
+void gfxTargetX11::HandleResize(BBEvent *event, bool refit)
 {
   XGetWindowAttributes(disp,win,&winAttribs);
   XFreePixmap(disp,pm);
   pm= XCreatePixmap(disp,win,winAttribs.width,winAttribs.height,winAttribs.depth);
 }
 
-int gfxTarget::Pending()
+int gfxTargetX11::Pending()
 {
   return XPending(disp);
 }
 
-BBEvent gfxTarget::NextEvent()
+BBEvent gfxTargetX11::NextEvent()
 {
   BBEvent event;
 
@@ -343,7 +346,7 @@ BBEvent gfxTarget::NextEvent()
   return event;
 }
 
-KB_Key gfxTarget::LookupKeysym(XKeyEvent* key_event)
+KB_Key gfxTargetX11::LookupKeysym(XKeyEvent* key_event)
 {
   KB_Key  key  = KBK_None;
   KeySym xkey = XLookupKeysym(key_event, 0);

@@ -10,7 +10,7 @@
 #include "general.h"
 #include "pt2d.h"
 #include "bbcolor.h"
-#include "gfxtarget.h"
+#include "gfxtargetx11.h"
 
 
 /*======================================================================*/
@@ -22,7 +22,8 @@
    The text-printing stuff here is ugly.  It could have a MUCH cleaner, nicer
    interface...
 */
-struct bbGfxTarget : gfxTarget {
+struct bbGfxTarget : public gfxTargetX11
+{
   pt2d		gfxSize;	// width, height of 3d gfx area in pixels
   pt2d		fontSize;	// font width, height+1 in pixels
   pt2d		textSize;	// width, height of text area, including
