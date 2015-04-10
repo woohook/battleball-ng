@@ -78,7 +78,6 @@ struct gfxTarget
   void  UnloadFont();
   void  SetFont();
 
-  void  CreateGC(unsigned long valuemask, XGCValues* values);
   void  FreePixmap();
   void	GetGC();
   void  FreeGC();

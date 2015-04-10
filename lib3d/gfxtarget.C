@@ -191,17 +191,13 @@ void gfxTarget::FreePixmap()
   XFreePixmap(disp, pm);
 }
 
-void gfxTarget::CreateGC(unsigned long valuemask, XGCValues* values)
-{
-  gc = XCreateGC(disp, win, valuemask, values);
-  pmgc = XCreateGC(disp, pm, valuemask, values);
-}
-
 void gfxTarget::GetGC()
 { unsigned long valuemask= 0;
   XGCValues values;
   
-  CreateGC(valuemask,&values);
+  gc = XCreateGC(disp, win, valuemask, &values);
+  pmgc = XCreateGC(disp, pm, valuemask, &values);
+
   SetForeground(Black());
   SetBackground(White());
   SetLineAttributes(0,LineSolid,CapRound,JoinRound);
