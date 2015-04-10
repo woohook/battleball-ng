@@ -1,4 +1,5 @@
 #include "gfxtargetwin.h"
+#include <wingdi.h>
 
 struct coloritem
 {
@@ -67,6 +68,10 @@ HINSTANCE gfxTargetWin::hInstance;
 int gfxTargetWin::nCmdShow;
 
 gfxTargetWin* g_win = NULL;
+
+// TODO: need this brush in global scope because SetForeground is marked const :-(
+HBRUSH hBrush = NULL;
+HPEN   hPen   = NULL;
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 {
@@ -265,6 +270,18 @@ ulong gfxTargetWin::White() const
 
 void gfxTargetWin::SetForeground(ulong color) const
 {
+  if(hBrush != NULL)
+  {
+    DeleteObject(hBrush);
+  }
+  hBrush = CreateSolidBrush(color);
+  SelectObject(hdc,hBrush);
+  if(hPen != NULL)
+  {
+    DeleteObject(hPen);
+  }
+  hPen = CreatePen(PS_SOLID,1,color);
+  SelectObject(hdc,hPen);
 }
 
 void gfxTargetWin::SetBackground(ulong color) const
@@ -294,22 +311,55 @@ ulong* gfxTargetWin::Colors()
 
 void gfxTargetWin::DrawSegments(pt2d* segs, int numSegs) const
 {
+  if(hdc != NULL)
+  {
+    for(int i = 0; i < numSegs; i+=2)
+    {
+      MoveToEx(hdc, (int) segs[i].x, (int) segs[i].y, (LPPOINT) NULL); 
+      LineTo(hdc, (int) segs[i+1].x, (int) segs[i+1].y); 
+    }
+  }
 }
 
 void gfxTargetWin::DrawLine(int x1, int y1, int x2, int y2)
 {
+  if(hdc != NULL)
+  {
+    MoveToEx(hdc, x1, y1, (LPPOINT) NULL); 
+    LineTo(hdc, x2, y2); 
+  }
 }
 
 void gfxTargetWin::DrawLines(pt2d* points, int npoints)
 {
+  if(hdc != NULL)
+  {
+    MoveToEx(hdc, (int) points[0].x, (int) points[0].y, (LPPOINT) NULL); 
+    for(int i = 1; i < npoints; i++)
+    {
+      LineTo(hdc, (int) points[i].x, (int) points[i].y); 
+    }
+  }
 }
 
 void gfxTargetWin::DrawRectangle(const pt2d& p,const pt2d& sz)
 {
+  RECT rc;
+  rc.left   = p.x;
+  rc.top    = p.y;
+  rc.right  = p.x + sz.x;
+  rc.bottom = p.y + sz.y;
+  FrameRect(hdc, &rc, hBrush);
 }
 
 void gfxTargetWin::DrawRectangle(int x, int y, unsigned int width, unsigned int height)
 {
+  RECT rc;
+  rc.left   = x;
+  rc.top    = y;
+  rc.right  = x + width;
+  rc.bottom = y + height;
+  FrameRect(hdc, &rc, hBrush);
 }
 
 void gfxTargetWin::DrawString(const pt2d& p,const char* s)
@@ -323,14 +373,28 @@ void gfxTargetWin::DrawImageString(int x, int y, const char* string, int length)
 
 void gfxTargetWin::FillRectangle(const pt2d& p,const pt2d& sz)
 {
+  RECT rc;
+  rc.left   = p.x;
+  rc.top    = p.y;
+  rc.right  = p.x + sz.x;
+  rc.bottom = p.y + sz.y;
+  FillRect(hdc, &rc, hBrush);
 }
 
 void gfxTargetWin::FillPolygon(pt2d* points, int npoints, bool convex) const
 {
+  POINT winPoints[npoints];
+  for(int i=0; i<npoints; i++)
+  {
+    winPoints[i].x = points[i].x;
+    winPoints[i].y = points[i].y;
+  }
+  Polygon(hdc,winPoints,npoints);
 }
 
 void gfxTargetWin::DoubleBufferBegin()
 {
+  hdc = GetDC(hWnd); 
 }
 
 void gfxTargetWin::DoubleBufferEnd()
@@ -339,6 +403,8 @@ void gfxTargetWin::DoubleBufferEnd()
 
 void gfxTargetWin::Flush()
 {
+  ReleaseDC(hWnd, hdc); 
+  hdc = 0;
 }
 
 void gfxTargetWin::SetLineAttributes(unsigned int line_width, int line_style, int cap_style, int join_style)
