@@ -4,8 +4,14 @@
 
 
 #include <math.h>
+
+#ifdef WIN32
+#include <windows.h>
+#else
 #include <sys/time.h>      // to get select()
 //#include <sys/select.h>  // to get select() on some other systems
+#endif
+
 #include "general.h"
 #include "ang2d.h"
 
@@ -24,11 +30,16 @@ void InitFixed() {
 }
 
 void SleepFor(int val)
-{ struct timeval tv2;
+{
+#ifdef WIN32
+  Sleep(val/1000);
+#else
+  struct timeval tv2;
   fd_set * const no_fd = 0;
   tv2.tv_sec=0;
   tv2.tv_usec=val;
   select(0,no_fd,no_fd,no_fd,&tv2);
+#endif
 }
 
 //char *str_dup(char *s)
