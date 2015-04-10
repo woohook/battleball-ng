@@ -1,0 +1,12 @@
+battleball.exe: bsp/brep.o bsp/bsp.o bsp/polygon.o lib3d/ang3d.o lib3d/bsppanel3d.o lib3d/bspregion3d.o lib3d/dimension.o lib3d/dimentable.o lib3d/edgetable.o lib3d/fastpts.o lib3d/general.o lib3d/panel3d.o lib3d/pt2d.o lib3d/pt3d.o lib3d/region2d.o lib3d/region3d.o lib3d/shdregion3d.o lib3d/view.o lib3d/xform.o lib3d/xpanel3d.o lib3d/xregion3d.o lib3d/gfxtargetwin.o bb/bbcolor.o bb/gob.o bb/gobs.o bb/shapes.o bb/team.o bb/player.o bb/bbgfxtarget.o bb/battleball.o bb/main.o
+	/usr/bin/i586-mingw32msvc-g++ -mwindows -g -O2 -fno-strict-aliasing -Wall -Wl,--subsystem,windows -lm -lmingw32 -o $@ bsp/brep.o bsp/bsp.o bsp/polygon.o lib3d/ang3d.o lib3d/bsppanel3d.o lib3d/bspregion3d.o lib3d/dimension.o lib3d/dimentable.o lib3d/edgetable.o lib3d/fastpts.o lib3d/general.o lib3d/panel3d.o lib3d/pt2d.o lib3d/pt3d.o lib3d/region2d.o lib3d/region3d.o lib3d/shdregion3d.o lib3d/view.o lib3d/xform.o lib3d/xpanel3d.o lib3d/xregion3d.o lib3d/gfxtargetwin.o bb/bbcolor.o bb/gob.o bb/gobs.o bb/shapes.o bb/team.o bb/player.o bb/bbgfxtarget.o bb/battleball.o bb/main.o
+
+%.o : %.C
+	/usr/bin/i586-mingw32msvc-g++ -g -O2 -fno-strict-aliasing -Wall  -Ilib3d -Ibsp -Ibb -c $< -o $@
+
+clean:
+	rm -f ./bb/*.o
+	rm -f ./bsp/*.o
+	rm -f ./lib3d/*.o
+	rm -f battleball.exe
+
