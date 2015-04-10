@@ -253,7 +253,7 @@ void gfxTarget::FreeGC()
 
 void gfxTarget::CloseDisplay()
 {
-  if(gt.disp != NULL)
+  if(disp != NULL)
   {
     XCloseDisplay(disp);
   }
