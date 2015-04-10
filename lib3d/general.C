@@ -25,9 +25,10 @@ void InitFixed() {
 
 void SleepFor(int val)
 { struct timeval tv2;
+  fd_set * const no_fd = 0;
   tv2.tv_sec=0;
   tv2.tv_usec=val;
-  select(0,NULL,NULL,NULL,&tv2);
+  select(0,no_fd,no_fd,no_fd,&tv2);
 }
 
 //char *str_dup(char *s)

@@ -44,7 +44,7 @@ region3d::region3d(const panelList& otherPanels, bool wantEdges) {
   if (wantEdges)
     for(p= otherPanels.begin(); p != otherPanels.end(); p++)
       edges.AddPanel(*p);
-  box.MakeBoundingBox(pts.table(),farthestDist);
+  box.MakeBoundingBox(pts.getTable(),farthestDist);
 }
 
 
@@ -83,7 +83,7 @@ bool region3d::InFrustrum(const pt3d& viewPos,
 int region3d::Add(const xpanel3d& p) {
 if (p.ptNums.Num() >0) {
     edges.AddPanel(p);
-    box.MakeBoundingBox(pts.table(), farthestDist);
+    box.MakeBoundingBox(pts.getTable(), farthestDist);
     return panels.Add(p);
   }
   else
@@ -123,7 +123,7 @@ void region3d::InitPanelsEtc(int *srcPanelData, const pt3d& sc) {
     //panels[panels.Num()-1].normal *= normalDir;
     edges.AddPanel(panels[panels.Num()-1]);
   }
-  box.MakeBoundingBox(pts.table(),farthestDist);
+  box.MakeBoundingBox(pts.getTable(),farthestDist);
 }
 
 

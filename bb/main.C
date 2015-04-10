@@ -617,7 +617,7 @@ void battleBall::InitForRound(gobList& gobs, int startTime, roundInfo& ri) {
 // Free things when a game round ends
 
 void battleBall::FreeRound(gobList& gobs) {
-  gobList::iterator gi;
+//  gobList::iterator gi;
 
   // free the gobs which were created during the play of this round
   // (i.e. _don't_ free gobs which were created by InitScenery() )
@@ -813,7 +813,9 @@ void battleBall::PlayOneRound(const gobList& sceneryGobs, int startTime,
 /*=========================================================================*/
 // A long and complicated main() function!
 
+int
 main (int argc, char *argv[]) {
   battleBall bb(argc,argv);
   bb.Play();
+  return 0;
 }

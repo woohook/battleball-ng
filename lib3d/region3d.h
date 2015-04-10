@@ -7,8 +7,8 @@
 #define REGION3D_h
 
 
-#include <iostream.h>
-#include <list.h>   // STL
+#include <iostream>
+#include <list>   // STL
 #include "general.h"
 #include "xform.h"
 #include "region2d.h"
@@ -18,6 +18,7 @@
 #include "edgetable.h"
 #include "xpanel3d.h"
 
+using namespace std;
 
 extern const pt3d::coord COORD_MAX;
 

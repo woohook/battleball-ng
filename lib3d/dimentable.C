@@ -10,9 +10,9 @@
 /*=========================================================================*/
 dimension *dimenTable::Add(coord value, dimenTable& symmDims) {
   dimenList::iterator dim;
-  dimension	*symmDim= NULL,
-  		*halfDim= NULL,
-  		*qrtrDim= NULL;
+  dimension	*symmDim= NULL;
+//  dimension	*halfDim= NULL;
+//  dimension	*qrtrDim= NULL;
 
   for(dim= dimens.begin(); dim != dimens.end(); dim++) {
     if ((*dim).value== value)

@@ -3,10 +3,10 @@
 // it under the terms of the GNU General Public License v2 or later.
 
 
-#include <iostream.h>
+#include <iostream>
 #include "bsppanel3d.h"
 
-
+using namespace std;
 
 /***************************************************************************/
 bspPanel3d::bspPanel3d(const Polygon3f& poly, fastPts& pts,
@@ -42,7 +42,7 @@ Polygon3f bspPanel3d::asPolygon3f(pt3d pts[]) {
   }
 
   pt3d2Vec3f(normal,poly.plane_normal);
-  poly.material_index= (int) this;
+  poly.material_index= (size_t) this;
   return poly;
 }
 

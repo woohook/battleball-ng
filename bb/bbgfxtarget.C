@@ -3,11 +3,12 @@
 // it under the terms of the GNU General Public License v2 or later.
 
 
-#include <string.h>      // to get strlen
-#include <iostream.h>
+#include <cstring>      // to get strlen
+#include <iostream>
 #include <X11/Xlib.h>    // to get XEvent, XFontStruct
 #include "bbgfxtarget.h"
 
+using namespace std;
 
 #define DEFAULTWINWIDTH 512
 #define DEFAULTWINHEIGHT (256+6*14+2)

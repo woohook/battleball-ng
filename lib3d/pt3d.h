@@ -7,11 +7,12 @@
 #define PT3D_h
 
 
-#include <iostream.h>
+#include <iostream>
 #include "general.h"
 #include "pt2d.h"
 #include "ang3d.h"
 
+using namespace std;
 
 /*=========================================================================*/
 struct pt3d : pt2d {

@@ -3,9 +3,10 @@
 // it under the terms of the GNU General Public License v2 or later.
 
 
-#include <iostream.h>
+#include <iostream>
 #include "gfxtarget.h"
 
+using namespace std;
 
 /************************************************************************/
 // In:  dispName = name of X display to open

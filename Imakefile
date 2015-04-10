@@ -8,6 +8,12 @@ INCLUDES = -Ilib3d -Ibsp
 LOCAL_LIBRARIES = -lm $(XLIB)
 DEPLIBS = $(DEPXLIB)
 
+#ifdef AlphaArchitecture
+CXXOPTIONS=CplusplusOptions -Wall -mieee
+#else
+CXXOPTIONS=CplusplusOptions -Wall
+#endif
+
 OBJS=	bsp/brep.o bsp/bsp.o bsp/polygon.o \
 	lib3d/ang3d.o lib3d/bsppanel3d.o lib3d/bspregion3d.o \
 	lib3d/dimension.o lib3d/dimentable.o lib3d/edgetable.o \

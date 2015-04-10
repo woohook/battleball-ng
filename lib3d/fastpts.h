@@ -7,12 +7,13 @@
 #define FASTPTS_h
 
 
-#include <iostream.h>
+#include <iostream>
 #include "general.h"
 #include "table.h"
 #include "xform.h"
 #include "dimentable.h"
 
+using namespace std;
 
 /*=========================================================================*/
 struct pt3dPtr {
@@ -70,7 +71,7 @@ struct FastPts {
   int	Num() const		{return pts.Num();}
   pnt	*Array() const		{return pts.Array();}
   pnt&	operator[](int i) const	{return pts[i];}
-  table<pnt>& table()		{return pts;}
+  pntTable& getTable()		{return pts;}
 };
 
 #ifdef FASTPTS_TEMPLATE

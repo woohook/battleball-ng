@@ -114,7 +114,8 @@ coord gob::DistFromViewer(const pt3d& eyePos) const {
 
 void gob::Draw(bbGfxTarget& gt, tmtrx& worldToView, int viewNum,
 		 const pt3d& eyePos, const ulong colors[]) {
-  while (views.size() <=viewNum)
+// using cast to ensure that results are comparable -- cw
+  while (static_cast<long>(views.size()) <= static_cast<long>(viewNum))
     views.push_back(view());
   views[viewNum].Update(Shape(),WorldPos()*worldToView);
   gt.SetForeground(gt.Colors()[Color()]);

@@ -97,7 +97,7 @@ void bspRegion3d::MakeBspTreePanels(BSP *bspt) {
       xpanel3d& panel= * (xpanel3d *) poly->material_index;
 
       poly->material_index=
-	(int) & *treePanels.insert(treePanels.end(),xpanel3d(*poly,pts,panel));
+	(size_t) & *treePanels.insert(treePanels.end(),xpanel3d(*poly,pts,panel));
     }
     MakeBspTreePanels(bspt->negative);
     MakeBspTreePanels(bspt->positive);

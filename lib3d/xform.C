@@ -4,10 +4,10 @@
 
 
 #include <math.h>
-#include <iomanip.h>
+#include <iomanip>
 #include "xform.h"
 
-
+using namespace std;
 
 //===========================================================================
 // Extend the pt3d class!

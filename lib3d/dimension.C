@@ -3,10 +3,10 @@
 // it under the terms of the GNU General Public License v2 or later.
 
 
-#include <iostream.h>
+#include <iostream>
 #include "dimension.h"
 
-
+using namespace std;
 
 /************************************************************************/
 ostream& operator<<(ostream& out, const dimension& d) {

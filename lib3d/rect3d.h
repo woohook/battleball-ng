@@ -11,7 +11,6 @@
 #include "pt3d.h"
 
 
-
 /************************************************************************/
 /* pnt   = N-dimensional point type which delimits the bounds of the rect
    pnts  = container of pts
@@ -20,7 +19,6 @@ template <class pnt, class pnts>
 struct rect {
   pnt	low,
   	high;
-
   bool	Contains(const pnt& p) const
         {return p.IsBetween(low,high);};
   bool	ContainsInclusively(const pnt& p) const
@@ -31,8 +29,8 @@ struct rect {
   pnt	Center() const
         {return (low+high)/2;};
 
-  void	MakeBoundingBox(const pnts& pts, pnt::coord& farthestDist) {
-    pnt::coord d;
+  void	MakeBoundingBox(const pnts& pts, double & farthestDist) {
+    double d;
     
     farthestDist= 0;
     if (pts.Num()==0) {
@@ -45,7 +43,7 @@ struct rect {
     high= pts[0];
     
     forii(pts.Num()) {
-      d= (pnt::coord) pts[i].Dist();
+      d= (double) pts[i].Dist();
       if (d >farthestDist)
 	farthestDist= d;
       low.SetMin(pts[i]);

@@ -7,11 +7,12 @@
 #define TRANSFORM_h
 
 
-#include <iostream.h>
+#include <iostream>
 #include "general.h"
 #include "pt3d.h"
 #include "ang3d.h"
 
+using namespace std;
 
 //==========================================================================
 /* Transformation classes tmtrx and tcomp.

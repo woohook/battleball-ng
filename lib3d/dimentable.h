@@ -7,9 +7,10 @@
 #define DIMENTABLE_h
 
 
-#include <list.h>  // STL
+#include <list>  // STL
 #include "dimension.h"
 
+using namespace std;
 
 /*=========================================================================*/
 struct dimenTable {

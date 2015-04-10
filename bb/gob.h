@@ -8,13 +8,14 @@
 #define BBGOB_h
 
 
-#include <list.h>
-#include <vector.h>
+#include <list>
+#include <vector>
 
 #include "view.h"
 #include "bb.h"
 #include "bbgfxtarget.h"
 
+using namespace std;
 
 // Notes:
 //   gob is an abbreviation for Game OBject

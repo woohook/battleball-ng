@@ -4,17 +4,18 @@
 
 
 #include <ctype.h>       // to get tolower()
-#include <string.h>      // to get strncpy()
-#include <limits.h>      // to get INT_MAX, LONG_MAX
+#include <cstring>       // to get strncpy()
+#include <climits>       // to get INT_MAX, LONG_MAX
 #include <X11/keysym.h>  // to get XK_*
-#include <algo.h>        // ugh, this baby's big
+#include <algorithm>     // ugh, this baby's big
 #include "player.h"
 
+using namespace std;
 
 #ifdef __GNUC__
-char __stl_temp_buffer[__stl_buffer_size];
+char __stl_temp_buffer[16384]; //__stl_buffer_size does not exist in egcs.
 #else
-#include "tempbuf.cpp"    // quasi-hack necessary to use STL's stable_sort()
+#include "../stl/tempbuf.cpp"    // quasi-hack necessary to use STL's stable_sort()
 #endif
 
 
@@ -179,7 +180,7 @@ void player::DrawView(gobList& gobs, team teams[], int playerNum,
   vector<gobRef> refs;
   for_(gi,gobs)
     refs.push_back(gobRef(*gi,(**gi).DistFromViewer(eyePos)));
-  ::stable_sort(refs.begin(),refs.end());
+  stable_sort(refs.begin(),refs.end());
 
   // now insert gob parts into the list, in correct drawing order
   gobList allGobs;
@@ -263,7 +264,7 @@ void player::CloseXStuff()
 
 void player::HandleKeyPress(KeySym k, bool pressed, gobList& gobs,
 			    tranGob* bbTrain) {
-  gobList::iterator gi;
+//  gobList::iterator gi;
   switch(k) {
     case XK_a:                  // toggle player/autonomous pilot
       if (pressed and autoPilotAllowed) {

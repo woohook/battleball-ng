@@ -25,14 +25,21 @@ typedef unsigned char uchar;
 typedef unsigned int  uint;
 typedef unsigned long ulong;
 
+// versions of g++ before 3.0 did not support these standard aliases.
+// version 3.0 refuses to redefine them.
+#ifdef __GNUC__
+#if __GNUC__ < 3
 #define and &&
 #define or  ||
 #define not !
+#endif
+#endif
 
 #define forii(limit) for (int i= 0; i <limit; i++)
 #define forij(limit) for (int j= 0; j <limit; j++)
 
 #ifndef __GNUC__
+
 #define fori(limit) for (i= 0; i <limit; i++)
 #define forj(limit) for (j= 0; j <limit; j++)
 #else

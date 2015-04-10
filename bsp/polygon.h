@@ -21,7 +21,7 @@ typedef struct {
 	int numverts;
 	Vec3f verts[MAXPOLYVERT];
 	Vec3f plane_normal;
-	int material_index;
+	size_t material_index;
         int facesForward;   // true: faces same dir as BSP node's plane faces
 } Polygon3f;
 

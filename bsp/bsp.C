@@ -1262,7 +1262,7 @@ void bsp_printf(BSP *t,int level) {
     printf("bad_neg_parent ");
 
   for (i=0; i<t->numpolys; i++)
-    printf("%ld ", (t->polys[i]->material_index) % 100000);
+    printf("%ld ", (t->polys[i]->material_index) % 100000L);
 
   if (t->positive)
     if (t->negative)
