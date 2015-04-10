@@ -257,7 +257,7 @@ void gfxTarget::ResizeWindow(const pt2d& sz)
   XResizeWindow(disp,win,(int)sz.x,(int)sz.y);
 }
 
-void gfxTarget::HandleResize(XEvent *event, bool refit)
+void gfxTarget::HandleResize(BBEvent *event, bool refit)
 {
   XGetWindowAttributes(disp,win,&winAttribs);
   XFreePixmap(disp,pm);
@@ -269,9 +269,34 @@ int gfxTarget::Pending()
   return XPending(disp);
 }
 
-void gfxTarget::NextEvent(XEvent* event)
+BBEvent gfxTarget::NextEvent()
 {
-  XNextEvent(disp, event);
+  BBEvent event;
+
+  XEvent xevent;
+  XNextEvent(disp, &xevent);
+
+  switch (xevent.type)
+  {
+    case Expose:
+      event.type = BBE_Expose;
+      break;
+    case KeyPress:
+    case KeyRelease:
+      event.type    = BBE_Key;
+      event.pressed = (xevent.type == KeyPress);
+      event.key     = LookupKeysym((XKeyEvent *)(&xevent));
+      break;
+    case ConfigureNotify:
+      event.type  = BBE_Resize;
+      event.width = ((XConfigureEvent *)&xevent)->width;
+      break;
+    default:
+      event.type = BBE_Unknown;
+      break;
+  }
+
+  return event;
 }
 
 KB_Key gfxTarget::LookupKeysym(XKeyEvent* key_event)

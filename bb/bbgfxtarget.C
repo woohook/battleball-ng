@@ -61,9 +61,9 @@ bbGfxTarget& bbGfxTarget::Tab(int spaces, int newy) {
   return *this;
 }
 
-void bbGfxTarget::HandleResize(XEvent *event, bool refit)
+void bbGfxTarget::HandleResize(BBEvent *event, bool refit)
 {
-  gfxSize.x= ((XConfigureEvent *)event)->width;
+  gfxSize.x= event->width;
   textSize.x= gfxSize.x;
   gfxSize.y= gfxSize.x/2;
   cursorOrg.y= gfxSize.y;

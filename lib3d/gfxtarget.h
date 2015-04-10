@@ -71,6 +71,19 @@ KBK_z,
 KBK_MAX
 };
 
+enum BBEventType {BBE_Unknown, BBE_Expose, BBE_Key, BBE_Resize};
+
+struct BBEvent
+{
+  BBEventType type;
+  union
+  {
+    double width;
+    KB_Key key;
+  };
+  bool pressed;
+};
+
 struct gfxTarget
 { Display       *disp;		// X Display
   Drawable      win;		// window on the display
@@ -91,7 +104,7 @@ struct gfxTarget
   void	ResizeWindow(const pt2d& sz);
   void  CreateWindow(int argc, char *argv[]);
   void	ConnectToWM(char*[],int,char*,short,short,short,short);
-  void  HandleResize(XEvent *event, bool refit);
+  void  HandleResize(BBEvent *event, bool refit);
 
   ulong	Black() const;
   ulong	White() const;
@@ -127,7 +140,7 @@ struct gfxTarget
   void  SetLineAttributes(unsigned int line_width, int line_style, int cap_style, int join_style);
 
   int   Pending();
-  void  NextEvent(XEvent* event);
+  BBEvent NextEvent();
   KB_Key LookupKeysym(XKeyEvent* key_event);
 };
 

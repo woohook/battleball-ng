@@ -326,25 +326,19 @@ void player::HandleKeyPress(KB_Key k, bool pressed, gobList& gobs,
 /*-------------------------------------------------------------------------*/
 // Handle an operating system event for this player.
 
-void player::HandleEvents(gobList& gobs, tranGob* bbTrain) {
-  XEvent event;
-  KB_Key k;
-
+void player::HandleEvents(gobList& gobs, tranGob* bbTrain)
+{
   while (active and gt.Pending() >0)
-  { gt.NextEvent(&event);
+  {
+    BBEvent event = gt.NextEvent();
     switch (event.type) {
-      case Expose:
+      case BBE_Expose:
         textAreaNeedsRedrawing= true;
         break;
-      case KeyPress:
-        k= gt.LookupKeysym((XKeyEvent *)(&event));
-        HandleKeyPress(k,true,gobs,bbTrain);
+      case BBE_Key:
+        HandleKeyPress(event.key,event.pressed,gobs,bbTrain);
         break;
-      case KeyRelease:
-        k= gt.LookupKeysym((XKeyEvent *)(&event));
-        HandleKeyPress(k,false,gobs,bbTrain);
-        break;
-      case ConfigureNotify:
+      case BBE_Resize:
         gt.HandleResize(&event,refitWindow);
         break;
     }

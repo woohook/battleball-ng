@@ -41,7 +41,7 @@ struct bbGfxTarget : gfxTarget {
   bbGfxTarget& Box(int,int,int=1,int=1,bool hl=false);
   bbGfxTarget& Tab(int blanks=1,int newy=0);
 
-  void  HandleResize(XEvent *event, bool refit);
+  void  HandleResize(BBEvent *event, bool refit);
 };
 
 

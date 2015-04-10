@@ -158,7 +158,6 @@ battleBall::~battleBall() {
 /*-------------------------------------------------------------------------*/
 void battleBall::Play() {
   bool          done= false;
-  XEvent        event;
 
   // The following loop seems to be necessary for X windows
   // to not lose initial drawing commands.
@@ -166,7 +165,7 @@ void battleBall::Play() {
   forii(numPlayers)
     if (players[i].active)
       if (players[i].gt.Pending() >0)
-        players[i].gt.NextEvent(&event);
+        players[i].gt.NextEvent();
 
   while (not done) {
     PlayOneRound(sceneryGobs,startupDelay,done);
