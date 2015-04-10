@@ -20,10 +20,6 @@
 /***************************************************************************/
 struct xpanel3d : bspPanel3d {
   int	colorNum;		// Index into a table of X Colors (ulongs)
-protected:
-  int	xShapeType;		// type of polygon; equal to one of the
-  				// X Windows constants Convex, Nonconvex, or
-  				// Complex
   
  public:
   	xpanel3d() {};
@@ -33,14 +29,12 @@ protected:
 		 const pt3d& offset=pt3d(0,0,0), const ang3d& ang=ang3d(0),
 		 const pt3d& scale =pt3d(1,1,1), int color=0, bool ds=false)
 	  : bspPanel3d(rgn,fp,offset,ang,scale,ds)
-	    {colorNum= color;
-	     xShapeType= IsConvex()? Convex : Nonconvex;}
+	    {colorNum= color;}
   	xpanel3d(const xpanel3d& p, pt3d panelPts[], fastPts& fp,
 		 const pt3d& offset=pt3d(0,0,0), const ang3d& ang=ang3d(0),
 		 const pt3d& scale =pt3d(1,1,1))
 	  : bspPanel3d(p,panelPts,fp,offset,ang,scale)
-	    {colorNum= p.colorNum;
-	     xShapeType= IsConvex()? Convex : Nonconvex;}
+	    {colorNum= p.colorNum;}
 
  private:
   void	Init(int*&,pt3d[]);

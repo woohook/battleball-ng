@@ -10,9 +10,9 @@
 /************************************************************************/
 
 void xpanel3d::Init(int *&srcPtNums, pt3d pts[])
-{ bspPanel3d::Init(srcPtNums,pts);
+{
+  bspPanel3d::Init(srcPtNums,pts);
   colorNum= *srcPtNums++;
-  xShapeType= IsConvex()? Convex : Nonconvex;
 }
 
 xpanel3d::xpanel3d(int* &nums,pt3d pts[]) {Init(nums,pts);}
@@ -21,8 +21,8 @@ xpanel3d::xpanel3d(int* &nums,pt3d pts[]) {Init(nums,pts);}
 /*-------------------------------------------------------------------------*/
 xpanel3d::xpanel3d(const Polygon3f& poly, fastPts& pts,
 		 const xpanel3d& panel) : bspPanel3d(poly,pts,panel)
-{ colorNum= panel.colorNum;
-  xShapeType= IsConvex()? Convex : Nonconvex;
+{
+  colorNum= panel.colorNum;
 }
 
 
