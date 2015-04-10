@@ -55,12 +55,8 @@ struct gfxTargetX11 : public gfxTarget
   virtual void  Flush();
 
   virtual void  LoadFont(const char* name);
-  virtual void  UnloadFont();
-  virtual void  SetFont();
 
-  virtual void  FreePixmap();
   virtual void	GetGC();
-  virtual void  FreeGC();
 
   virtual void  SetLineAttributes(unsigned int line_width, int line_style, int cap_style, int join_style);
 

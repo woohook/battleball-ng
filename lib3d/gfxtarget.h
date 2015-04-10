@@ -84,8 +84,6 @@ struct gfxTarget
   virtual bool	OpenDisplay(char *dispName, int argc, char *argv[]) = 0;
   virtual void  CloseDisplay() = 0;
   virtual void	ResizeWindow(const pt2d& sz) = 0;
-  virtual void  CreateWindow(int argc, char *argv[]) = 0;
-  virtual void	ConnectToWM(char*[],int,char*,short,short,short,short) = 0;
   virtual void  HandleResize(BBEvent *event, bool refit) = 0;
 
   virtual ulong	Black() const = 0;
@@ -94,7 +92,6 @@ struct gfxTarget
   virtual void  SetBackground(ulong color) const = 0;
   virtual void  AllocColors(char *colorNames[], int numColors) = 0;
   virtual ulong	*Colors() = 0;
-  virtual void  GetColor(char *name, ulong& colorPixel) = 0;
 
   virtual void  DrawSegments(pt2d* segs, int numSegs) const = 0;
   virtual void  DrawLine(int x1, int y1, int x2, int y2) = 0;
@@ -110,14 +107,6 @@ struct gfxTarget
   virtual void	DoubleBufferBegin() = 0;
   virtual void	DoubleBufferEnd() = 0;
   virtual void  Flush() = 0;
-
-  virtual void  LoadFont(const char* name) = 0;
-  virtual void  UnloadFont() = 0;
-  virtual void  SetFont() = 0;
-
-  virtual void  FreePixmap() = 0;
-  virtual void	GetGC() = 0;
-  virtual void  FreeGC() = 0;
 
   virtual void  SetLineAttributes(unsigned int line_width, int line_style, int cap_style, int join_style) = 0;
 

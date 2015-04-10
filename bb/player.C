@@ -247,9 +247,7 @@ void player::DrawView(gobList& gobs, team teams[], int playerNum,
 
 /*-------------------------------------------------------------------------*/
 void player::CloseXStuff()
-{ gt.UnloadFont();
-  gt.FreePixmap();
-  gt.FreeGC();
+{
   gt.CloseDisplay();
   active= false;
 }

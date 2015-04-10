@@ -219,22 +219,6 @@ void gfxTargetX11::LoadFont(const char *name)
   }
 }
 
-void gfxTargetX11::UnloadFont()
-{
-  XUnloadFont(disp, font->fid);
-}
-
-void gfxTargetX11::SetFont()
-{
-  XSetFont(disp, gc, font->fid);
-  XSetFont(disp, pmgc, font->fid);
-}
-
-void gfxTargetX11::FreePixmap()
-{
-  XFreePixmap(disp, pm);
-}
-
 void gfxTargetX11::GetGC()
 { unsigned long valuemask= 0;
   XGCValues values;
@@ -245,19 +229,19 @@ void gfxTargetX11::GetGC()
   SetForeground(Black());
   SetBackground(White());
   SetLineAttributes(0,LineSolid,CapRound,JoinRound);
-  SetFont();
-}
 
-void gfxTargetX11::FreeGC()
-{
-  XFreeGC(disp, gc);
-  XFreeGC(disp, pmgc);
+  XSetFont(disp, gc, font->fid);
+  XSetFont(disp, pmgc, font->fid);
 }
 
 void gfxTargetX11::CloseDisplay()
 {
   if(disp != NULL)
   {
+    XUnloadFont(disp, font->fid);
+    XFreePixmap(disp, pm);
+    XFreeGC(disp, gc);
+    XFreeGC(disp, pmgc);
     XCloseDisplay(disp);
   }
 }
