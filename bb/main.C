@@ -104,8 +104,7 @@ class battleBall {
   void  ShowBriefHelp();
   void  ActGobs(gobList& gobs);
   void  AddTeam(char *list);
-  void  OpenAllDisplays();
-  void  CreateWindows(int argc, char *argv[]);
+  void  OpenAllDisplays(int argc, char *argv[]);
   void  PlayOneRound(const gobList& sceneryGobs, int startTime, bool& done);
   void  InitForRound(gobList& gobs, int startTime, roundInfo& ri);
   void  FreeRound(gobList& gobs);
@@ -143,8 +142,7 @@ battleBall::battleBall(int argc, char *argv[])
   ReadCmdLine(argc,argv);
   InitFixed();  // init sine & cosine lookup tables
   InitRegions(numTeams, gob::fancy, hqDist, team::insigniaRandomizer);
-  OpenAllDisplays();
-  CreateWindows(argc,argv);
+  OpenAllDisplays(argc,argv);
   InitScenery(sceneryGobs);
 }
 
@@ -167,8 +165,8 @@ void battleBall::Play() {
 
   forii(numPlayers)
     if (players[i].active)
-      if (XPending(players[i].gt.disp) >0)
-        XNextEvent(players[i].gt.disp, &event);
+      if (players[i].gt.Pending() >0)
+        players[i].gt.NextEvent(&event);
 
   while (not done) {
     PlayOneRound(sceneryGobs,startupDelay,done);
@@ -418,32 +416,28 @@ void battleBall::AddTeam(char *list) {
 // can't be opened, reports the unopened ones, closes the opened ones, and
 // terminates the program.
 
-void battleBall::OpenAllDisplays() {
+void battleBall::OpenAllDisplays(int argc, char *argv[]) {
   bool success= true;
 
   forii(numPlayers)
     if (not players[i].computerPlayer)
-      if (not players[i].gt.OpenDisplay(players[i].dispName))
+      if (players[i].gt.OpenDisplay(players[i].dispName, argc, argv))
+      {
+        players[i].gt.AllocColors(bbColorNames,totalColors);
+      }
+      else
+      {
         success= false;
+      }
 
   if (not success)
   { fori(numPlayers)
       if (not players[i].computerPlayer and players[i].gt.disp != NULL) {
         cout << "Closing " << players[i].dispName << "\n";
-        XCloseDisplay(players[i].gt.disp);
+        players[i].gt.CloseDisplay();
       }
     exit (-1);
   }
-}
-
-
-/*-------------------------------------------------------------------------*/
-void battleBall::CreateWindows(int argc, char *argv[]) {
-  forii(numPlayers)
-    if (not players[i].computerPlayer) {
-      players[i].gt.CreateWindow(argc, argv);
-      players[i].gt.AllocColors(bbColorNames,totalColors);
-    }
 }
 
 
@@ -636,12 +630,8 @@ void battleBall::FreeRound(gobList& gobs) {
 void battleBall::DrawStartingMsg(bbGfxTarget& gt, int startTime)
 { char  msg[60];
   sprintf(msg," Game starts in %d seconds ",startTime);
-  XDrawImageString(gt.disp,gt.win,gt.gc,
-		   (int)(29*gt.fontSize.x), (int)(2*gt.fontSize.y),
-		   msg,strlen(msg));
-  XDrawRectangle(gt.disp,gt.win,gt.gc,
-                 (int)(29*gt.fontSize.x -1), (int)gt.fontSize.y +2,
-                 (int)(strlen(msg)*gt.fontSize.x+1), (int)gt.fontSize.y);
+  gt.DrawImageString((int)(29*gt.fontSize.x), (int)(2*gt.fontSize.y), msg,strlen(msg));
+  gt.DrawRectangle((int)(29*gt.fontSize.x -1), (int)gt.fontSize.y +2, (int)(strlen(msg)*gt.fontSize.x+1), (int)gt.fontSize.y);
 }
 
 
@@ -795,7 +785,7 @@ void battleBall::PlayOneRound(const gobList& sceneryGobs, int startTime,
         if (ri.state==counting)
           DrawStartingMsg(dude.gt,ri.timer);
         DrawTextArea(ri,dude);
-        XFlush(dude.gt.disp);
+        dude.gt.Flush();
       }
     }
 

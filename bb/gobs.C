@@ -764,9 +764,7 @@ void heliGob::DrawStatus(bbGfxTarget& gt, int color1, int color2,
     pt2d off= EraseStatus(gt,"Elevation & Pitch",pt2d(9,2));
     ::Draw(&heli2dRgn,gt,off,-ang);
     if (z <13)
-      XDrawLine(gt.disp,gt.win,gt.gc,
-		(int) off.x-26, (int) (off.y+9+z),
-		(int) off.x+26, (int) (off.y+9+z));
+      gt.DrawLine((int) off.x-26, (int) (off.y+9+z),(int) off.x+26, (int) (off.y+9+z));
     prevAng= ang;
     prevAltitude= z;
   }
@@ -1151,9 +1149,7 @@ void saucGob::DrawStatus(bbGfxTarget& gt, int color1, int color2,
     pt2d sc= (ABS(pos.Ang().yz) > MA_PI/2) ? pt2d(1,1) : pt2d(1,-1);
     ::Draw(&sauc2dRgn,gt,off,-ang,sc);
     if (z <13)
-      XDrawLine(gt.disp,gt.win,gt.gc,
-		off.x-26, off.y+7+z,
-		off.x+26, off.y+7+z);
+      gt.DrawLine(off.x-26, off.y+7+z,off.x+26, off.y+7+z);
     prevAng= ang;
     prevAltitude= z;
   }

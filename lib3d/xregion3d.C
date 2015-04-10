@@ -69,7 +69,7 @@ void xregion3d::DrawEdges(const pt3d viewPts[], const pt2d& clip,
       segs[i].x2= (short) prjPts[edges[i].endPtNum  ].x;
       segs[i].y2= (short) prjPts[edges[i].endPtNum  ].y;
     }
-    XDrawSegments(gt.disp,gt.win,gt.gc,segs,edges.Num());
+    gt.DrawSegments(segs,edges.Num());
     return;
   }
 
@@ -111,7 +111,7 @@ void xregion3d::DrawEdges(const pt3d viewPts[], const pt2d& clip,
       segs[numSegs].y2= (short) endPt2d.y;
       numSegs++;
     }
-    XDrawSegments(gt.disp,gt.win,gt.gc,segs,numSegs);
+    gt.DrawSegments(segs,numSegs);
     return;
   }
 
@@ -194,7 +194,7 @@ void xregion3d::DrawEdges(const pt3d viewPts[], const pt2d& clip,
     segs[numSegs].y2= (short) endPt2d.y;
     numSegs++;
   }
-  XDrawSegments(gt.disp,gt.win,gt.gc,segs,numSegs);
+  gt.DrawSegments(segs,numSegs);
 }
 
 

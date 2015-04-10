@@ -355,10 +355,9 @@ void Draw(rgn2 *rgn, gfxTarget& gt, const pt2d& off, ang2d ang,
   xpts[rgn->numSides].x= (short) pts[0].x;
   xpts[rgn->numSides].y= (short) pts[0].y;
   if (solid)
-    XFillPolygon(gt.disp,gt.win,gt.gc,xpts,rgn->numSides+1,Nonconvex,
-		 CoordModeOrigin);
+    gt.FillPolygon(xpts,rgn->numSides+1,Nonconvex,CoordModeOrigin);
   else
-    XDrawLines(gt.disp,gt.win,gt.gc,xpts,rgn->numSides+1,CoordModeOrigin);
+    gt.DrawLines(xpts,rgn->numSides+1,CoordModeOrigin);
 #ifndef __GNUC__
   delete [] xpts;
   delete [] pts;

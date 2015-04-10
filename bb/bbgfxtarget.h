@@ -12,9 +12,6 @@
 #include "bbcolor.h"
 #include "gfxtarget.h"
 
-#define MINWINWIDTH 400
-#define MINWINHEIGHT (200+6*14+2)
-
 
 /*======================================================================*/
 /* Graphics Target class.
@@ -35,32 +32,16 @@ struct bbGfxTarget : gfxTarget {
   pt2d		cursor;		// text cursor position (text coords)
   int		rightmost;	// rightmost text position printed to (text
                                 // coords)
-  XFontStruct   *font;
-
- private:
-  ulong		colors[totalColors];  // X color lookup table
-  Drawable	savedWin;             // X window; used for double-buffering
-  GC		savedGc;              // X GC;     used for double-buffering
-
 
  public:
   bbGfxTarget();
-  ulong	*Colors() {return colors;};
-  void	LoadFont(const char*);
-  void	GetGC();
-  void	CreateWindow(int,char*[]);
-  void	AllocColors(char**,int);
-  void	HandleResize(XEvent *event,bool refit);
   pt2d	PixelPos(const pt2d& pt);
-  void	DoubleBufferBegin();
-  void	DoubleBufferEnd();
 
   bbGfxTarget& operator<<(char*);
   bbGfxTarget& Box(int,int,int=1,int=1,bool hl=false);
   bbGfxTarget& Tab(int blanks=1,int newy=0);
 
- private:
-  void	GetColor(char*,ulong&);
+  void  HandleResize(XEvent *event, bool refit);
 };
 
 

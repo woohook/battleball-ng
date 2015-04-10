@@ -242,19 +242,16 @@ void player::DrawView(gobList& gobs, team teams[], int playerNum,
     }
   }
   
-  if (doubleBuff) gt.DoubleBufferEnd();
-  
   Vhcl()->EyeIsInside(false);
 }
 
 
 /*-------------------------------------------------------------------------*/
 void player::CloseXStuff()
-{ XUnloadFont(gt.disp,gt.font->fid);
-  XFreePixmap(gt.disp,gt.pm);
-  XFreeGC(gt.disp,gt.gc);
-  XFreeGC(gt.disp,gt.pmgc);
-  XCloseDisplay(gt.disp);
+{ gt.UnloadFont();
+  gt.FreePixmap();
+  gt.FreeGC();
+  gt.CloseDisplay();
   active= false;
 }
 
@@ -334,18 +331,18 @@ void player::HandleEvents(gobList& gobs, tranGob* bbTrain) {
   XEvent event;
   KeySym k;
 
-  while (active and XPending(gt.disp) >0)
-  { XNextEvent(gt.disp, &event);
+  while (active and gt.Pending() >0)
+  { gt.NextEvent(&event);
     switch (event.type) {
       case Expose:
         textAreaNeedsRedrawing= true;
         break;
       case KeyPress:
-        k= XLookupKeysym((XKeyEvent *)(&event),0);
+        k= gt.LookupKeysym((XKeyEvent *)(&event));
         HandleKeyPress(k,true,gobs,bbTrain);
         break;
       case KeyRelease:
-        k= XLookupKeysym((XKeyEvent *)(&event),0);
+        k= gt.LookupKeysym((XKeyEvent *)(&event));
         HandleKeyPress(k,false,gobs,bbTrain);
         break;
       case ConfigureNotify:
@@ -485,9 +482,7 @@ void player::DrawStatus(const team teams[]) {
 
   if (textAreaNeedsRedrawing) {
     // Draw Keyboard Controls
-    XDrawLine(gt.disp,gt.win,gt.gc,
-              182, (int)(gt.gfxSize.y),
-              182, (int)(gt.gfxSize.y+gt.textSize.y-1));
+    gt.DrawLine(182, (int)(gt.gfxSize.y), 182, (int)(gt.gfxSize.y+gt.textSize.y-1));
     pt2d temp(gt.rightmost+4,0);
     gt.cursor= temp;
     gt << "     Keyboard Controls";

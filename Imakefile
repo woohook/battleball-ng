@@ -3,7 +3,7 @@ PROGRAMS = battleball
 
 XCOMM  If your compiler doesn't have STL in its default include path, add
 XCOMM  -Istl to the line below.  (shouldn't have to do this for g++ 2.7.x)
-INCLUDES = -Ilib3d -Ibsp
+INCLUDES = -Ilib3d -Ibsp -Ibb
 
 LOCAL_LIBRARIES = -lm $(XLIB)
 DEPLIBS = $(DEPXLIB)
