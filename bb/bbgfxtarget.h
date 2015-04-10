@@ -10,8 +10,11 @@
 #include "general.h"
 #include "pt2d.h"
 #include "bbcolor.h"
+#ifdef WIN32
+#include "gfxtargetwin.h"
+#else
 #include "gfxtargetx11.h"
-
+#endif
 
 /*======================================================================*/
 /* Graphics Target class.
@@ -22,7 +25,11 @@
    The text-printing stuff here is ugly.  It could have a MUCH cleaner, nicer
    interface...
 */
+#ifdef WIN32
+struct bbGfxTarget : public gfxTargetWin
+#else
 struct bbGfxTarget : public gfxTargetX11
+#endif
 {
   pt2d		gfxSize;	// width, height of 3d gfx area in pixels
   pt2d		fontSize;	// font width, height+1 in pixels

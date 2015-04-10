@@ -70,5 +70,9 @@ void bbGfxTarget::HandleResize(BBEvent *event, bool refit)
   if (refit)
     ResizeWindow(gfxSize +pt2d(0,textSize.y));
 
+#ifdef WIN32
+  gfxTargetWin::HandleResize(event, refit);
+#else
   gfxTargetX11::HandleResize(event, refit);
+#endif
 }
