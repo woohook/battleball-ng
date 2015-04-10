@@ -82,6 +82,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
     hFont = CreateFont(13,6,0,0,FW_DONTCARE,FALSE,FALSE,FALSE,DEFAULT_CHARSET,OUT_OUTLINE_PRECIS,
               CLIP_DEFAULT_PRECIS,DEFAULT_QUALITY, FIXED_PITCH,TEXT("MS Sans Serif"));
     ReleaseDC(hWnd,hdc);
+    g_win->newWidth = 0;
   }
 
   if(g_win->lastMsg <= &g_win->MsgQ[99])
@@ -96,6 +97,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
         break;
     case WM_DESTROY:
         PostQuitMessage(WM_QUIT);
+        break;
+    case WM_SIZE:  // see WM_SIZING also
+        if(lParam > 0)
+        {
+          g_win->newWidth  = LOWORD(lParam);
+        }
         break;
     case WM_KEYDOWN:
     case WM_KEYUP:
@@ -435,6 +442,14 @@ int gfxTargetWin::Pending()
   {
     TranslateMessage(&msg);
     DispatchMessage(&msg);
+  }
+
+  if(newWidth > 0)
+  {
+    lastMsg->type  = BBE_Resize;
+    lastMsg->width = newWidth;
+    lastMsg++;
+    newWidth = 0;
   }
 
   if(lastMsg > nextMsg)
