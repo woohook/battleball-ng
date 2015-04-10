@@ -1,5 +1,68 @@
 #include "gfxtargetwin.h"
 
+struct coloritem
+{
+  char* name;
+  ulong color;
+};
+
+coloritem colormap[] =
+{
+  {"black", 0x000000},
+  {"gray10", 0x1a1a1a},
+  {"gray20", 0x333333},
+  {"gray30", 0x4d4d4d},
+  {"gray40", 0x666666},
+  {"gray50", 0x7f7f7f},
+  {"gray60", 0x999999},
+  {"gray70", 0xb3b3b3},
+  {"gray75", 0xbfbfbf},
+  {"gray80", 0xcccccc},
+  {"gray85", 0xd9d9d9},
+  {"gray90", 0xe5e5e5},
+  {"gray95", 0xf2f2f2},
+  {"white", 0xffffff},
+  {"saddle brown", 0x13458b},
+  {"sienna", 0x2d52a0},
+  {"brown", 0x2a2aa5},
+  {"firebrick", 0x2222b2},
+  {"red", 0x0000ff},
+  {"orange red", 0x0045ff},
+  {"dark orange", 0x008cff},
+  {"orange", 0x00a5ff},
+  {"gold", 0x00d7ff},
+  {"yellow", 0x00ffff},
+  {"green yellow", 0x2fffad},
+  {"green", 0x00ff00},
+  {"lawn green", 0x00fc7c},
+  {"lime green", 0x32cd32},
+  {"green3", 0x00cd00},
+  {"forest green", 0x228b22},
+  {"dark green", 0x006400},
+  {"dark olive green", 0x2f6b55},
+  {"olive drab", 0x238e6b},
+  {"cyan", 0xffff00},
+  {"light sky blue", 0xface87},
+  {"deep sky blue", 0xffbf00},
+  {"dodger blue", 0xff901e},
+  {"blue", 0xff0000},
+  {"steelblue1", 0xffb863},
+  {"steelblue2", 0xeeac5c},
+  {"steelblue3", 0xcd944f},
+  {"steel blue", 0xb48246},
+  {"steelblue4", 0x8b6436},
+  {"slategray1", 0xffe2c6},
+  {"slategray2", 0xeed3b9},
+  {"slategray3", 0xcdb69f},
+  {"slate gray", 0x908070},
+  {"slategray4", 0x8b7b6c},
+  {"navy", 0x800000},
+  {"violet", 0xee82ee},
+  {"turquoise", 0xd0e040},
+  {"gray50", 0x7f7f7f},
+  {"gray30", 0x4d4d4d}
+};
+
 HINSTANCE gfxTargetWin::hInstance;
 int gfxTargetWin::nCmdShow;
 
@@ -204,6 +267,18 @@ void gfxTargetWin::SetBackground(ulong color) const
 
 void gfxTargetWin::AllocColors(char *colorNames[], int numColors)
 {
+  colors = new ulong[numColors];
+  for(int i=0; i<numColors; i++)
+  {
+    colors[i] = 0;
+    for(int c=0; c<53; c++)
+    {
+      if(strcmp(colorNames[i],colormap[c].name)==0)
+      {
+        colors[i] = colormap[c].color;
+      }
+    }
+  }
 }
 
 ulong* gfxTargetWin::Colors()
