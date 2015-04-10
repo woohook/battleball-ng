@@ -15,16 +15,6 @@
 #define MINWINWIDTH 400
 #define MINWINHEIGHT (200+6*14+2)
 
-//===========================================================================
-/* Graphics Target class.
-   This class contains all the OS-specific data needed to draw graphics.
-   In this case, this data is X Windows-specific stuff.  Encapsulating the 
-   X Windows stuff here makes the graphics library cleaner and easier to port
-   to other OS's.
-
-   (Not *all* the X stuff is encapsulated here, but it's a start)
-*/
-
 enum KB_Key
 {
 KBK_None,

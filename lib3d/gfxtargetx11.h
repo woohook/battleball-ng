@@ -8,6 +8,12 @@
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 
+//===========================================================================
+/* Graphics Target class.
+   This class contains all the OS-specific data needed to draw graphics.
+   In this case, this data is X Windows-specific stuff.
+*/
+
 struct gfxTargetX11 : public gfxTarget
 {
   Display       *disp;		// X Display
