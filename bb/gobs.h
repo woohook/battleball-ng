@@ -37,7 +37,7 @@ struct vhclGob : public gob {
   gob*          Act();
   virtual bool  CanMakeGoal(const gob& hq, const gob& ball) const;
   void          ComputeMiss(const gob* tgt,int acc,pt3d& miss,double& time);
-  virtual gob*  Control(KeySym,bool pressed,int*);
+  virtual gob*  Control(KB_Key,bool pressed,int*);
   virtual void  Control(const pt3d& d,const pt3d& dd,tcomp& std);
   virtual void  Control(int *ammo,const gob *target, int acc, int frq) {};
   virtual void  DrawControls(bbGfxTarget&) {}
@@ -68,7 +68,7 @@ struct barrGob : vhclGob {
                 barrGob(const tcomp& np, const tcomp& nv, gob *par, int tn,
 			rgn3* ns=NULL);
   int           Color() const {return iAmHit ? c_red : c_navy;}
-  gob*          Control(KeySym,bool pressed,int*);
+  gob*          Control(KB_Key,bool pressed,int*);
   void          DrawStatus(bbGfxTarget&,int c1,int c2,bool all=true);
   void          Fire(int*);
   void          GetShellPos(tmtrx& p, pt3d& v);
@@ -90,7 +90,7 @@ struct turrGob : vhclGob {
                 turrGob(const turr_bladGob&, gob *par);
   gob*          Act();
   int           Color() const {return iAmHit ? c_red : c_navy;}
-  gob*          Control(KeySym,bool pressed,int*);
+  gob*          Control(KB_Key,bool pressed,int*);
   void          Control(int *ammo,const gob *target, int acc, int frq);
   void          DrawControls(bbGfxTarget&);
   void          DrawStatus(bbGfxTarget&,int c1,int c2,bool all=true);
@@ -131,7 +131,7 @@ struct tankGob : vhclGob {
                   {return turr.CanMakeGoal(hq,ball);}
   bool          Contains(const pt3d& worldPt,bool incl=true);
   int           Color() const {return iAmHit ? c_red : c_navy;}
-  gob*          Control(KeySym,bool pressed,int*);
+  gob*          Control(KB_Key,bool pressed,int*);
   void          Control(const pt3d& d,const pt3d& dd,tcomp& std);
   void          Control(int *ammo,const gob *target, int acc, int frq);
   void          DrawControls(bbGfxTarget&);
@@ -170,7 +170,7 @@ struct heliGob : vhclGob {
                 heliGob(const tank_heliGob&);
   gob*          Act();
   int           Color() const {return iAmHit ? c_red : c_navy;}
-  gob*          Control(KeySym,bool pressed,int*);
+  gob*          Control(KB_Key,bool pressed,int*);
   void          Control(const pt3d& d,const pt3d& dd,tcomp& std);
   void          Control(int *ammo,const gob *target, int acc, int frq);
   void          DrawControls(bbGfxTarget&);
@@ -280,7 +280,7 @@ struct saucGob : wingGob {
                 saucGob(const tcomp& np, const tcomp& nv, int tn);
   gob*          Act();
   int           Color() const {return c_forestGreen;}
-  gob*          Control(KeySym,bool pressed,int*);
+  gob*          Control(KB_Key,bool pressed,int*);
   void          DrawStatus(bbGfxTarget&,int c1,int c2,bool all=true);
   void          Fire(int*);
   tcomp         ModelViewPos()      const {return pt3d(0,0,0.6875);}
@@ -299,7 +299,7 @@ struct rpelGob : vhclGob {
                 rpelGob(const tcomp& np, const tcomp& nv, gob *par, int tn,
 			const rgn3* = &rpelRgn);
   int           Color() const {return c_steelBlue2;}
-  gob*          Control(KeySym,bool pressed,int*);
+  gob*          Control(KB_Key,bool pressed,int*);
   void          LimitMotion();
   tcomp         MaxVel() const {return tcomp(pt3d(0,0,0),
                                              ang3d(0,MA_PI/128,0));}
@@ -460,7 +460,7 @@ struct tranGob : vhclGob {
   void          Control(const pt3d& d,const pt3d& dd,tcomp& std)
                   {ctrl=MaxVel();}
   void          Control(int *ammo,const gob *target, int acc, int frq);
-  gob*          Control(KeySym,bool pressed,int*);
+  gob*          Control(KB_Key,bool pressed,int*);
   void          DrawControls(bbGfxTarget&);
   void          DrawStatus(bbGfxTarget&,int c1,int c2,bool all=true);
   void          GetViewOrder(const pt3d& eyePos,gobList& shapes);

@@ -258,7 +258,7 @@ void player::CloseXStuff()
 /*-------------------------------------------------------------------------*/
 // Handle a key press event.
 
-void player::HandleKeyPress(KeySym k, bool pressed, gobList& gobs,
+void player::HandleKeyPress(KB_Key k, bool pressed, gobList& gobs,
 			    tranGob* bbTrain) {
 //  gobList::iterator gi;
   switch(k) {
@@ -328,7 +328,7 @@ void player::HandleKeyPress(KeySym k, bool pressed, gobList& gobs,
 
 void player::HandleEvents(gobList& gobs, tranGob* bbTrain) {
   XEvent event;
-  KeySym k;
+  KB_Key k;
 
   while (active and gt.Pending() >0)
   { gt.NextEvent(&event);

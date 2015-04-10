@@ -122,7 +122,7 @@ void vhclGob::ComputeMiss(const gob* target, int firingAcc,
 /*-------------------------------------------------------------------------*/
 // Control this vhcl via keystrokes.
 
-gob* vhclGob::Control(KeySym k, bool pressed, int *ammo) {
+gob* vhclGob::Control(KB_Key k, bool pressed, int *ammo) {
   if (k==KBK_Home and pressed and testVhcl==NULL) testVhcl= this;
   if (k==KBK_End  and pressed) testVhcl= NULL;
 
@@ -369,7 +369,7 @@ bool tankGob::Contains(const pt3d& globalPt, bool inclusive) {
     return box.ContainsExclusively(globalPt << WorldPos());
 }
 
-gob* tankGob::Control(KeySym k, bool pressed, int *ammo) {
+gob* tankGob::Control(KB_Key k, bool pressed, int *ammo) {
   vhclGob::Control(k,pressed,ammo);
   turr.Control(k,pressed,ammo);
   switch(k) {
@@ -498,7 +498,7 @@ turrGob::turrGob(const turr_bladGob& g, gob *newParent)
   pos.Ang()= pos.Ang().Normalized();
 };
 
-gob* turrGob::Control(KeySym k, bool pressed, int *ammo) {
+gob* turrGob::Control(KB_Key k, bool pressed, int *ammo) {
   vhclGob::Control(k,pressed,ammo);
   barr.Control(k,pressed,ammo);
   switch(k) {
@@ -609,7 +609,7 @@ barrGob::barrGob(const tcomp& newPos, const tcomp& newVel, gob *newParent,
     prevAng(0),
     shape(newShape) {}
 
-gob* barrGob::Control(KeySym k, bool pressed, int *ammo) {
+gob* barrGob::Control(KB_Key k, bool pressed, int *ammo) {
   vhclGob::Control(k,pressed,ammo);
   switch(k) {
     case KBK_e:     vel.Ang().xz=  MaxVel().Ang().xz*pressed; break;
@@ -693,7 +693,7 @@ void heliGob::Control(const pt3d& dest, const pt3d& destDir,
     ctrl.Ang().xz= 0;
 }
 
-gob* heliGob::Control(KeySym k, bool pressed, int *ammo) {
+gob* heliGob::Control(KB_Key k, bool pressed, int *ammo) {
   vhclGob::Control(k,pressed,ammo);
   blad.Control(k,pressed,ammo);
   switch(k) {
@@ -1096,7 +1096,7 @@ saucGob::saucGob(const tcomp& newPos, const tcomp& newVel, int tn) :
   regn(pt3d(0,-3.663,0.666),0,tn,&rperRgn),
   legn(pt3d(0, 3.663,0.666),0,tn) {}
 
-gob* saucGob::Control(KeySym k, bool pressed, int *ammo) {
+gob* saucGob::Control(KB_Key k, bool pressed, int *ammo) {
   vhclGob::Control(k,pressed,ammo);
   legn.Control(k,pressed,ammo);
   regn.Control(k,pressed,ammo);
@@ -1238,7 +1238,7 @@ rpelGob::rpelGob(const tcomp& newPos, const tcomp& newVel, gob *newParent,
   : vhclGob(newPos,newVel,newParent,tn),
     prop(pt3d(2.1,0,0),0,this,tn) {}
 
-gob* rpelGob::Control(KeySym k, bool pressed,int *ammo) {
+gob* rpelGob::Control(KB_Key k, bool pressed,int *ammo) {
   vhclGob::Control(k,pressed,ammo);
   prop.Control(k,pressed,ammo);
   switch(k) {
@@ -1618,7 +1618,7 @@ void tranGob::Control(int *ammo,
   turr.Control(ammo,target,firingAcc,firingFrq);
 }
 
-gob* tranGob::Control(KeySym k, bool pressed, int *ammo) {
+gob* tranGob::Control(KB_Key k, bool pressed, int *ammo) {
   vhclGob::Control(k,pressed,ammo);
   switch(k) {
     case KBK_Up:

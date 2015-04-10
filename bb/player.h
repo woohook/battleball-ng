@@ -53,7 +53,7 @@ struct player {
   void          DrawView(gobList& gobs, team[], int, bool, hrznGob*);
   void          CloseXStuff();
   void          AutoPlay(gobList&,int,team[],gob&);
-  void          HandleKeyPress(KeySym k, bool p, gobList& gobs, tranGob*);
+  void          HandleKeyPress(KB_Key k, bool p, gobList& gobs, tranGob*);
   void          HandleEvents(gobList& gobs, tranGob*);
   vhclGob*      Vhcl() const {return train ? train : (vhclGob*) *vhcl;}
   void          DrawStatus(const team[]);
