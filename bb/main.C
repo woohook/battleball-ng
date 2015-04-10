@@ -431,7 +431,8 @@ void battleBall::OpenAllDisplays(int argc, char *argv[]) {
 
   if (not success)
   { fori(numPlayers)
-      if (not players[i].computerPlayer and players[i].gt.disp != NULL) {
+      if (not players[i].computerPlayer)
+      {
         cout << "Closing " << players[i].dispName << "\n";
         players[i].gt.CloseDisplay();
       }

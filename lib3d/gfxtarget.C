@@ -253,7 +253,10 @@ void gfxTarget::FreeGC()
 
 void gfxTarget::CloseDisplay()
 {
-  XCloseDisplay(disp);
+  if(gt.disp != NULL)
+  {
+    XCloseDisplay(disp);
+  }
 }
 
 void gfxTarget::SetLineAttributes(unsigned int line_width, int line_style, int cap_style, int join_style)
