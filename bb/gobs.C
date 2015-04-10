@@ -3,7 +3,6 @@
 // it under the terms of the GNU General Public License v2 or later.
 
 
-#include <X11/keysym.h>
 #include "gobs.h"
 
 
@@ -124,15 +123,15 @@ void vhclGob::ComputeMiss(const gob* target, int firingAcc,
 // Control this vhcl via keystrokes.
 
 gob* vhclGob::Control(KeySym k, bool pressed, int *ammo) {
-  if (k==XK_Home and pressed and testVhcl==NULL) testVhcl= this;
-  if (k==XK_End  and pressed) testVhcl= NULL;
+  if (k==KBK_Home and pressed and testVhcl==NULL) testVhcl= this;
+  if (k==KBK_End  and pressed) testVhcl= NULL;
 
   if (testVhcl) {
     gobList::iterator gi;
     gob *g= testVhcl;
 
     switch(k) {
-    case XK_Page_Up:
+    case KBK_Page_Up:
       gi= gobs->end();
       do {
 	gi--;
@@ -142,7 +141,7 @@ gob* vhclGob::Control(KeySym k, bool pressed, int *ammo) {
       testVhcl= (vhclGob*) g;
       break;
       
-    case XK_Page_Down:
+    case KBK_Page_Down:
       gi= gobs->begin();
       while (gi != gobs->end() and *gi != testVhcl) {
 	if ((**gi).IsVhcl()) g= *gi;
@@ -151,12 +150,12 @@ gob* vhclGob::Control(KeySym k, bool pressed, int *ammo) {
       testVhcl= (vhclGob*) g;
       break;
 
-    case XK_KP_Up:        testVel.x=  0.5*pressed; break;
-    case XK_KP_Down:      testVel.x= -0.5*pressed; break;
-    case XK_KP_Left:      testVel.y=  0.5*pressed; break;
-    case XK_KP_Right:     testVel.y= -0.5*pressed; break;
-    case XK_KP_Page_Up:   testVel.z=  0.5*pressed; break;
-    case XK_KP_Page_Down: testVel.z= -0.5*pressed; break;
+    case KBK_KP_Up:        testVel.x=  0.5*pressed; break;
+    case KBK_KP_Down:      testVel.x= -0.5*pressed; break;
+    case KBK_KP_Left:      testVel.y=  0.5*pressed; break;
+    case KBK_KP_Right:     testVel.y= -0.5*pressed; break;
+    case KBK_KP_Page_Up:   testVel.z=  0.5*pressed; break;
+    case KBK_KP_Page_Down: testVel.z= -0.5*pressed; break;
     }
   }
   
@@ -374,18 +373,18 @@ gob* tankGob::Control(KeySym k, bool pressed, int *ammo) {
   vhclGob::Control(k,pressed,ammo);
   turr.Control(k,pressed,ammo);
   switch(k) {
-    case XK_Left:
-    case XK_j:     ctrl.Ang().xy=  MaxVel().Ang().xy*pressed; break;
-    case XK_Right:
-    case XK_l:     ctrl.Ang().xy= -MaxVel().Ang().xy*pressed; break;
-    case XK_Up:
-    case XK_i:     ctrl.Cart().x=  MaxVel().Cart().x*pressed; break;
-    case XK_Down:
-    case XK_k:     ctrl.Cart().x= -MaxVel().Cart().x*pressed; break;
-    case XK_t:     if (pressed) return new tank_heliGob(*this);
+    case KBK_Left:
+    case KBK_j:     ctrl.Ang().xy=  MaxVel().Ang().xy*pressed; break;
+    case KBK_Right:
+    case KBK_l:     ctrl.Ang().xy= -MaxVel().Ang().xy*pressed; break;
+    case KBK_Up:
+    case KBK_i:     ctrl.Cart().x=  MaxVel().Cart().x*pressed; break;
+    case KBK_Down:
+    case KBK_k:     ctrl.Cart().x= -MaxVel().Cart().x*pressed; break;
+    case KBK_t:     if (pressed) return new tank_heliGob(*this);
                    break;
 #ifdef NONRELEASE
-    case XK_z:     if (pressed) return new saucGob(pos,vel,teamNum);
+    case KBK_z:     if (pressed) return new saucGob(pos,vel,teamNum);
                    break;
 #endif
   }
@@ -503,8 +502,8 @@ gob* turrGob::Control(KeySym k, bool pressed, int *ammo) {
   vhclGob::Control(k,pressed,ammo);
   barr.Control(k,pressed,ammo);
   switch(k) {
-    case XK_s:     vel.Ang().xy=  MaxVel().Ang().xy*pressed; break;
-    case XK_f:     vel.Ang().xy= -MaxVel().Ang().xy*pressed; break;
+    case KBK_s:     vel.Ang().xy=  MaxVel().Ang().xy*pressed; break;
+    case KBK_f:     vel.Ang().xy= -MaxVel().Ang().xy*pressed; break;
   }
   return this;
 }
@@ -613,9 +612,9 @@ barrGob::barrGob(const tcomp& newPos, const tcomp& newVel, gob *newParent,
 gob* barrGob::Control(KeySym k, bool pressed, int *ammo) {
   vhclGob::Control(k,pressed,ammo);
   switch(k) {
-    case XK_e:     vel.Ang().xz=  MaxVel().Ang().xz*pressed; break;
-    case XK_d:     vel.Ang().xz= -MaxVel().Ang().xz*pressed; break;
-    case XK_space: if (pressed) Fire(ammo); break;
+    case KBK_e:     vel.Ang().xz=  MaxVel().Ang().xz*pressed; break;
+    case KBK_d:     vel.Ang().xz= -MaxVel().Ang().xz*pressed; break;
+    case KBK_space: if (pressed) Fire(ammo); break;
   }
   return this;
 }
@@ -698,23 +697,23 @@ gob* heliGob::Control(KeySym k, bool pressed, int *ammo) {
   vhclGob::Control(k,pressed,ammo);
   blad.Control(k,pressed,ammo);
   switch(k) {
-    case XK_e:     ctrl.Cart().z=  MaxVel().Cart().z*pressed; break;
-    case XK_d:     ctrl.Cart().z= -MaxVel().Cart().z*pressed; break;
-    case XK_Left:
-    case XK_j:     ctrl.Ang().xy=  MaxVel().Ang().xy*pressed; break;
-    case XK_Right:
-    case XK_l:     ctrl.Ang().xy= -MaxVel().Ang().xy*pressed; break;
-    case XK_Up:
-    case XK_i:     ctrl.Cart().x=  MaxVel().Cart().x*pressed; break;
-    case XK_Down:
-    case XK_k:     ctrl.Cart().x= -MaxVel().Cart().x*pressed; break;
-    case XK_s:     ctrl.Cart().y=  MaxVel().Cart().y*pressed; break;
-    case XK_f:     ctrl.Cart().y= -MaxVel().Cart().y*pressed; break;
-    case XK_y:     ctrl.Ang().xz= -MaxVel().Ang().xz*pressed; break;
-    case XK_h:     ctrl.Ang().xz=  MaxVel().Ang().xz*pressed; break;
+    case KBK_e:     ctrl.Cart().z=  MaxVel().Cart().z*pressed; break;
+    case KBK_d:     ctrl.Cart().z= -MaxVel().Cart().z*pressed; break;
+    case KBK_Left:
+    case KBK_j:     ctrl.Ang().xy=  MaxVel().Ang().xy*pressed; break;
+    case KBK_Right:
+    case KBK_l:     ctrl.Ang().xy= -MaxVel().Ang().xy*pressed; break;
+    case KBK_Up:
+    case KBK_i:     ctrl.Cart().x=  MaxVel().Cart().x*pressed; break;
+    case KBK_Down:
+    case KBK_k:     ctrl.Cart().x= -MaxVel().Cart().x*pressed; break;
+    case KBK_s:     ctrl.Cart().y=  MaxVel().Cart().y*pressed; break;
+    case KBK_f:     ctrl.Cart().y= -MaxVel().Cart().y*pressed; break;
+    case KBK_y:     ctrl.Ang().xz= -MaxVel().Ang().xz*pressed; break;
+    case KBK_h:     ctrl.Ang().xz=  MaxVel().Ang().xz*pressed; break;
 
-    case XK_space: if (pressed) Fire(ammo); break;
-    case XK_t:     if (pressed) return new tank_heliGob(*this); break;
+    case KBK_space: if (pressed) Fire(ammo); break;
+    case KBK_t:     if (pressed) return new tank_heliGob(*this); break;
   }
   return this;
 }
@@ -1103,27 +1102,27 @@ gob* saucGob::Control(KeySym k, bool pressed, int *ammo) {
   regn.Control(k,pressed,ammo);
 
   switch(k) {
-    case XK_e:
+    case KBK_e:
       if (pressed)
         ctrl.Cart().x= min(ctrl.Cart().x+0.25,MaxVel().Cart().x);  break;
-    case XK_d:
+    case KBK_d:
       if (pressed)
         ctrl.Cart().x= max(ctrl.Cart().x-0.25,(coord)0);  break;
 
-    case XK_Left:
-    case XK_j:     ctrl.Ang().yz= -MaxVel().Ang().yz*pressed; break;
-    case XK_Right:
-    case XK_l:     ctrl.Ang().yz=  MaxVel().Ang().yz*pressed; break;
-    case XK_Up:
-    case XK_i:     ctrl.Ang().xz= -MaxVel().Ang().xz*pressed; break;
-    case XK_Down:
-    case XK_k:     ctrl.Ang().xz=  MaxVel().Ang().xz*pressed; break;
+    case KBK_Left:
+    case KBK_j:     ctrl.Ang().yz= -MaxVel().Ang().yz*pressed; break;
+    case KBK_Right:
+    case KBK_l:     ctrl.Ang().yz=  MaxVel().Ang().yz*pressed; break;
+    case KBK_Up:
+    case KBK_i:     ctrl.Ang().xz= -MaxVel().Ang().xz*pressed; break;
+    case KBK_Down:
+    case KBK_k:     ctrl.Ang().xz=  MaxVel().Ang().xz*pressed; break;
 
-    case XK_space: if (pressed) Fire(ammo); break;
-    case XK_z:     if (pressed) return new tankGob(*this); break;
+    case KBK_space: if (pressed) Fire(ammo); break;
+    case KBK_z:     if (pressed) return new tankGob(*this); break;
 
 /*
-    case XK_g:
+    case KBK_g:
       if (pressed) {
         if (parts.empty()) {
           Add(new whelGob(tcomp(pt3d(-2,1), ang3d(0,0,-MA_PI/2)),
@@ -1243,8 +1242,8 @@ gob* rpelGob::Control(KeySym k, bool pressed,int *ammo) {
   vhclGob::Control(k,pressed,ammo);
   prop.Control(k,pressed,ammo);
   switch(k) {
-    case XK_h:  vel.Ang().xz=  MaxVel().Ang().xz * pressed; break;
-    case XK_y:  vel.Ang().xz= -MaxVel().Ang().xz * pressed; break;
+    case KBK_h:  vel.Ang().xz=  MaxVel().Ang().xz * pressed; break;
+    case KBK_y:  vel.Ang().xz= -MaxVel().Ang().xz * pressed; break;
   }
   return this;
 }
@@ -1622,13 +1621,13 @@ void tranGob::Control(int *ammo,
 gob* tranGob::Control(KeySym k, bool pressed, int *ammo) {
   vhclGob::Control(k,pressed,ammo);
   switch(k) {
-    case XK_Up:
-    case XK_i:  
+    case KBK_Up:
+    case KBK_i:  
       if (pressed and ctrl.Cart().x <=0)
 	ctrl.Cart().x += MaxVel().Cart().x;
       break;
-    case XK_Down:
-    case XK_k:
+    case KBK_Down:
+    case KBK_k:
       if (pressed and ctrl.Cart().x >= 0)
 	ctrl.Cart().x -= MaxVel().Cart().x;
       break;

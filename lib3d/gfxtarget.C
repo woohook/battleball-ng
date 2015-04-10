@@ -274,8 +274,51 @@ void gfxTarget::NextEvent(XEvent* event)
   XNextEvent(disp, event);
 }
 
-KeySym gfxTarget::LookupKeysym(XKeyEvent* key_event)
+KB_Key gfxTarget::LookupKeysym(XKeyEvent* key_event)
 {
-  return XLookupKeysym(key_event, 0);
+  KB_Key  key  = KBK_None;
+  KeySym xkey = XLookupKeysym(key_event, 0);
+
+  switch(xkey)
+  {
+  case XK_Down: key = KBK_Down; break;
+  case XK_End: key = KBK_End; break;
+  case XK_Escape: key = KBK_Escape; break;
+  case XK_Home: key = KBK_Home; break;
+  case XK_Insert: key = KBK_Insert; break;
+  case XK_KP_Down: key = KBK_KP_Down; break;
+  case XK_KP_Left: key = KBK_KP_Left; break;
+  case XK_KP_Page_Down: key = KBK_KP_Page_Down; break;
+  case XK_KP_Page_Up: key = KBK_KP_Page_Up; break;
+  case XK_KP_Right: key = KBK_KP_Right; break;
+  case XK_KP_Up: key = KBK_KP_Up; break;
+  case XK_Left: key = KBK_Left; break;
+  case XK_Page_Down: key = KBK_Page_Down; break;
+  case XK_Page_Up: key = KBK_Page_Up; break;
+  case XK_Right: key = KBK_Right; break;
+  case XK_Tab: key = KBK_Tab; break;
+  case XK_Up: key = KBK_Up; break;
+  case XK_a: key = KBK_a; break;
+  case XK_d: key = KBK_d; break;
+  case XK_e: key = KBK_e; break;
+  case XK_f: key = KBK_f; break;
+  case XK_g: key = KBK_g; break;
+  case XK_h: key = KBK_h; break;
+  case XK_i: key = KBK_i; break;
+  case XK_j: key = KBK_j; break;
+  case XK_k: key = KBK_k; break;
+  case XK_l: key = KBK_l; break;
+  case XK_p: key = KBK_p; break;
+  case XK_q: key = KBK_q; break;
+  case XK_s: key = KBK_s; break;
+  case XK_space: key = KBK_space; break;
+  case XK_t: key = KBK_t; break;
+  case XK_v: key = KBK_v; break;
+  case XK_y: key = KBK_y; break;
+  case XK_z: key = KBK_z; break;
+  default: key = KBK_None; break;
+  }
+
+  return key;
 }
 

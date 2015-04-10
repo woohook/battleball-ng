@@ -29,6 +29,48 @@
 
    (Not *all* the X stuff is encapsulated here, but it's a start)
 */
+
+enum KB_Key
+{
+KBK_None,
+KBK_Down,
+KBK_End,
+KBK_Escape,
+KBK_Home,
+KBK_Insert,
+KBK_KP_Down,
+KBK_KP_Left,
+KBK_KP_Page_Down,
+KBK_KP_Page_Up,
+KBK_KP_Right,
+KBK_KP_Up,
+KBK_Left,
+KBK_Page_Down,
+KBK_Page_Up,
+KBK_Right,
+KBK_Tab,
+KBK_Up,
+KBK_a,
+KBK_d,
+KBK_e,
+KBK_f,
+KBK_g,
+KBK_h,
+KBK_i,
+KBK_j,
+KBK_k,
+KBK_l,
+KBK_p,
+KBK_q,
+KBK_s,
+KBK_space,
+KBK_t,
+KBK_v,
+KBK_y,
+KBK_z,
+KBK_MAX
+};
+
 struct gfxTarget
 { Display       *disp;		// X Display
   Drawable      win;		// window on the display
@@ -86,7 +128,7 @@ struct gfxTarget
 
   int   Pending();
   void  NextEvent(XEvent* event);
-  KeySym  LookupKeysym(XKeyEvent* key_event);
+  KB_Key LookupKeysym(XKeyEvent* key_event);
 };
 
 

@@ -6,7 +6,6 @@
 #include <ctype.h>       // to get tolower()
 #include <cstring>       // to get strncpy()
 #include <climits>       // to get INT_MAX, LONG_MAX
-#include <X11/keysym.h>  // to get XK_*
 #include <algorithm>     // ugh, this baby's big
 #include "player.h"
 
@@ -263,7 +262,7 @@ void player::HandleKeyPress(KeySym k, bool pressed, gobList& gobs,
 			    tranGob* bbTrain) {
 //  gobList::iterator gi;
   switch(k) {
-    case XK_a:                  // toggle player/autonomous pilot
+    case KBK_a:                  // toggle player/autonomous pilot
       if (pressed and autoPilotAllowed) {
         autoPilot= not autoPilot;
 	textAreaNeedsRedrawing= true;
@@ -271,29 +270,29 @@ void player::HandleKeyPress(KeySym k, bool pressed, gobList& gobs,
           Vhcl()->ctrl= pt3d(0,0);
       }
       break;
-    case XK_g:                  // toggle player/autonomous gunner
+    case KBK_g:                  // toggle player/autonomous gunner
       if (pressed and autoGunnerAllowed) {
         autoGunner= not autoGunner;
 	textAreaNeedsRedrawing= true;
       }
       break;
-    case XK_p:
+    case KBK_p:
       if (pressed and pauseAllowed) {
 	paused= not paused;
 	textAreaNeedsRedrawing= true;
       }
       break;
-    case XK_q:
-    case XK_Escape:
+    case KBK_q:
+    case KBK_Escape:
       if (!pressed) CloseXStuff();
       break;
-    case XK_v:
+    case KBK_v:
       if (pressed) {
 	usingHqView= not usingHqView;
 	textAreaNeedsRedrawing= true;
       }
       break;
-    case XK_Insert:
+    case KBK_Insert:
       if (pressed) {
 	if (train) {
 	  train->teamNum= -1;
@@ -306,7 +305,7 @@ void player::HandleKeyPress(KeySym k, bool pressed, gobList& gobs,
 	}
       }
       break;
-    case XK_Tab:
+    case KBK_Tab:
       if (pressed) {
 	textAreaShowingStatus= not textAreaShowingStatus;
 	textAreaNeedsRedrawing= true;
