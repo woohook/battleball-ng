@@ -72,9 +72,18 @@ gfxTargetWin* g_win = NULL;
 // TODO: need this brush in global scope because SetForeground is marked const :-(
 HBRUSH hBrush = NULL;
 HPEN   hPen   = NULL;
+HFONT  hFont  = NULL;
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 {
+  if(hFont == NULL)
+  {
+    HDC hdc = GetDC(hWnd);
+    hFont = CreateFont(13,6,0,0,FW_DONTCARE,FALSE,FALSE,FALSE,DEFAULT_CHARSET,OUT_OUTLINE_PRECIS,
+              CLIP_DEFAULT_PRECIS,DEFAULT_QUALITY, FIXED_PITCH,TEXT("MS Sans Serif"));
+    ReleaseDC(hWnd,hdc);
+  }
+
   if(g_win->lastMsg <= &g_win->MsgQ[99])
   {
     switch(Msg)
@@ -364,10 +373,18 @@ void gfxTargetWin::DrawRectangle(int x, int y, unsigned int width, unsigned int 
 
 void gfxTargetWin::DrawString(const pt2d& p,const char* s)
 {
+  DrawImageString((int)p.x, (int)p.y, s, strlen(s));
 }
 
 void gfxTargetWin::DrawImageString(int x, int y, const char* string, int length)
 {
+  SelectObject(hdc,hFont);
+  SetTextAlign(hdc, TA_LEFT | TA_BASELINE | TA_NOUPDATECP);
+
+  // TODO: hack to force monospaced font
+  for(int c = 0; c < length; c++)
+    if(string[c] != ' ')
+      TextOut(hdc, x+(c*6) - 2, y, string + c, 1);
 }
 
 
