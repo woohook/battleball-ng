@@ -74,6 +74,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
   {
     switch(Msg)
     {
+    case WM_CLOSE:
+        g_win->lastMsg->type    = BBE_Key;
+        g_win->lastMsg->key     = KBK_q;
+        g_win->lastMsg->pressed = false;
+        g_win->lastMsg++;
+        break;
     case WM_DESTROY:
         PostQuitMessage(WM_QUIT);
         break;
