@@ -33,6 +33,12 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
   {
     argv[argc++] = lastArg;
   }
+
+  if(argc == 1)
+  {
+    argv[argc++] = ":0";
+    argv[argc++] = "comp";
+  }
 #else
 int main (int argc, char *argv[])
 {
