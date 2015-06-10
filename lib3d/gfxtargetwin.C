@@ -73,14 +73,20 @@ gfxTargetWin* g_win = NULL;
 HBRUSH hBrush = NULL;
 HPEN   hPen   = NULL;
 HFONT  hFont  = NULL;
+HDC    g_hDC  = NULL;
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 {
   if(hFont == NULL)
   {
     HDC hdc = GetDC(hWnd);
+    g_hDC    = CreateCompatibleDC(hdc);
     hFont = CreateFont(13,6,0,0,FW_DONTCARE,FALSE,FALSE,FALSE,DEFAULT_CHARSET,OUT_OUTLINE_PRECIS,
               CLIP_DEFAULT_PRECIS,DEFAULT_QUALITY, FIXED_PITCH,TEXT("MS Sans Serif"));
+    RECT rect;
+    GetClientRect(hWnd, &rect);
+    HBITMAP bitmap = CreateCompatibleBitmap (hdc, DEFAULTWINWIDTH, DEFAULTWINHEIGHT);
+    SelectObject ( g_hDC, bitmap );
     ReleaseDC(hWnd,hdc);
     g_win->newWidth = 0;
   }
@@ -103,6 +109,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
         {
           g_win->newWidth  = LOWORD(lParam);
         }
+        break;
+    case WM_ERASEBKGND:
+        return (LRESULT)1;
         break;
     case WM_KEYDOWN:
     case WM_KEYUP:
@@ -271,6 +280,18 @@ void gfxTargetWin::ResizeWindow(const pt2d& sz)
 
 void gfxTargetWin::HandleResize(BBEvent *event, bool refit)
 {
+  DeleteObject(GetCurrentObject(g_hDC, OBJ_BITMAP));
+  DeleteDC(g_hDC);
+
+  HDC ohdc = GetDC(hWnd);
+  g_hDC = CreateCompatibleDC(ohdc);
+
+  RECT rect;
+  GetClientRect(hWnd, &rect);
+  HBITMAP bitmap = CreateCompatibleBitmap (ohdc, rect.right, rect.bottom);
+  SelectObject ( g_hDC, bitmap );
+
+  ReleaseDC(hWnd,ohdc);
 }
 
 
@@ -418,16 +439,21 @@ void gfxTargetWin::FillPolygon(pt2d* points, int npoints, bool convex) const
 
 void gfxTargetWin::DoubleBufferBegin()
 {
-  hdc = GetDC(hWnd); 
+  hdc = g_hDC;
 }
 
 void gfxTargetWin::DoubleBufferEnd()
 {
+  HDC ohdc = GetDC(hWnd);
+  RECT rect;
+  GetClientRect(hWnd, &rect);
+  BitBlt(ohdc,0,0,rect.right,rect.bottom,hdc,0,0,SRCCOPY);
+  ReleaseDC(hWnd, ohdc); 
 }
 
 void gfxTargetWin::Flush()
 {
-  ReleaseDC(hWnd, hdc); 
+  DoubleBufferEnd();
   hdc = 0;
 }
 
