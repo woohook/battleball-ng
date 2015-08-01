@@ -14,7 +14,14 @@
 #include <time.h>        // to get time(time_t *)
 #include "bb.h"
 #include "battleball.h"
+#include "terminal.h"
+#include "terminals.h"
+#include "display.h"
+#include "surface.h"
+#include "perspectiverenderer.h"
+#include "hudrenderer.h"
 
+Terminals terminals;
 
 /*-------------------------------------------------------------------------*/
 battleBall::battleBall(int argc, char *argv[])
@@ -293,6 +300,27 @@ void battleBall::AddTeam(char *list) {
     newDispName[dispNameLen]= '\0';
     if (numPlayers <MAXPLAYERS) {
       players[numPlayers]= player(newDispName,numTeams,numMembers);
+      if(players[numPlayers].computerPlayer == false)
+      {
+        player* aPlayer = &players[numPlayers];
+        Terminal* aTerminal = terminals.create();
+        aTerminal->thePlayer = aPlayer;
+        aTerminal->m_Display->m_GfxTarget = &aPlayer->gt;
+        aTerminal->train = &train;
+        PerspectiveRenderer* aRenderer = new PerspectiveRenderer();
+        aRenderer->doubleBuffer = &doubleBuffer;
+        aRenderer->horizon = &horizon;
+        aRenderer->thePlayer = aPlayer;
+        aRenderer->playerIndex = numPlayers;
+        aRenderer->teamIndex = numTeams;
+        aRenderer->teams = teams;
+        aTerminal->m_Display->m_Surface->m_ContentProvider = aRenderer;
+        HudRenderer* aHud = new HudRenderer();
+        aHud->thePlayer = aPlayer;
+        aHud->ri = &roundinfo;
+        aHud->bb = this;
+        aTerminal->m_Display->m_Surface2->m_ContentProvider = aHud;
+      }
       numMembers++;
       numPlayers++;
     }
@@ -674,22 +702,19 @@ void battleBall::PlayOneRound(const gobList& sceneryGobs, int startTime,
       if (testIterations==1)
         if (players[i].active)
           players[i].CloseXStuff();     // also sets active= false
-      if (players[i].active)
-        players[i].HandleEvents(gobs,train);
     }
 
+    terminals.processInput();
+
     if (not player::paused) ActGobs(gobs);
+
+    terminals.processOutput();
 
     numActivePlayers= 0;
     fori(numPlayers) {
       player& dude= players[i];
       if (dude.active) {
         numActivePlayers++;
-        dude.DrawView(gobs,teams,i,doubleBuffer,horizon);
-        if (roundinfo.state==counting)
-          DrawStartingMsg(dude.gt,roundinfo.timer);
-        DrawTextArea(roundinfo,dude);
-        dude.gt.Flush();
       }
     }
 
