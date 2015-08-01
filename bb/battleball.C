@@ -654,15 +654,14 @@ void battleBall::PlayOneRound(const gobList& sceneryGobs, int startTime,
                               bool& done) {
   gobList       gobs;
   int           numActivePlayers= numPlayers;
-  roundInfo     ri;
 
   gobs= sceneryGobs;
-  InitForRound(gobs,startTime,ri);
+  InitForRound(gobs,startTime,roundinfo);
 
-  while (ri.state != roundEnding and numActivePlayers >0) {
+  while (roundinfo.state != roundEnding and numActivePlayers >0) {
     if (not player::paused) {
-      GetNextState(gobs,ri);
-      if ((ri.cycles %512)==0 and
+      GetNextState(gobs,roundinfo);
+      if ((roundinfo.cycles %512)==0 and
 	  vhclGob::testVhcl==NULL and
 	  (flybys==2 or (flybys==1 and (rand() & 0x700)==0x700))
 	  )
@@ -670,7 +669,7 @@ void battleBall::PlayOneRound(const gobList& sceneryGobs, int startTime,
     }
 
     forii(numPlayers) {
-      if (not player::paused and ri.state != counting)
+      if (not player::paused and roundinfo.state != counting)
         players[i].AutoPlay(gobs,numTeams,teams,*ball);
       if (testIterations==1)
         if (players[i].active)
@@ -687,14 +686,14 @@ void battleBall::PlayOneRound(const gobList& sceneryGobs, int startTime,
       if (dude.active) {
         numActivePlayers++;
         dude.DrawView(gobs,teams,i,doubleBuffer,horizon);
-        if (ri.state==counting)
-          DrawStartingMsg(dude.gt,ri.timer);
-        DrawTextArea(ri,dude);
+        if (roundinfo.state==counting)
+          DrawStartingMsg(dude.gt,roundinfo.timer);
+        DrawTextArea(roundinfo,dude);
         dude.gt.Flush();
       }
     }
 
-    if (ri.state==counting)
+    if (roundinfo.state==counting)
       SleepFor(990*1000);
     else if (intrinsicDelay >0)
       SleepFor((intrinsicDelay)*1000);

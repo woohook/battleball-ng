@@ -80,7 +80,7 @@ class battleBall {
   gobList       track;                  // train track
   int           numTrees;               // number of tree game objects
   int           numMtns;                // number of mountain game objects
-
+  roundInfo     roundinfo;              // state of the game
 
  public:
   battleBall(int argc, char *argv[]);
