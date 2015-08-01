@@ -22,7 +22,7 @@ OBJS=	bsp/brep.o bsp/bsp.o bsp/polygon.o \
 	lib3d/region3d.o lib3d/shdregion3d.o lib3d/view.o \
 	lib3d/xform.o lib3d/xpanel3d.o lib3d/xregion3d.o \
 	bb/bbcolor.o bb/bbgfxtarget.o bb/gob.o bb/gobs.o bb/main.o \
-	bb/player.o bb/shapes.o bb/team.o bb/battleball.o
+	bb/player.o bb/shapes.o bb/team.o bb/battleball.o bb/terminal.o bb/display.o bb/surface.o bb/perspectiverenderer.o bb/hudrenderer.o bb/terminals.o
 
 XCOMM If your compiler supports the optimization loop unrolling, use it.
 XCOMM For g++, loop unrolling is:  -funroll-loops
