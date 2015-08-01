@@ -50,7 +50,6 @@ struct player {
                 player() {};
                 player(const char *disp, int team, int member);
   void          InitForRound(gobList& gobs, coord hqd, int nt, gobList*);
-  void          DrawView(gobList& gobs, team[], int, bool, hrznGob*);
   void          CloseXStuff();
   void          AutoPlay(gobList&,int,team[],gob&);
   void          HandleKeyPress(KB_Key k, bool p, gobList& gobs, tranGob*);
