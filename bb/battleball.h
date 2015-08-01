@@ -88,6 +88,9 @@ class battleBall {
 
   void  Play();
 
+  void  DrawTextArea(const roundInfo& ri, player& dude);
+  void  DrawStartingMsg(bbGfxTarget& gt, int startTime);
+
  private:
   void  ReadCmdLine(int argc, char *argv[]);
   void  ShowHelp();
@@ -102,8 +105,6 @@ class battleBall {
   void  InitScenery(gobList& gobs);
   void  ShowTeams(bbGfxTarget& gt);
   void  ShowStatus(bool);
-  void  DrawTextArea(const roundInfo& ri, player& dude);
-  void  DrawStartingMsg(bbGfxTarget& gt, int startTime);
   void  GetNextState(gobList& gobs, roundInfo& ri);
   void  DoFlyby(gobList& gobs);
 };
