@@ -107,6 +107,7 @@ class battleBall {
   void  ShowStatus(bool);
   void  GetNextState(gobList& gobs, roundInfo& ri);
   void  DoFlyby(gobList& gobs);
+  void  AutoPlay(gobList& gobs);
 };
 
 #endif // #ifndef BATTLEBALL_h

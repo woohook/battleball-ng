@@ -687,6 +687,20 @@ void battleBall::DoFlyby(gobList& gobs)
 
 
 /*-------------------------------------------------------------------------*/
+// Process auto-pilots and auto-gunners
+
+void battleBall::AutoPlay(gobList& gobs)
+{
+  forii(numPlayers)
+  {
+    if (not player::paused and roundinfo.state != counting)
+    {
+      players[i].AutoPlay(gobs,numTeams,teams,*ball);
+    }
+  }
+}
+
+/*-------------------------------------------------------------------------*/
 // Play one full game round.
 // Out: done = true if no human players are playing any longer
 
@@ -706,9 +720,9 @@ void battleBall::PlayOneRound(const gobList& sceneryGobs, int startTime,
 
     DoFlyby(gobs);
 
+    AutoPlay(gobs);
+
     forii(numPlayers) {
-      if (not player::paused and roundinfo.state != counting)
-        players[i].AutoPlay(gobs,numTeams,teams,*ball);
       if (testIterations==1)
         if (players[i].active)
           players[i].CloseXStuff();     // also sets active= false
