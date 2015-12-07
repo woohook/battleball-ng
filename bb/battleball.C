@@ -701,6 +701,23 @@ void battleBall::AutoPlay(gobList& gobs)
 }
 
 /*-------------------------------------------------------------------------*/
+// handle program termination after expiration of specified test iterations
+
+void battleBall::HandleTestIterations()
+{
+  forii(numPlayers)
+  {
+    if (testIterations==1)
+    {
+      if (players[i].active)
+      {
+        players[i].CloseXStuff();     // also sets active= false
+      }
+    }
+  }
+}
+
+/*-------------------------------------------------------------------------*/
 // Play one full game round.
 // Out: done = true if no human players are playing any longer
 
@@ -722,11 +739,7 @@ void battleBall::PlayOneRound(const gobList& sceneryGobs, int startTime,
 
     AutoPlay(gobs);
 
-    forii(numPlayers) {
-      if (testIterations==1)
-        if (players[i].active)
-          players[i].CloseXStuff();     // also sets active= false
-    }
+    HandleTestIterations();
 
     if (not player::paused) ActGobs(gobs);
 

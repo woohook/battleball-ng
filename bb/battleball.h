@@ -108,6 +108,7 @@ class battleBall {
   void  GetNextState(gobList& gobs, roundInfo& ri);
   void  DoFlyby(gobList& gobs);
   void  AutoPlay(gobList& gobs);
+  void  HandleTestIterations();
 };
 
 #endif // #ifndef BATTLEBALL_h
