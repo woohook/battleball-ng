@@ -686,7 +686,10 @@ void battleBall::PlayOneRound(const gobList& sceneryGobs, int startTime,
   gobs= sceneryGobs;
   InitForRound(gobs,startTime,roundinfo);
 
-  while (roundinfo.state != roundEnding and numActivePlayers >0) {
+  while (roundinfo.state != roundEnding and numActivePlayers >0)
+  {
+    terminals.processInput();
+
     if (not player::paused) {
       GetNextState(gobs,roundinfo);
       if ((roundinfo.cycles %512)==0 and
@@ -703,8 +706,6 @@ void battleBall::PlayOneRound(const gobList& sceneryGobs, int startTime,
         if (players[i].active)
           players[i].CloseXStuff();     // also sets active= false
     }
-
-    terminals.processInput();
 
     if (not player::paused) ActGobs(gobs);
 
