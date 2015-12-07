@@ -722,6 +722,24 @@ void battleBall::HandleTestIterations()
 }
 
 /*-------------------------------------------------------------------------*/
+// handle program termination after all human players quit the game
+
+void battleBall::HandleGameTermination(bool& done, int& numActivePlayers)
+{
+  numActivePlayers = 0;
+  fori(numPlayers)
+  {
+    player& dude = players[i];
+    if (dude.active)
+    {
+      numActivePlayers++;
+    }
+  }
+
+  done = (numActivePlayers==0);
+}
+
+/*-------------------------------------------------------------------------*/
 // Play one full game round.
 // Out: done = true if no human players are playing any longer
 
@@ -749,13 +767,7 @@ void battleBall::PlayOneRound(const gobList& sceneryGobs, int startTime,
 
     terminals.processOutput();
 
-    numActivePlayers= 0;
-    fori(numPlayers) {
-      player& dude= players[i];
-      if (dude.active) {
-        numActivePlayers++;
-      }
-    }
+    HandleGameTermination(done, numActivePlayers);
 
     if (roundinfo.state==counting)
       SleepFor(990*1000);
@@ -763,7 +775,6 @@ void battleBall::PlayOneRound(const gobList& sceneryGobs, int startTime,
       SleepFor((intrinsicDelay)*1000);
   }
 
-  done= (numActivePlayers==0);
   FreeRound(gobs);
 }
 

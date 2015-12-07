@@ -109,6 +109,7 @@ class battleBall {
   void  DoFlyby(gobList& gobs);
   void  AutoPlay(gobList& gobs);
   void  HandleTestIterations();
+  void  HandleGameTermination(bool& done, int& numActivePlayers);
 };
 
 #endif // #ifndef BATTLEBALL_h
