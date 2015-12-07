@@ -581,8 +581,6 @@ void battleBall::GetNextState(gobList& gobs, roundInfo& ri)
   ri.prevState= ri.state;
   if (ri.loserTeamNum != -1)
     hq= teams[ri.loserTeamNum].hq;
-  if (testIterations >0)
-    testIterations--;
   (ri.cycles)++;
 
   switch (ri.state) {
@@ -713,6 +711,11 @@ void battleBall::AutoPlay(gobList& gobs)
 
 void battleBall::HandleTestIterations()
 {
+  if (testIterations >0)
+  {
+    testIterations--;
+  }
+
   forii(numPlayers)
   {
     if (testIterations==1)
