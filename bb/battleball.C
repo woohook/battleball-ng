@@ -644,15 +644,19 @@ void battleBall::GetNextState(gobList& gobs, roundInfo& ri)
 // include morphing, setting its velocity, moving, colliding with other
 // game objects, etc.
 
-void battleBall::ActGobs(gobList& gobs) {
-  gobList::iterator gi= gobs.begin();
-  gobList::iterator nxtgob= gi;
-  int numGobs= gobs.size();
+void battleBall::ActGobs(gobList& gobs)
+{
+  if(not player::paused)
+  {
+    gobList::iterator gi= gobs.begin();
+    gobList::iterator nxtgob= gi;
+    int numGobs= gobs.size();
 
-  while (numGobs-- >0) {
-    nxtgob++;
-    gobs.Update((**gi).Act(),gi);
-    gi=nxtgob;
+    while (numGobs-- >0) {
+      nxtgob++;
+      gobs.Update((**gi).Act(),gi);
+      gi=nxtgob;
+    }
   }
 }
 
@@ -741,7 +745,7 @@ void battleBall::PlayOneRound(const gobList& sceneryGobs, int startTime,
 
     HandleTestIterations();
 
-    if (not player::paused) ActGobs(gobs);
+    ActGobs(gobs);
 
     terminals.processOutput();
 
