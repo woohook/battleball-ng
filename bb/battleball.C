@@ -587,7 +587,11 @@ void battleBall::GetNextState(gobList& gobs, roundInfo& ri)
 
   switch (ri.state) {
     case counting:
-      if (ri.timer >0) ri.timer--;
+      if (ri.timer >0)
+      {
+        ri.timer--;
+        SleepFor(990*1000);
+      }
       if (ri.timer==0) {
 	ri.state= playing;
 	ShowStatus(true);
@@ -769,9 +773,7 @@ void battleBall::PlayOneRound(const gobList& sceneryGobs, int startTime,
 
     HandleGameTermination(done, numActivePlayers);
 
-    if (roundinfo.state==counting)
-      SleepFor(990*1000);
-    else if (intrinsicDelay >0)
+    if (intrinsicDelay >0)
       SleepFor((intrinsicDelay)*1000);
   }
 
