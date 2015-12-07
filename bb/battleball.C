@@ -656,21 +656,28 @@ void battleBall::ActGobs(gobList& gobs) {
 // Create an airplane or saucer ship game object to do a fly-by over the
 // playfield.
 
-void battleBall::DoFlyby(gobList& gobs) {
-  bool isSaucer= rand()%2;
-  tcomp pos(rand()%(2*MA_PI));
-  tcomp vel= isSaucer ? pt3d(1.5,0) : pt3d(1,0);
-  pos.Cart()= pt3d(-384*vel.Cart().x,0,24) >> pos.Ang();
+void battleBall::DoFlyby(gobList& gobs)
+{
+  if ( (not player::paused) and
+       (roundinfo.cycles %512)==0 and
+        vhclGob::testVhcl==NULL and
+        (flybys==2 or (flybys==1 and (rand() & 0x700)==0x700)) )
+  {
+    bool isSaucer= rand()%2;
+    tcomp pos(rand()%(2*MA_PI));
+    tcomp vel= isSaucer ? pt3d(1.5,0) : pt3d(1,0);
+    pos.Cart()= pt3d(-384*vel.Cart().x,0,24) >> pos.Ang();
 
-  wingGob* g;
-  if (isSaucer)
-    g= new saucGob(pos,vel,-1);  // dummy team number - does it matter? -PAH
-  else
-    g= new plneGob(pos,vel,-1);
+    wingGob* g;
+    if (isSaucer)
+      g= new saucGob(pos,vel,-1);  // dummy team number - does it matter? -PAH
+    else
+      g= new plneGob(pos,vel,-1);
 
-  g->animDir= 1;
-  g->ctrl= vel;
-  gobs.push_back(g);
+    g->animDir= 1;
+    g->ctrl= vel;
+    gobs.push_back(g);
+  }
 }
 
 
@@ -692,12 +699,9 @@ void battleBall::PlayOneRound(const gobList& sceneryGobs, int startTime,
 
     if (not player::paused) {
       GetNextState(gobs,roundinfo);
-      if ((roundinfo.cycles %512)==0 and
-	  vhclGob::testVhcl==NULL and
-	  (flybys==2 or (flybys==1 and (rand() & 0x700)==0x700))
-	  )
-	DoFlyby(gobs);
     }
+
+    DoFlyby(gobs);
 
     forii(numPlayers) {
       if (not player::paused and roundinfo.state != counting)
