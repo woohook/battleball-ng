@@ -575,6 +575,9 @@ void battleBall::GetNextState(gobList& gobs, roundInfo& ri)
 { int   i;
   bldgGob *hq=NULL;
 
+  if (not player::paused)
+  {
+
   ri.prevState= ri.state;
   if (ri.loserTeamNum != -1)
     hq= teams[ri.loserTeamNum].hq;
@@ -629,6 +632,8 @@ void battleBall::GetNextState(gobList& gobs, roundInfo& ri)
     case roundEnding:
     case gameEnding:
       break;
+  }
+
   }
 }
 
@@ -697,9 +702,7 @@ void battleBall::PlayOneRound(const gobList& sceneryGobs, int startTime,
   {
     terminals.processInput();
 
-    if (not player::paused) {
-      GetNextState(gobs,roundinfo);
-    }
+    GetNextState(gobs,roundinfo);
 
     DoFlyby(gobs);
 
