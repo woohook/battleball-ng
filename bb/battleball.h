@@ -23,6 +23,7 @@ const coord
 /*=========================================================================*/
 // The states of a game round
 enum stateOfRound {
+  initializing,         // a new round is about to start
   counting,             // timer is counting down to begin playing
                         // (teams shown in text area)
   playing,              // playing the round; no goal scored yet
@@ -31,7 +32,6 @@ enum stateOfRound {
                         // (teams & scores shown in text area)
   bouncing,             // the hq has fallen & bounced at least once
                         // (teams & updated scores shown in text area)
-  roundEnding,          // the round is over (but _not_ the game)
   gameEnding            // a team has won, game is over
 };
 

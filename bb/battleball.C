@@ -599,14 +599,16 @@ void battleBall::GetNextState(gobList& gobs, roundInfo& ri)
 
     case bouncing:
       if (hq->Altitude()==0 and hq->vel.Cart().z==0)
-      { ri.state= roundEnding;
+      { ri.state= initializing;
         for(i= 0; i <numTeams; i++)
           if (teams[i].score >= pointsToWin)
             ri.state= gameEnding;
       }
       break;
 
-    case roundEnding:
+    case initializing:
+      ri.state = playing;
+      break;
     case gameEnding:
       break;
   }
@@ -743,7 +745,7 @@ void battleBall::PlayOneRound(const gobList& sceneryGobs, int startTime,
   gobs= sceneryGobs;
   InitForRound(gobs,startTime,roundinfo);
 
-  while (roundinfo.state != roundEnding and numActivePlayers >0)
+  while (roundinfo.state != initializing and numActivePlayers >0)
   {
     terminals.processInput();
 
