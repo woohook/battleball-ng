@@ -42,6 +42,7 @@ battleBall::battleBall(int argc, char *argv[])
     numMtns(MTNS)
 {
   roundinfo.state = initializing;
+  roundinfo.loserTeamNum = -1;
   srand(time(0));
   team::insigniaRandomizer= rand()%NUMINSIGNIA;
   ReadCmdLine(argc,argv);
@@ -597,6 +598,9 @@ void battleBall::GetNextState(gobList& gobs, roundInfo& ri)
       break;
 
     case initializing:
+      gobs= sceneryGobs;
+      InitForRound(gobs,startupDelay,roundinfo);
+      startupDelay = 0;
       ri.state = playing;
       break;
     case gameEnding:
@@ -735,13 +739,6 @@ void battleBall::Play()
   while (numActivePlayers >0)
   {
     terminals.processInput();
-
-    if(roundinfo.state == initializing)
-    {
-      gobs= sceneryGobs;
-      InitForRound(gobs,startupDelay,roundinfo);
-      startupDelay = 0;
-    }
 
     GetNextState(gobs,roundinfo);
 
