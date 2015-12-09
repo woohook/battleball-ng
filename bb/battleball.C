@@ -61,17 +61,6 @@ battleBall::~battleBall() {
 
 
 /*-------------------------------------------------------------------------*/
-void battleBall::Play() {
-  bool          done= false;
-
-  while (not done) {
-    PlayOneRound(sceneryGobs,startupDelay,done);
-    startupDelay= 0;
-  }
-}
-
-
-/*-------------------------------------------------------------------------*/
 /*                           private methods                               */
 /*-------------------------------------------------------------------------*/
 
@@ -735,11 +724,11 @@ void battleBall::FrameDelay()
 }
 
 /*-------------------------------------------------------------------------*/
-// Play one full game round.
-// Out: done = true if no human players are playing any longer
+// The game's main loop
 
-void battleBall::PlayOneRound(const gobList& sceneryGobs, int startTime,
-                              bool& done) {
+void battleBall::Play()
+{
+  bool          done = false;
   gobList       gobs;
   int           numActivePlayers= numPlayers;
 
@@ -750,7 +739,8 @@ void battleBall::PlayOneRound(const gobList& sceneryGobs, int startTime,
     if(roundinfo.state == initializing)
     {
       gobs= sceneryGobs;
-      InitForRound(gobs,startTime,roundinfo);
+      InitForRound(gobs,startupDelay,roundinfo);
+      startupDelay = 0;
     }
 
     GetNextState(gobs,roundinfo);

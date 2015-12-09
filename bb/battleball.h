@@ -98,7 +98,6 @@ class battleBall {
   void  ActGobs(gobList& gobs);
   void  AddTeam(char *list);
   void  OpenAllDisplays(int argc, char *argv[]);
-  void  PlayOneRound(const gobList& sceneryGobs, int startTime, bool& done);
   void  InitForRound(gobList& gobs, int startTime, roundInfo& ri);
   void  InitTrack(gobList& gobs);
   void  InitScenery(gobList& gobs);
