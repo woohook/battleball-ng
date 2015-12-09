@@ -747,6 +747,16 @@ void battleBall::HandleGameTermination(bool& done, int& numActivePlayers)
 }
 
 /*-------------------------------------------------------------------------*/
+// Handling frame delaying
+void battleBall::FrameDelay()
+{
+  if(intrinsicDelay > 0)
+  {
+    SleepFor((intrinsicDelay)*1000);
+  }
+}
+
+/*-------------------------------------------------------------------------*/
 // Play one full game round.
 // Out: done = true if no human players are playing any longer
 
@@ -776,8 +786,7 @@ void battleBall::PlayOneRound(const gobList& sceneryGobs, int startTime,
 
     HandleGameTermination(done, numActivePlayers);
 
-    if (intrinsicDelay >0)
-      SleepFor((intrinsicDelay)*1000);
+    FrameDelay();
   }
 
   FreeRound(gobs);

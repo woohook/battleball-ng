@@ -110,6 +110,7 @@ class battleBall {
   void  AutoPlay(gobList& gobs);
   void  HandleTestIterations();
   void  HandleGameTermination(bool& done, int& numActivePlayers);
+  void  FrameDelay();
 };
 
 #endif // #ifndef BATTLEBALL_h
