@@ -100,7 +100,6 @@ class battleBall {
   void  OpenAllDisplays(int argc, char *argv[]);
   void  PlayOneRound(const gobList& sceneryGobs, int startTime, bool& done);
   void  InitForRound(gobList& gobs, int startTime, roundInfo& ri);
-  void  FreeRound(gobList& gobs);
   void  InitTrack(gobList& gobs);
   void  InitScenery(gobList& gobs);
   void  ShowTeams(bbGfxTarget& gt);

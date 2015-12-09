@@ -541,23 +541,6 @@ void battleBall::InitForRound(gobList& gobs, int startTime, roundInfo& ri) {
 
 
 /*-------------------------------------------------------------------------*/
-// Free things when a game round ends
-
-void battleBall::FreeRound(gobList& gobs) {
-//  gobList::iterator gi;
-
-  // free the gobs which were created during the play of this round
-  // (i.e. _don't_ free gobs which were created by InitScenery() )
-  /* -PAH
-  for_(gi,gobs)
-    if ((**gi).type != boun and (**gi).type != tree and
-        (**gi).type != mntn and (**gi).type != hrzn)
-      delete *gi;
-      */
-}
-
-
-/*-------------------------------------------------------------------------*/
 // Draw a message while the startup delay counts down
 
 void battleBall::DrawStartingMsg(bbGfxTarget& gt, int startTime)
@@ -788,7 +771,5 @@ void battleBall::PlayOneRound(const gobList& sceneryGobs, int startTime,
 
     FrameDelay();
   }
-
-  FreeRound(gobs);
 }
 
