@@ -63,14 +63,6 @@ battleBall::~battleBall() {
 void battleBall::Play() {
   bool          done= false;
 
-  // The following loop seems to be necessary for X windows
-  // to not lose initial drawing commands.
-
-  forii(numPlayers)
-    if (players[i].active)
-      if (players[i].gt.Pending() >0)
-        players[i].gt.NextEvent();
-
   while (not done) {
     PlayOneRound(sceneryGobs,startupDelay,done);
     startupDelay= 0;
