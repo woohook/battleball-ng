@@ -41,6 +41,7 @@ battleBall::battleBall(int argc, char *argv[])
     numTrees(TREES),
     numMtns(MTNS)
 {
+  roundinfo.state = initializing;
   srand(time(0));
   team::insigniaRandomizer= rand()%NUMINSIGNIA;
   ReadCmdLine(argc,argv);
@@ -742,12 +743,15 @@ void battleBall::PlayOneRound(const gobList& sceneryGobs, int startTime,
   gobList       gobs;
   int           numActivePlayers= numPlayers;
 
-  gobs= sceneryGobs;
-  InitForRound(gobs,startTime,roundinfo);
-
-  while (roundinfo.state != initializing and numActivePlayers >0)
+  while (numActivePlayers >0)
   {
     terminals.processInput();
+
+    if(roundinfo.state == initializing)
+    {
+      gobs= sceneryGobs;
+      InitForRound(gobs,startTime,roundinfo);
+    }
 
     GetNextState(gobs,roundinfo);
 
