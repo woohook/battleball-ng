@@ -1119,7 +1119,7 @@ gob* saucGob::Control(KB_Key k, bool pressed, int *ammo) {
     case KBK_k:     ctrl.Ang().xz=  MaxVel().Ang().xz*pressed; break;
 
     case KBK_space: if (pressed) Fire(ammo); break;
-    case KBK_z:     if (pressed) return new tankGob(*this); break;
+    case KBK_z:     if (pressed) return g_BattleBallGame->transformToTank(*this); break;
 
 /*
     case KBK_g:

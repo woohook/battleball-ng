@@ -302,6 +302,12 @@ wingGob* battleBall::createSaucer(const tcomp& np, const tcomp& nv, int tn)
   return object;
 }
 
+gob* battleBall::transformToTank(const vhclGob& vhcl)
+{
+  gob* object = new tankGob(vhcl);
+  return object;
+}
+
 gob* battleBall::morphToHelicopter(const tankGob& tank)
 {
   gob* object = new tank_heliGob(tank);
