@@ -634,7 +634,7 @@ void barrGob::Fire(int *ammo) {
     tmtrx shellPos;
     pt3d  shellVel;
     GetShellPos(shellPos,shellVel);
-    gobs->push_back(new shllGob(shellPos,shellVel,teamNum,ammo));
+    gobs->push_back(g_BattleBallGame->createShell(shellPos,shellVel,teamNum,ammo));
     if (useBangs)
       gobs->push_back(new bangGob(shellPos,0));
   }
@@ -774,7 +774,7 @@ void heliGob::Fire(int *ammo) {
     tmtrx shellPos;
     pt3d  shellVel;
     GetShellPos(shellPos,shellVel);
-    gobs->push_back(new shllGob(shellPos,shellVel,teamNum,ammo));
+    gobs->push_back(g_BattleBallGame->createShell(shellPos,shellVel,teamNum,ammo));
     if (useBangs)
       gobs->push_back(new bangGob(shellPos,0));
   }
@@ -1159,7 +1159,7 @@ void saucGob::Fire(int *ammo) {
     tmtrx shellPos= tcomp(pt3d(3.5,0,0.5)) * WorldPos();
     pt3d  shellVel= pt3d(muzzleVel,0,muzzleVel/8) * WorldPos()
                     -WorldPos().Cart();
-    gobs->push_back(new shllGob(shellPos,shellVel,teamNum,ammo));
+    gobs->push_back(g_BattleBallGame->createShell(shellPos,shellVel,teamNum,ammo));
     if (useBangs)
       gobs->push_back(new bangGob(shellPos,0));
   }

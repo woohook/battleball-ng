@@ -94,6 +94,7 @@ class battleBall : public BattleBallGame
   void  DrawStartingMsg(bbGfxTarget& gt, int startTime);
 
   virtual gob* createExplosion(const tcomp& np, bool sprk=true, const tcomp& nv=ang3d(MA_PI/8,MA_PI/8,0));
+  virtual gob* createShell(const tcomp& np, const tcomp& nv, int tn, int *am);
 
  private:
   void  ReadCmdLine(int argc, char *argv[]);

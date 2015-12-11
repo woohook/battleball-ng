@@ -278,6 +278,12 @@ gob* battleBall::createExplosion(const tcomp& np, bool sprk, const tcomp& nv)
   return object;
 }
 
+gob* battleBall::createShell(const tcomp& np, const tcomp& nv, int tn, int *am)
+{
+  gob* object = new shllGob(np,nv,tn,am);
+  return object;
+}
+
 /*-------------------------------------------------------------------------*/
 // Add a team of one or more players to the game
 // (This includes adding the players to the game)
