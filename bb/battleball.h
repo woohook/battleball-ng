@@ -93,6 +93,8 @@ class battleBall : public BattleBallGame
   void  DrawTextArea(const roundInfo& ri, player& dude);
   void  DrawStartingMsg(bbGfxTarget& gt, int startTime);
 
+  virtual gob* createExplosion(const tcomp& np, bool sprk=true, const tcomp& nv=ang3d(MA_PI/8,MA_PI/8,0));
+
  private:
   void  ReadCmdLine(int argc, char *argv[]);
   void  ShowHelp();

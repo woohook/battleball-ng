@@ -4,7 +4,7 @@
 
 
 #include "gobs.h"
-
+#include "battleballgame.h"
 
 // Notes:
 //   gob is an abbreviation for Game OBject
@@ -214,7 +214,7 @@ void vhclGob::DrawStatus(bbGfxTarget& gt, int color1, int color2,
 twoGobs vhclGob::HitByVhcl(vhclGob *v) {
   if (v != this)  // don't hit yourself!
     if (KickIfHit(v,0.3,1,0.3,true))
-      gobs->push_back(new explGob((Center()+v->Center())/2,false,0));
+      gobs->push_back(g_BattleBallGame->createExplosion((Center()+v->Center())/2,false,0));
   return twoGobs(this,v);
 }
 
@@ -459,14 +459,14 @@ twoGobs tankGob::HitByShll(shllGob *hitter) {
     
     iAmHit= turr.iAmHit= turr.barr.iAmHit= 4;
     PushFrom(hitter,hitter->power/3,1,HITBOUNCE);
-    return twoGobs(this,new explGob(hitter->pos));
+    return twoGobs(this,g_BattleBallGame->createExplosion(hitter->pos));
   }
   return twoGobs(this,hitter);
 }
 
 twoGobs tankGob::HitByBall(ballGob *hitter) {
   if (KickIfHit(hitter,5,0.1333)) {
-    gobs->push_back(new explGob(hitter->Center(),false));
+    gobs->push_back(g_BattleBallGame->createExplosion(hitter->Center(),false));
     hitter->teamNum= teamNum;
   }
   return twoGobs(this,hitter);
@@ -833,7 +833,7 @@ twoGobs heliGob::HitByShll(shllGob *hitter) {
 
     iAmHit= 4;
     PushFrom(hitter,hitter->power/2,3);
-    return twoGobs(this,new explGob(hitter->pos));
+    return twoGobs(this,g_BattleBallGame->createExplosion(hitter->pos));
   }
   return twoGobs(this,hitter);
 }
@@ -843,7 +843,7 @@ twoGobs heliGob::HitByBall(ballGob *hitter) {
   if (Contains(ballPos)) {
     pt3d kick= hitter->pos.Cart() - pt3d(-1.5,0,0)*WorldPos();
     hitter->vel.Cart() += kick.Normalized(0.5);
-    gobs->push_back(new explGob(ballPos,false));
+    gobs->push_back(g_BattleBallGame->createExplosion(ballPos,false));
     
     if (hitter->Altitude() <0.001)
       hitter->vel.Cart().z= 0.1333;
@@ -935,14 +935,14 @@ twoGobs tank_heliGob::HitByShll(shllGob *hitter) {
 
     iAmHit= 4;
     PushFrom(hitter,hitter->power/2,3);
-    return twoGobs(this,new explGob(hitter->pos));
+    return twoGobs(this,g_BattleBallGame->createExplosion(hitter->pos));
   }
   return twoGobs(this,hitter);
 }
 
 twoGobs tank_heliGob::HitByBall(ballGob *hitter) {
   if (KickIfHit(hitter,5,0.1333)) {
-    gobs->push_back(new explGob(hitter->Center(),false));
+    gobs->push_back(g_BattleBallGame->createExplosion(hitter->Center(),false));
     hitter->teamNum= teamNum;
   }
   return twoGobs(this,hitter);
@@ -1062,7 +1062,7 @@ twoGobs wingGob::HitByShll(shllGob *hitter) {
 
     iAmHit= 4;
     PushFrom(hitter,hitter->power/2,3);
-    return twoGobs(this,new explGob(hitter->pos));
+    return twoGobs(this,g_BattleBallGame->createExplosion(hitter->pos));
   }
   return twoGobs(this,hitter);
 }
@@ -1383,7 +1383,7 @@ twoGobs bldgGob::HitByShll(shllGob *hitter) {
 
 twoGobs bldgGob::HitByVhcl(vhclGob *v) {
   if(KickIfHit(v,0.5,0))
-    gobs->push_back(new explGob(v->Center(),false,0));
+    gobs->push_back(g_BattleBallGame->createExplosion(v->Center(),false,0));
   return twoGobs(this,v);
 }
 
@@ -1447,7 +1447,7 @@ twoGobs ballGob::HitByShll(shllGob *hitter) {
     //vel.Cart().pt2d::operator=(savedVel +hitter->vel.Cart()); //xlC unhappy
     vel.Cart().x= savedVel.x +hitter->vel.Cart().x;
     vel.Cart().y= savedVel.y +hitter->vel.Cart().y;
-    return twoGobs(this,new explGob(hitter->pos,false));
+    return twoGobs(this,g_BattleBallGame->createExplosion(hitter->pos,false));
   }
   return twoGobs(this,hitter);
 }
@@ -1507,7 +1507,7 @@ void bounGob::KeepWithin(gob *g, const pt3d& offset) {
   if (dist >0) {
     pt3d norm= pt3d(s->unitNormal.x,s->unitNormal.y,0)*dist;
     g->pos.Cart() -= norm;
-    gobs->push_back(new explGob(g->pos.Cart()+offset,false,0));
+    gobs->push_back(g_BattleBallGame->createExplosion(g->pos.Cart()+offset,false,0));
 
     g->pos.Cart() -= norm;
 
@@ -1531,7 +1531,7 @@ miscGob::miscGob(const tcomp& newPos, rgn3* newShape, int newColor)
 
 twoGobs miscGob::HitByBall(ballGob *hitter) {
   if(KickIfHit(hitter,0.7,0))
-    gobs->push_back(new explGob(hitter->Center(),false,0));
+    gobs->push_back(g_BattleBallGame->createExplosion(hitter->Center(),false,0));
   return twoGobs(this,hitter);
 }
 
@@ -1673,7 +1673,7 @@ twoGobs tranGob::HitByShll(shllGob *hitter) {
     }
 
     vel.Cart().z += HITBOUNCE;
-    return twoGobs(this,new explGob(hitter->pos));
+    return twoGobs(this,g_BattleBallGame->createExplosion(hitter->pos));
   }
   return twoGobs(this,hitter);
 }

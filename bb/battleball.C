@@ -270,6 +270,13 @@ void battleBall::ShowHelp() {
 ;
 }
 
+/*-------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------*/
+gob* battleBall::createExplosion(const tcomp& np, bool sprk, const tcomp& nv)
+{
+  gob* object = new explGob(np,sprk,nv);
+  return object;
+}
 
 /*-------------------------------------------------------------------------*/
 // Add a team of one or more players to the game
