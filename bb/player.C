@@ -119,11 +119,11 @@ void player::InitForRound(gobList& gobs, coord hqDist, int numTeams,
 
     vhcl= gobs.insert(gobs.end(), g_BattleBallGame->createTank(homePos,pt3d(0,0),teamNum));
 
-  } else {
-
+  }
+  else
+  {
     homePos= pt3d(0,0,0);
-    vhcl= gobs.insert(gobs.end(),
-		      new tranGob(homePos,pt3d(0,0,0),teamNum,track));
+    vhcl= gobs.insert(gobs.end(), g_BattleBallGame->createTrain(homePos,pt3d(0,0,0),teamNum,track));
   }
 
   usingHqView= false;
