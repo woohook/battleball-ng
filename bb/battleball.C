@@ -22,6 +22,7 @@
 #include "hudrenderer.h"
 
 Terminals terminals;
+BattleBallGame* g_BattleBallGame = NULL;
 
 /*-------------------------------------------------------------------------*/
 battleBall::battleBall(int argc, char *argv[])
@@ -41,6 +42,7 @@ battleBall::battleBall(int argc, char *argv[])
     numTrees(TREES),
     numMtns(MTNS)
 {
+  g_BattleBallGame = this;
   roundinfo.state = initializing;
   roundinfo.loserTeamNum = -1;
   srand(time(0));

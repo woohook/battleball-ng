@@ -5,6 +5,7 @@
 #define BATTLEBALL_h
 
 #include "player.h"
+#include "battleballgame.h"
 
 const int
   MAXTEAMS= NUMINSIGNIA,        // max # of teams is the # of team insignias
@@ -53,7 +54,8 @@ struct roundInfo
 // for the duration of the game.
 
 
-class battleBall {
+class battleBall : public BattleBallGame
+{
   char*         progName;
   int           numPlayers;             // starts w/ 0
   player        players[MAXPLAYERS];
