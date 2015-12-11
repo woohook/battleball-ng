@@ -14,6 +14,8 @@ class BattleBallGame
   virtual gob* createBang(const tcomp& np, const tcomp& nv) = 0;
   virtual gob* morphToHelicopter(const tankGob& tank) = 0;
   virtual gob* morphToTank(const heliGob& heli) = 0;
+  virtual gob* morphToHelicopter(const tank_heliGob& tankheli) = 0;
+  virtual gob* morphToTank(const tank_heliGob& tankheli) = 0;
 };
 
 extern BattleBallGame* g_BattleBallGame;

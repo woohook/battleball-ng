@@ -896,8 +896,8 @@ tank_heliGob::tank_heliGob(const heliGob& g)
 
 gob* tank_heliGob::Act() {
   animNum += animDir;
-  if (animNum==TANKHELIRGNS) return new heliGob(*this);
-  if (animNum==-1)           return new tankGob(*this);
+  if (animNum==TANKHELIRGNS) return g_BattleBallGame->morphToHelicopter(*this);
+  if (animNum==-1)           return g_BattleBallGame->morphToTank(*this);
 
   if (Altitude() >0)
     vel.Cart().z += gravity;

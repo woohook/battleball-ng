@@ -98,6 +98,8 @@ class battleBall : public BattleBallGame
   virtual gob* createBang(const tcomp& np, const tcomp& nv);
   virtual gob* morphToHelicopter(const tankGob& tank);
   virtual gob* morphToTank(const heliGob& heli);
+  virtual gob* morphToHelicopter(const tank_heliGob& tankheli);
+  virtual gob* morphToTank(const tank_heliGob& tankheli);
 
  private:
   void  ReadCmdLine(int argc, char *argv[]);
