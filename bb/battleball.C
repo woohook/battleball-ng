@@ -290,6 +290,18 @@ gob* battleBall::createBang(const tcomp& np, const tcomp& nv)
   return object;
 }
 
+gob* battleBall::morphToHelicopter(const tankGob& tank)
+{
+  gob* object = new tank_heliGob(tank);
+  return object;
+}
+
+gob* battleBall::morphToTank(const heliGob& heli)
+{
+  gob* object = new tank_heliGob(heli);
+  return object;
+}
+
 /*-------------------------------------------------------------------------*/
 // Add a team of one or more players to the game
 // (This includes adding the players to the game)

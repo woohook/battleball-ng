@@ -96,6 +96,8 @@ class battleBall : public BattleBallGame
   virtual gob* createExplosion(const tcomp& np, bool sprk=true, const tcomp& nv=ang3d(MA_PI/8,MA_PI/8,0));
   virtual gob* createShell(const tcomp& np, const tcomp& nv, int tn, int *am);
   virtual gob* createBang(const tcomp& np, const tcomp& nv);
+  virtual gob* morphToHelicopter(const tankGob& tank);
+  virtual gob* morphToTank(const heliGob& heli);
 
  private:
   void  ReadCmdLine(int argc, char *argv[]);

@@ -381,7 +381,7 @@ gob* tankGob::Control(KB_Key k, bool pressed, int *ammo) {
     case KBK_i:     ctrl.Cart().x=  MaxVel().Cart().x*pressed; break;
     case KBK_Down:
     case KBK_k:     ctrl.Cart().x= -MaxVel().Cart().x*pressed; break;
-    case KBK_t:     if (pressed) return new tank_heliGob(*this);
+    case KBK_t:     if (pressed) return g_BattleBallGame->morphToHelicopter(*this);
                    break;
 #ifdef NONRELEASE
     case KBK_z:     if (pressed) return new saucGob(pos,vel,teamNum);
@@ -713,7 +713,7 @@ gob* heliGob::Control(KB_Key k, bool pressed, int *ammo) {
     case KBK_h:     ctrl.Ang().xz=  MaxVel().Ang().xz*pressed; break;
 
     case KBK_space: if (pressed) Fire(ammo); break;
-    case KBK_t:     if (pressed) return new tank_heliGob(*this); break;
+    case KBK_t:     if (pressed) return g_BattleBallGame->morphToTank(*this); break;
   }
   return this;
 }
