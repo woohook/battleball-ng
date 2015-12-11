@@ -15,6 +15,7 @@ class BattleBallGame
   virtual gob* createTank(const tcomp& np, const tcomp& nv, int tn) = 0;
   virtual wingGob* createSaucer(const tcomp& np, const tcomp& nv, int tn) = 0;
   virtual gob* createTrain(const tcomp& np, const tcomp& nv, int tn, gobList* gobs) = 0;
+  virtual bldgGob* createBuilding(const tcomp& np, const tcomp& nv, int tn) = 0;
   virtual gob* transformToTank(const vhclGob& vhcl) = 0;
   virtual gob* morphToHelicopter(const tankGob& tank) = 0;
   virtual gob* morphToTank(const heliGob& heli) = 0;

@@ -308,6 +308,12 @@ gob* battleBall::createTrain(const tcomp& np, const tcomp& nv, int tn, gobList* 
   return object;
 }
 
+bldgGob* battleBall::createBuilding(const tcomp& np, const tcomp& nv, int tn)
+{
+  bldgGob* object = new bldgGob(np,nv,tn);
+  return object;
+}
+
 gob* battleBall::transformToTank(const vhclGob& vhcl)
 {
   gob* object = new tankGob(vhcl);

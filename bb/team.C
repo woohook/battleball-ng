@@ -4,7 +4,7 @@
 
 
 #include "team.h"
-
+#include "battleballgame.h"
 
 int team::insigniaRandomizer= 0;
 
@@ -40,6 +40,6 @@ void team::InitForRound(gobList& gobs, coord hqDist, int numTeams) {
   pos.Ang()= -MA_PI/2 + (teamNum * 2*MA_PI)/numTeams;
   pos.Cart()= pt3d(hqDist,0) >> pos.Ang();
   pos.Ang() += MA_PI;
-  hq= new bldgGob(pos,pt3d(0,0),teamNum);
+  hq = g_BattleBallGame->createBuilding(pos,pt3d(0,0),teamNum);
   gobs.push_back(hq);
 }
