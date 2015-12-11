@@ -296,6 +296,12 @@ gob* battleBall::createTank(const tcomp& np, const tcomp& nv, int tn)
   return object;
 }
 
+wingGob* battleBall::createSaucer(const tcomp& np, const tcomp& nv, int tn)
+{
+  wingGob* object = new saucGob(np,nv,tn);
+  return object;
+}
+
 gob* battleBall::morphToHelicopter(const tankGob& tank)
 {
   gob* object = new tank_heliGob(tank);
@@ -715,7 +721,9 @@ void battleBall::DoFlyby(gobList& gobs)
 
     wingGob* g;
     if (isSaucer)
-      g= new saucGob(pos,vel,-1);  // dummy team number - does it matter? -PAH
+    {
+      g = g_BattleBallGame->createSaucer(pos,vel,-1);  // dummy team number - does it matter? -PAH
+    }
     else
       g= new plneGob(pos,vel,-1);
 

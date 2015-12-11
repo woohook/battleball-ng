@@ -384,7 +384,7 @@ gob* tankGob::Control(KB_Key k, bool pressed, int *ammo) {
     case KBK_t:     if (pressed) return g_BattleBallGame->morphToHelicopter(*this);
                    break;
 #ifdef NONRELEASE
-    case KBK_z:     if (pressed) return new saucGob(pos,vel,teamNum);
+    case KBK_z:     if (pressed) return g_BattleBallGame->createSaucer(pos,vel,teamNum);
                    break;
 #endif
   }
