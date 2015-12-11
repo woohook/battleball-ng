@@ -296,6 +296,12 @@ gob* battleBall::createTank(const tcomp& np, const tcomp& nv, int tn)
   return object;
 }
 
+wingGob* battleBall::createPlane(const tcomp& np, const tcomp& nv, int tn)
+{
+  wingGob* object = new plneGob(np,nv,tn);
+  return object;
+}
+
 wingGob* battleBall::createSaucer(const tcomp& np, const tcomp& nv, int tn)
 {
   wingGob* object = new saucGob(np,nv,tn);
@@ -743,7 +749,9 @@ void battleBall::DoFlyby(gobList& gobs)
       g = g_BattleBallGame->createSaucer(pos,vel,-1);  // dummy team number - does it matter? -PAH
     }
     else
-      g= new plneGob(pos,vel,-1);
+    {
+      g = g_BattleBallGame->createPlane(pos,vel,-1);
+    }
 
     g->animDir= 1;
     g->ctrl= vel;

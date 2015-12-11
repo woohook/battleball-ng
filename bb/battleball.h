@@ -97,6 +97,7 @@ class battleBall : public BattleBallGame
   virtual gob* createShell(const tcomp& np, const tcomp& nv, int tn, int *am);
   virtual gob* createBang(const tcomp& np, const tcomp& nv);
   virtual gob* createTank(const tcomp& np, const tcomp& nv, int tn);
+  virtual wingGob* createPlane(const tcomp& np, const tcomp& nv, int tn);
   virtual wingGob* createSaucer(const tcomp& np, const tcomp& nv, int tn);
   virtual gob* createTrain(const tcomp& np, const tcomp& nv, int tn, gobList* gobs);
   virtual bldgGob* createBuilding(const tcomp& np, const tcomp& nv, int tn);
