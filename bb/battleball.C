@@ -290,6 +290,12 @@ gob* battleBall::createBang(const tcomp& np, const tcomp& nv)
   return object;
 }
 
+gob* battleBall::createTank(const tcomp& np, const tcomp& nv, int tn)
+{
+  gob* object = new tankGob(np,nv,tn);
+  return object;
+}
+
 gob* battleBall::morphToHelicopter(const tankGob& tank)
 {
   gob* object = new tank_heliGob(tank);

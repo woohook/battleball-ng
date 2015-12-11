@@ -8,6 +8,7 @@
 #include <climits>       // to get INT_MAX, LONG_MAX
 #include <algorithm>     // ugh, this baby's big
 #include "player.h"
+#include "battleballgame.h"
 
 using namespace std;
 
@@ -115,8 +116,8 @@ void player::InitForRound(gobList& gobs, coord hqDist, int numTeams,
       homePos.Cart().y= -homePos.Cart().y -HOMESPACING;
     homePos.Cart() >>= homePos.Ang();
     homePos.Ang() += MA_PI;
-    
-    vhcl= gobs.insert(gobs.end(),new tankGob(homePos,pt3d(0,0),teamNum));
+
+    vhcl= gobs.insert(gobs.end(), g_BattleBallGame->createTank(homePos,pt3d(0,0),teamNum));
 
   } else {
 
