@@ -995,9 +995,9 @@ turr_bladGob::turr_bladGob(const bladGob& g, gob *newParent)
 gob* turr_bladGob::Act() {
   animNum += animDir;
   if (animNum==TANKHELIRGNS)
-    return new bladGob(*this,NULL);
+    return g_BattleBallGame->morphToBlade(*this,NULL);
   if (animNum==-1) 
-    return new turrGob(*this,NULL);
+    return g_BattleBallGame->morphToTurret(*this,NULL);
 
   vel.Ang().xy += angxyAcc;
   if (vel.Ang().xy >0) {

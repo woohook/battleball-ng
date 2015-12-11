@@ -16,6 +16,8 @@ class BattleBallGame
   virtual gob* morphToTank(const heliGob& heli) = 0;
   virtual gob* morphToHelicopter(const tank_heliGob& tankheli) = 0;
   virtual gob* morphToTank(const tank_heliGob& tankheli) = 0;
+  virtual gob* morphToTurret(const turr_bladGob& turrblad, gob *par) = 0;
+  virtual gob* morphToBlade(const turr_bladGob& turrblad, gob *par) = 0;
 };
 
 extern BattleBallGame* g_BattleBallGame;

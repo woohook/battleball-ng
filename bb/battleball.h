@@ -100,6 +100,8 @@ class battleBall : public BattleBallGame
   virtual gob* morphToTank(const heliGob& heli);
   virtual gob* morphToHelicopter(const tank_heliGob& tankheli);
   virtual gob* morphToTank(const tank_heliGob& tankheli);
+  virtual gob* morphToTurret(const turr_bladGob& turrblad, gob *par);
+  virtual gob* morphToBlade(const turr_bladGob& turrblad, gob *par);
 
  private:
   void  ReadCmdLine(int argc, char *argv[]);

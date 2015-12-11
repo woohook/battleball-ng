@@ -314,6 +314,18 @@ gob* battleBall::morphToTank(const tank_heliGob& tankheli)
   return object;
 }
 
+gob* battleBall::morphToTurret(const turr_bladGob& turrblad, gob *par)
+{
+  gob* object = new turrGob(turrblad, par);
+  return object;
+}
+
+gob* battleBall::morphToBlade(const turr_bladGob& turrblad, gob *par)
+{
+  gob* object = new bladGob(turrblad, par);
+  return object;
+}
+
 /*-------------------------------------------------------------------------*/
 // Add a team of one or more players to the game
 // (This includes adding the players to the game)
