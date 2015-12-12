@@ -314,6 +314,12 @@ gob* battleBall::createTrain(const tcomp& np, const tcomp& nv, int tn, gobList* 
   return object;
 }
 
+gob* battleBall::createRail(const tcomp& np,coord nl)
+{
+  gob* object = new railGob(np,nl);
+  return object;
+}
+
 bldgGob* battleBall::createBuilding(const tcomp& np, const tcomp& nv, int tn)
 {
   bldgGob* object = new bldgGob(np,nv,tn);
@@ -525,7 +531,7 @@ void battleBall::InitTrack(gobList& gobs) {
     double len= *data++;
     ang3d ang= ang3d((int)(data[0]*MA_PI), (int)(data[1]*MA_PI), 0);
     data += 2;
-    railGob *rail= new railGob(tcomp(pos,ang),len);
+    gob *rail= g_BattleBallGame->createRail(tcomp(pos,ang),len);
     track.push_back(rail);
     gobs.push_back(rail);
     pos += pt3d(len,0,0) >> ang;
