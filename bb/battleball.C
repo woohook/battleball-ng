@@ -338,6 +338,18 @@ ballGob* battleBall::createBall(const tcomp& np, const tcomp& nv, int tn)
   return object;
 }
 
+gob* battleBall::createMountain(const tcomp& np)
+{
+  gob* object = new mntnGob(np);
+  return object;
+}
+
+gob* battleBall::createTree(const tcomp& np)
+{
+  gob* object = new treeGob(np);
+  return object;
+}
+
 gob* battleBall::transformToTank(const vhclGob& vhcl)
 {
   gob* object = new tankGob(vhcl);
@@ -589,9 +601,9 @@ void battleBall::InitScenery(gobList& gobs) {
 
     pos.Ang()= rand()%(MA_PI/2);
     if (i <numMtns)
-      gobs.push_back(new mntnGob(pos));
+      gobs.push_back(g_BattleBallGame->createMountain(pos));
     else
-      gobs.push_back(new treeGob(pos));
+      gobs.push_back(g_BattleBallGame->createTree(pos));
   }
 
   horizon= new hrznGob(pt3d(0,0));
