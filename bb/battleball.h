@@ -106,6 +106,8 @@ class battleBall : public BattleBallGame
   virtual ballGob* createBall(const tcomp& np, const tcomp& nv, int tn);
   virtual gob* createMountain(const tcomp& np);
   virtual gob* createTree(const tcomp& np);
+  virtual bounGob* createBoundaries(const tcomp& np, bool kib);
+  virtual hrznGob* createHorizon(const tcomp& np);
   virtual gob* transformToTank(const vhclGob& vhcl);
   virtual gob* morphToHelicopter(const tankGob& tank);
   virtual gob* morphToTank(const heliGob& heli);

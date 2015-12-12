@@ -350,6 +350,18 @@ gob* battleBall::createTree(const tcomp& np)
   return object;
 }
 
+bounGob* battleBall::createBoundaries(const tcomp& np, bool keepInBounds)
+{
+  bounGob* object = new bounGob(np, keepInBounds);
+  return object;
+}
+
+hrznGob* battleBall::createHorizon(const tcomp& np)
+{
+  hrznGob* object = new hrznGob(np);
+  return object;
+}
+
 gob* battleBall::transformToTank(const vhclGob& vhcl)
 {
   gob* object = new tankGob(vhcl);
@@ -570,7 +582,7 @@ void battleBall::InitScenery(gobList& gobs) {
   bool  blocked;
   gobList::iterator gi;
 
-  gobs.push_back(bounds= new bounGob(tcomp(pt3d(0,0)),keepInBounds));
+  gobs.push_back(bounds = g_BattleBallGame->createBoundaries(tcomp(pt3d(0,0)),keepInBounds));
 //  gobs.push_back(new dstrGob(pt3d(-3*hqDist/2,2*hqDist,0),
 //                             pt3d(1./8,0)));
 
@@ -606,7 +618,7 @@ void battleBall::InitScenery(gobList& gobs) {
       gobs.push_back(g_BattleBallGame->createTree(pos));
   }
 
-  horizon= new hrznGob(pt3d(0,0));
+  horizon = g_BattleBallGame->createHorizon(pt3d(0,0));
   gobs.push_back(horizon);
 }
 
