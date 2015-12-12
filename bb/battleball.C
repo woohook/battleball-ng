@@ -320,6 +320,12 @@ bldgGob* battleBall::createBuilding(const tcomp& np, const tcomp& nv, int tn)
   return object;
 }
 
+ballGob* battleBall::createBall(const tcomp& np, const tcomp& nv, int tn)
+{
+  ballGob* object = new ballGob(np,nv,tn);
+  return object;
+}
+
 gob* battleBall::transformToTank(const vhclGob& vhcl)
 {
   gob* object = new tankGob(vhcl);
@@ -600,7 +606,7 @@ void battleBall::InitForRound(gobList& gobs, int startTime, roundInfo& ri) {
       train= (tranGob*) players[i].Vhcl();
   }
 
-  ball= new ballGob(pt3d(0,0),pt3d(0,0),-1);
+  ball= g_BattleBallGame->createBall(pt3d(0,0),pt3d(0,0),-1);
   gobs.push_back(ball);
 
   ri.loserTeamNum= -1;
