@@ -320,6 +320,12 @@ gob* battleBall::createRail(const tcomp& np,coord nl)
   return object;
 }
 
+gob* battleBall::createPillar(const tcomp& np)
+{
+  gob* object = new pllrGob(np);
+  return object;
+}
+
 bldgGob* battleBall::createBuilding(const tcomp& np, const tcomp& nv, int tn)
 {
   bldgGob* object = new bldgGob(np,nv,tn);
@@ -538,8 +544,8 @@ void battleBall::InitTrack(gobList& gobs) {
     if (pos.z <0.001) pos.z= 0;
   }
 
-  gobs.push_back(new pllrGob(pt3d(-46.4,0,0)));
-  gobs.push_back(new pllrGob(pt3d( 46.4,0,0)));
+  gobs.push_back(g_BattleBallGame->createPillar(pt3d(-46.4,0,0)));
+  gobs.push_back(g_BattleBallGame->createPillar(pt3d( 46.4,0,0)));
 }
 
 
