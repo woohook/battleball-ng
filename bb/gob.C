@@ -68,7 +68,8 @@ gob::gob(const tcomp& newPos, const tcomp& newVel, gob *newParent)
 gob* gob::Act() {
   vel.Scale()= pt3d(0,0,0);  // for right now... -PAH
   pos += vel;
-  return Interact();
+  UpdateWorldPos();
+  return this;
 }
 
 

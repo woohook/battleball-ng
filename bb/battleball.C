@@ -765,6 +765,19 @@ void battleBall::ActGobs(gobList& gobs)
       gobs.Update((**gi).Act(),gi);
       gi=nxtgob;
     }
+
+    gi= gobs.begin();
+    nxtgob= gi;
+    numGobs= gobs.size();
+
+    while (numGobs-- >0) {
+      nxtgob++;
+      if(*gi != NULL)
+      {
+        gobs.Update((**gi).Interact(),gi);
+      }
+      gi=nxtgob;
+    }
   }
 }
 
