@@ -358,6 +358,13 @@ gob* tankGob::Act() {
   return result;
 }
 
+gob* tankGob::Interact()
+{
+  gob* result = vhclGob::Interact();
+  turr.Interact();
+  return result;
+}
+
 bool tankGob::Contains(const pt3d& globalPt, bool inclusive) {
   // adjust (fudge) the bounding 3D rectangles around the tanks
   // this provides more playable collision detection
@@ -579,6 +586,7 @@ gob *turrGob::Interact() {
   if (pos.Ang().xy <-MA_PI/2) pos.Ang().xy= -MA_PI/2;
   if (pos.Ang().xy >MA_PI/2)  pos.Ang().xy= MA_PI/2;
   UpdateWorldPos();
+  barr.Interact();
   return this;
 }
 
@@ -804,7 +812,9 @@ gob* heliGob::Interact() {
   if (pos.Ang().xz <-MA_PI/4) pos.Ang().xz= -MA_PI/4;
   if (pos.Ang().yz >MA_PI/4)  pos.Ang().yz= MA_PI/4;
   if (pos.Ang().yz <-MA_PI/4) pos.Ang().yz= -MA_PI/4;
-  return vhclGob::Interact();
+  gob* result = vhclGob::Interact();
+  blad.Interact();
+  return result;
 }
 
 gob *heliGob::Act() {
@@ -903,6 +913,13 @@ gob* tank_heliGob::Act() {
     vel.Cart().z += gravity;
   gob *result= vhclGob::Act();
   if (result==this) turrBlad.Act();
+  return result;
+}
+
+gob* tank_heliGob::Interact()
+{
+  gob *result = vhclGob::Act();
+  turrBlad.Interact();
   return result;
 }
 
@@ -1697,6 +1714,7 @@ gob* tranGob::Interact() {
 
   gob *result= vhclGob::Interact();
   vel.Cart().y= 0;
+  turr.Interact();
   return result;
 }
 

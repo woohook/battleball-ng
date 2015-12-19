@@ -127,6 +127,7 @@ struct tankGob : vhclGob {
                 tankGob(const vhclGob&);
                 tankGob(const tank_heliGob&);
   gob*          Act();
+  gob*          Interact();
   bool          CanMakeGoal(const gob& hq, const gob& ball) const
                   {return turr.CanMakeGoal(hq,ball);}
   bool          Contains(const pt3d& worldPt,bool incl=true);
@@ -215,6 +216,7 @@ struct tank_heliGob : vhclGob {
                 tank_heliGob(const tankGob&);
                 tank_heliGob(const heliGob&);
   gob*          Act();
+  gob*          Interact();
   int           Color() const {return iAmHit ? c_red : c_navy;}
   void          EyeIsInside(bool in);
   void          GetViewOrder(const pt3d& eyePos,gobList& shapes);
