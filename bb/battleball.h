@@ -6,6 +6,7 @@
 
 #include "player.h"
 #include "battleballgame.h"
+#include "collisions.h"
 
 const int
   MAXTEAMS= NUMINSIGNIA,        // max # of teams is the # of team insignias
@@ -54,7 +55,7 @@ struct roundInfo
 // for the duration of the game.
 
 
-class battleBall : public BattleBallGame
+class battleBall : public BattleBallGame, public CollisionHandler
 {
   char*         progName;
   int           numPlayers;             // starts w/ 0
@@ -115,6 +116,8 @@ class battleBall : public BattleBallGame
   virtual gob* morphToTank(const tank_heliGob& tankheli);
   virtual gob* morphToTurret(const turr_bladGob& turrblad, gob *par);
   virtual gob* morphToBlade(const turr_bladGob& turrblad, gob *par);
+
+  virtual void handleCollision(Collidable* collider, Collidable* collidable);
 
  private:
   void  ReadCmdLine(int argc, char *argv[]);

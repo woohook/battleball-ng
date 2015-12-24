@@ -20,6 +20,7 @@
 #include "surface.h"
 #include "perspectiverenderer.h"
 #include "hudrenderer.h"
+#include "bbcollisions.h"
 
 Terminals terminals;
 BattleBallGame* g_BattleBallGame = NULL;
@@ -43,6 +44,7 @@ battleBall::battleBall(int argc, char *argv[])
     numMtns(MTNS)
 {
   g_BattleBallGame = this;
+  g_Collidables->setCollisionHandler(this);
   roundinfo.state = initializing;
   roundinfo.loserTeamNum = -1;
   srand(time(0));
@@ -402,6 +404,10 @@ gob* battleBall::morphToBlade(const turr_bladGob& turrblad, gob *par)
 {
   gob* object = new bladGob(turrblad, par);
   return object;
+}
+
+void battleBall::handleCollision(Collidable* collider, Collidable* collidable)
+{
 }
 
 /*-------------------------------------------------------------------------*/
@@ -765,6 +771,8 @@ void battleBall::ActGobs(gobList& gobs)
       gobs.Update((**gi).Act(),gi);
       gi=nxtgob;
     }
+
+    g_Collidables->detectCollisions();
 
     gi= gobs.begin();
     nxtgob= gi;
