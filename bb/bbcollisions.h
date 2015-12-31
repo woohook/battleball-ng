@@ -33,6 +33,7 @@ class BBCollidables : public Collidables
   CollisionHandler*         m_CollisionHandler;
   std::vector<Collidable*> m_colliders;
   std::vector<Collidable*> m_collidables;
+  std::vector<Collidable*> m_removed_collidables;
 };
 
 #endif // #ifndef BBCOLLISIONS_h

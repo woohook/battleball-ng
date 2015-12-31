@@ -22,7 +22,7 @@ void BBCollidables::addCollider(Collidable* collider)
 
 void BBCollidables::removeCollider(Collidable* collider)
 {
-  // TODO: remove this collider
+  m_removed_collidables.push_back(collider);
 }
 
 void BBCollidables::addCollidable(Collidable* collidable)
@@ -32,7 +32,7 @@ void BBCollidables::addCollidable(Collidable* collidable)
 
 void BBCollidables::removeCollidable(Collidable* collidable)
 {
-  // TODO: remove this collidable
+  m_removed_collidables.push_back(collidable);
 }
 
 void BBCollidables::setCollisionHandler(CollisionHandler* collisionhandler)
@@ -42,6 +42,41 @@ void BBCollidables::setCollisionHandler(CollisionHandler* collisionhandler)
 
 void BBCollidables::detectCollisions()
 {
+  // clear removed collidables first
+  std::vector<Collidable*>::iterator removedCollidable = m_removed_collidables.begin();
+  while(removedCollidable != m_removed_collidables.end())
+  {
+    // clear colliders
+    std::vector<Collidable*>::iterator currentCollidable = m_colliders.begin();
+    while(currentCollidable != m_colliders.end())
+    {
+      if((*removedCollidable) == (*currentCollidable))
+      {
+        m_colliders.erase(currentCollidable);
+      }
+      else
+      {
+        currentCollidable++;
+      }
+    }
+
+    // clear collidables
+    currentCollidable = m_collidables.begin();
+    while(currentCollidable != m_collidables.end())
+    {
+      if((*removedCollidable) == (*currentCollidable))
+      {
+        m_collidables.erase(currentCollidable);
+      }
+      else
+      {
+        currentCollidable++;
+      }
+    }
+    delete *removedCollidable;
+    m_removed_collidables.erase(removedCollidable);
+  }
+
   if(m_CollisionHandler != NULL)
   {
     std::vector<Collidable*>::iterator currentCollider = m_colliders.begin();
