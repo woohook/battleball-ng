@@ -9,6 +9,7 @@ class gob;
 class CollidableColliderGob : public Collidable, public CollisionShape
 {
  public:
+  virtual ~CollidableColliderGob();
   virtual void* getType();
   virtual CollisionShape* getShape();
   virtual void getCollisionBox(double& offsetx, double& offsety, double& offsetz, double& lengthx, double& lengthy, double& lengthz);

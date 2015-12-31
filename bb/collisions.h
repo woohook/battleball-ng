@@ -11,6 +11,7 @@ class CollisionShape
 class Collidable
 {
  public:
+  virtual ~Collidable() {}
   virtual void* getType() = 0;
   virtual CollisionShape* getShape() = 0;
 };

@@ -145,6 +145,10 @@ bool CollisionShape::isOverlappedBy(CollisionShape* otherShape)
   return isOverlapped;
 }
 
+CollidableColliderGob::~CollidableColliderGob()
+{
+}
+
 void CollidableColliderGob::getCollisionBox(double& offsetx, double& offsety, double& offsetz, double& lengthx, double& lengthy, double& lengthz)
 {
   rect3d bounds = m_gob->Shape()->Box();
