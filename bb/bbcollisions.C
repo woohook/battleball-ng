@@ -145,6 +145,12 @@ bool CollisionShape::isOverlappedBy(CollisionShape* otherShape)
   return isOverlapped;
 }
 
+CollidableColliderGob::CollidableColliderGob(gob* theGob, void* theType)
+{
+  m_gob  = theGob;
+  m_type = theType;
+}
+
 CollidableColliderGob::~CollidableColliderGob()
 {
 }
