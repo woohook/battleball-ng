@@ -21,9 +21,11 @@
 #include "perspectiverenderer.h"
 #include "hudrenderer.h"
 #include "bbcollisions.h"
+#include "flyby.h"
 
 Terminals terminals;
 BattleBallGame* g_BattleBallGame = NULL;
+FlyBy* g_FlyBy = NULL;
 
 /*-------------------------------------------------------------------------*/
 battleBall::battleBall(int argc, char *argv[])
@@ -50,6 +52,8 @@ battleBall::battleBall(int argc, char *argv[])
   srand(time(0));
   team::insigniaRandomizer= rand()%NUMINSIGNIA;
   ReadCmdLine(argc,argv);
+  g_FlyBy = new FlyBy();
+  g_FlyBy->initialize(argc,argv);
   InitFixed();  // init sine & cosine lookup tables
   InitRegions(numTeams, gob::fancy, hqDist, team::insigniaRandomizer);
   OpenAllDisplays(argc,argv);
@@ -88,7 +92,6 @@ void battleBall::ReadCmdLine(int argc, char *argv[]) {
 		  << endl;
       }
     }
-    else if (!strcmp(s,"-flyby"))   flybys= 2;
     else if (!strcmp(s,"-grav"))
     { if (i+1 <argc)                 gob::gravity= -atof(argv[++i]);
       if (gob::gravity >-0.01)       gob::gravity= -0.01;
@@ -107,7 +110,6 @@ void battleBall::ReadCmdLine(int argc, char *argv[]) {
     else if (!strcmp(s,"-noag"))      player::autoGunnerAllowed= false;
     else if (!strcmp(s,"-noap"))      player::autoPilotAllowed= false;
     else if (!strcmp(s,"-nobang"))    vhclGob::useBangs= false;
-    else if (!strcmp(s,"-noflyby"))   flybys= 0;
     else if (!strcmp(s,"-nopause"))   player::pauseAllowed= false;
     else if (!strcmp(s,"-noresize"))  player::refitWindow= false;
     else if (!strcmp(s,"-noshade"))   player::shadowsOn= false;
@@ -217,7 +219,6 @@ void battleBall::ShowHelp() {
 "    -noag       Disable human players' auto-gunner capability.\n"
 "    -noap       Disable human players' auto-pilot capability.\n"
 "    -nobang     Disable 'bangs' (the flashes at the end of a gun barrel)\n"
-"    -noflyby    Disable aircraft fly-bys.\n"
 "    -nopause    Disable players' use of the pause ('P') key.\n"
 "    -noresize   Do not automatically resize the window to fit the graphics.\n"
 "    -noshade    Disable shadows.  Uses less cpu time.\n"
@@ -791,39 +792,6 @@ void battleBall::ActGobs(gobList& gobs)
 
 
 /*-------------------------------------------------------------------------*/
-// Create an airplane or saucer ship game object to do a fly-by over the
-// playfield.
-
-void battleBall::DoFlyby(gobList& gobs)
-{
-  if ( (not player::paused) and
-       (roundinfo.cycles %512)==0 and
-        vhclGob::testVhcl==NULL and
-        (flybys==2 or (flybys==1 and (rand() & 0x700)==0x700)) )
-  {
-    bool isSaucer= rand()%2;
-    tcomp pos(rand()%(2*MA_PI));
-    tcomp vel= isSaucer ? pt3d(1.5,0) : pt3d(1,0);
-    pos.Cart()= pt3d(-384*vel.Cart().x,0,24) >> pos.Ang();
-
-    wingGob* g;
-    if (isSaucer)
-    {
-      g = g_BattleBallGame->createSaucer(pos,vel,-1);  // dummy team number - does it matter? -PAH
-    }
-    else
-    {
-      g = g_BattleBallGame->createPlane(pos,vel,-1);
-    }
-
-    g->animDir= 1;
-    g->ctrl= vel;
-    gobs.push_back(g);
-  }
-}
-
-
-/*-------------------------------------------------------------------------*/
 // Process auto-pilots and auto-gunners
 
 void battleBall::AutoPlay(gobList& gobs)
@@ -902,7 +870,7 @@ void battleBall::Play()
 
     GetNextState(gobs,roundinfo);
 
-    DoFlyby(gobs);
+    g_FlyBy->processFrame(gobs);
 
     AutoPlay(gobs);
 
