@@ -22,6 +22,7 @@
 #include "hudrenderer.h"
 #include "bbcollisions.h"
 #include "flyby.h"
+#include "train.h"
 
 Terminals terminals;
 BattleBallGame* g_BattleBallGame = NULL;
@@ -569,7 +570,7 @@ void battleBall::InitTrack(gobList& gobs) {
     ang3d ang= ang3d((int)(data[0]*MA_PI), (int)(data[1]*MA_PI), 0);
     data += 2;
     gob *rail= g_BattleBallGame->createRail(tcomp(pos,ang),len);
-    track.push_back(rail);
+    g_track->push_back(rail);
     gobs.push_back(rail);
     pos += pt3d(len,0,0) >> ang;
     if (pos.z <0.001) pos.z= 0;
@@ -640,7 +641,7 @@ void battleBall::InitForRound(gobList& gobs, int startTime, roundInfo& ri) {
     teams[i].InitForRound(gobs,hqDist,numTeams);
 
   fori(numPlayers) {
-    players[i].InitForRound(gobs,hqDist,numTeams,&track);
+    players[i].InitForRound(gobs,hqDist,numTeams,g_track);
     if (testIterations >0) {
       players[i].autoPilot=  player::autoPilotAllowed;
       players[i].autoGunner= player::autoGunnerAllowed;

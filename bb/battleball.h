@@ -80,7 +80,6 @@ class battleBall : public BattleBallGame, public CollisionHandler
   bool          keepInBounds;           // keep vhcls, etc. in  playfield
   bool          wantTrain;              // user wants the train in the game
   int           flybys;                 // 0->none, 1->few, 2->many
-  gobList       track;                  // train track
   int           numTrees;               // number of tree game objects
   int           numMtns;                // number of mountain game objects
   roundInfo     roundinfo;              // state of the game
