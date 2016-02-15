@@ -5,6 +5,8 @@
 #ifndef BATTLEBALLGAME_h
 #define BATTLEBALLGAME_h
 
+struct gobList;
+
 //=========================================================================
 class BattleBallGame
 {
@@ -34,5 +36,6 @@ class BattleBallGame
 };
 
 extern BattleBallGame* g_BattleBallGame;
+extern gobList* g_scenery;
 
 #endif

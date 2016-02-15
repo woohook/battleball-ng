@@ -27,6 +27,7 @@
 Terminals terminals;
 BattleBallGame* g_BattleBallGame = NULL;
 FlyBy* g_FlyBy = NULL;
+gobList* g_scenery = NULL;
 
 /*-------------------------------------------------------------------------*/
 battleBall::battleBall(int argc, char *argv[])
@@ -48,6 +49,7 @@ battleBall::battleBall(int argc, char *argv[])
 {
   g_BattleBallGame = this;
   g_Collidables->setCollisionHandler(this);
+  g_scenery = &sceneryGobs;
   roundinfo.state = initializing;
   roundinfo.loserTeamNum = -1;
   srand(time(0));
