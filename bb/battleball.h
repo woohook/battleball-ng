@@ -126,7 +126,6 @@ class battleBall : public BattleBallGame, public CollisionHandler
   void  AddTeam(char *list);
   void  OpenAllDisplays(int argc, char *argv[]);
   void  InitForRound(gobList& gobs, int startTime, roundInfo& ri);
-  void  InitTrack(gobList& gobs);
   void  InitScenery(gobList& gobs);
   void  ShowTeams(bbGfxTarget& gt);
   void  ShowStatus(bool);
