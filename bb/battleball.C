@@ -28,6 +28,7 @@ Terminals terminals;
 BattleBallGame* g_BattleBallGame = NULL;
 FlyBy* g_FlyBy = NULL;
 gobList* g_scenery = NULL;
+Train* g_Train = NULL;
 
 /*-------------------------------------------------------------------------*/
 battleBall::battleBall(int argc, char *argv[])
@@ -61,6 +62,8 @@ battleBall::battleBall(int argc, char *argv[])
   InitRegions(numTeams, gob::fancy, hqDist, team::insigniaRandomizer);
   OpenAllDisplays(argc,argv);
   InitScenery(sceneryGobs);
+  g_Train = new Train();
+  g_Train->initialize(argc,argv);
 }
 
 
@@ -554,36 +557,6 @@ void battleBall::DrawTextArea(const roundInfo& ri, player& dude) {
 
 
 /*-------------------------------------------------------------------------*/
-// Create the game objects for the train track
-
-void battleBall::InitTrack(gobList& gobs) {
-  double trackData[]= {
-    40,0,0, 40,0,0.063, 100,0,0, 40,0,-0.063, 40,0,0,
-    40,0.166,0, 40,0.333,0, 40,0.5,0, 40,0.666,0, 40,0.833,0,
-    259.5,1,0,
-    40,1.166,0, 40,1.333,0, 40,1.5,0, 40,1.666,0, 40,1.833,0,
-    0
-  };
-    
-  pt3d pos= pt3d(-129.2,0,0);
-  double *data= trackData;
-  while (*data != 0) {
-    double len= *data++;
-    ang3d ang= ang3d((int)(data[0]*MA_PI), (int)(data[1]*MA_PI), 0);
-    data += 2;
-    gob *rail= g_BattleBallGame->createRail(tcomp(pos,ang),len);
-    g_track->push_back(rail);
-    gobs.push_back(rail);
-    pos += pt3d(len,0,0) >> ang;
-    if (pos.z <0.001) pos.z= 0;
-  }
-
-  gobs.push_back(g_BattleBallGame->createPillar(pt3d(-46.4,0,0)));
-  gobs.push_back(g_BattleBallGame->createPillar(pt3d( 46.4,0,0)));
-}
-
-
-/*-------------------------------------------------------------------------*/
 // Create the "scenery" game objects which only need to be created once per
 // game, as opposed to once per game round.
 
@@ -596,8 +569,6 @@ void battleBall::InitScenery(gobList& gobs) {
 //  gobs.push_back(new dstrGob(pt3d(-3*hqDist/2,2*hqDist,0),
 //                             pt3d(1./8,0)));
 
-  if (wantTrain) InitTrack(gobs);
-		 
   forii(numMtns +numTrees) {
     do
     { if (i <numMtns)

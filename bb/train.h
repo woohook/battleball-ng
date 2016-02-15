@@ -8,4 +8,13 @@
 
 extern gobList* g_track;
 
+class Train
+{
+ public:
+  Train();
+  virtual ~Train();
+  virtual void initialize(int argc, char** argv);
+  virtual void processFrame(gobList& gobs);
+};
+
 #endif // TRAIN_h
