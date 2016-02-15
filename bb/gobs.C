@@ -5,6 +5,7 @@
 
 #include "gobs.h"
 #include "battleballgame.h"
+#include "train.h"           // for g_track
 
 // Notes:
 //   gob is an abbreviation for Game OBject
@@ -1609,12 +1610,10 @@ void hrznGob::SetWorldPos(const tmtrx& viewPos) {
 
 
 /*=========================================================================*/
-tranGob::tranGob(const tcomp& np, const tcomp& nv, int tn,
-                 gobList* nt)
-  : vhclGob(np,nv,*(nt->begin()),tn),
+tranGob::tranGob(const tcomp& np, const tcomp& nv, int tn)
+  : vhclGob(np,nv,*(g_track->begin()),tn),
     turr(pt3d(0,0,5.1),0,this,tn,&turrCRgn),
-    track(nt),
-    rail(nt->begin())
+    rail(g_track->begin())
 {
   turr.barr.shape= &barrCRgn;
 }
@@ -1700,12 +1699,12 @@ gob* tranGob::Interact() {
   if (pos.Cart().x >= railLen) {
     pos.Cart().x -= railLen;
     rail++;                       // move to next rail
-    if (rail==track->end())
-      rail= track->begin();
+    if (rail==g_track->end())
+      rail= g_track->begin();
   }
   else if (pos.Cart().x <0) {
-    if (rail==track->begin())
-      rail= track->end();
+    if (rail==g_track->begin())
+      rail= g_track->end();
     rail--;                       // move to prev rail
     railLen= ((railGob*)*rail)->Length();
     pos.Cart().x += railLen;

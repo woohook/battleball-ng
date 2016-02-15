@@ -452,11 +452,9 @@ struct hrznGob : gob {
 //===========================================================================
 struct tranGob : vhclGob {
   turrGob turr;
-  gobList *track;           // ptr to a list of railGobs
   gobList::iterator  rail;  // the rail that the train is currently on
 
-                tranGob(const tcomp& np, const tcomp& nv, int tn,
-			gobList*);
+                tranGob(const tcomp& np, const tcomp& nv, int tn);
   gob*          Act();
   int           Color() const {return c_gray50;}
   void          Control(const pt3d& d,const pt3d& dd,tcomp& std)

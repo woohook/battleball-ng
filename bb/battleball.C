@@ -312,9 +312,9 @@ wingGob* battleBall::createSaucer(const tcomp& np, const tcomp& nv, int tn)
   return object;
 }
 
-gob* battleBall::createTrain(const tcomp& np, const tcomp& nv, int tn, gobList* gobs)
+gob* battleBall::createTrain(const tcomp& np, const tcomp& nv, int tn)
 {
-  gob* object = new tranGob(np,nv,tn,gobs);
+  gob* object = new tranGob(np,nv,tn);
   return object;
 }
 
@@ -641,7 +641,7 @@ void battleBall::InitForRound(gobList& gobs, int startTime, roundInfo& ri) {
     teams[i].InitForRound(gobs,hqDist,numTeams);
 
   fori(numPlayers) {
-    players[i].InitForRound(gobs,hqDist,numTeams,g_track);
+    players[i].InitForRound(gobs,hqDist,numTeams);
     if (testIterations >0) {
       players[i].autoPilot=  player::autoPilotAllowed;
       players[i].autoGunner= player::autoGunnerAllowed;

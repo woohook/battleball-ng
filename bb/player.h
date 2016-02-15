@@ -49,7 +49,7 @@ struct player {
  public:
                 player() {};
                 player(const char *disp, int team, int member);
-  void          InitForRound(gobList& gobs, coord hqd, int nt, gobList*);
+  void          InitForRound(gobList& gobs, coord hqd, int nt);
   void          CloseXStuff();
   void          AutoPlay(gobList&,int,team[],gob&);
   void          HandleKeyPress(KB_Key k, bool p, gobList& gobs, tranGob*);

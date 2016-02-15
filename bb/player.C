@@ -107,8 +107,8 @@ void player::SetGunnerDefaults(const char* s) {
 /*-------------------------------------------------------------------------*/
 // Init this player for the start of a new game round.
 
-void player::InitForRound(gobList& gobs, coord hqDist, int numTeams,
-			  gobList* track) {
+void player::InitForRound(gobList& gobs, coord hqDist, int numTeams)
+{
   if (teamNum != -1) {
     homePos.Ang()= -MA_PI/2 + (teamNum * 2*MA_PI)/numTeams;
     homePos.Cart()= pt3d(hqDist-2*HOMESPACING, (1+memberNum)*HOMESPACING);
@@ -123,7 +123,7 @@ void player::InitForRound(gobList& gobs, coord hqDist, int numTeams,
   else
   {
     homePos= pt3d(0,0,0);
-    vhcl= gobs.insert(gobs.end(), g_BattleBallGame->createTrain(homePos,pt3d(0,0,0),teamNum,track));
+    vhcl= gobs.insert(gobs.end(), g_BattleBallGame->createTrain(homePos,pt3d(0,0,0),teamNum));
   }
 
   usingHqView= false;
