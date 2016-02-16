@@ -17,7 +17,6 @@ class Terminal
   Displayy* m_Display;
 
   player* thePlayer;
-  tranGob** train;
 };
 
 #endif // #ifndef TERMINAL_h

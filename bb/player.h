@@ -44,7 +44,6 @@ struct player {
                                   // the dummy "train" player
   //vector<gobRef> gobRefs;       // make this static? -PAH
   gobList::iterator vhcl;         // points to player's vehicle
-  tranGob*      train;            // NULL, unless player is controling train
 
  public:
                 player() {};
@@ -52,9 +51,9 @@ struct player {
   void          InitForRound(gobList& gobs, coord hqd, int nt);
   void          CloseXStuff();
   void          AutoPlay(gobList&,int,team[],gob&);
-  void          HandleKeyPress(KB_Key k, bool p, gobList& gobs, tranGob*);
-  void          HandleEvents(gobList& gobs, tranGob*);
-  vhclGob*      Vhcl() const {return train ? train : (vhclGob*) *vhcl;}
+  void          HandleKeyPress(KB_Key k, bool p, gobList& gobs);
+  void          HandleEvents(gobList& gobs);
+  vhclGob*      Vhcl() const;
   void          DrawStatus(const team[]);
   void          ClearTextArea();
   int           TeamNum() const {return teamNum;}

@@ -9,6 +9,7 @@
 #include <algorithm>     // ugh, this baby's big
 #include "player.h"
 #include "battleballgame.h"
+#include "train.h"
 
 using namespace std;
 
@@ -36,6 +37,7 @@ int  player::defaultFrequency= 3;
 bool player::refitWindow= true;
 int  player::shellsPerPlayer= 3;
 
+player* g_trainPlayer = NULL;
 
 /*-------------------------------------------------------------------------*/
 // In:  newDispName = X display name for a human player, or
@@ -47,8 +49,7 @@ player::player(const char *newDispName, int newTeamNum, int newMemberNum)
     gunnerAccuracy(defaultAccuracy),
     gunnerFrequency(defaultFrequency),
     mayShootBall(mayShootBallDefault),
-    mayShootVhcl(mayShootVhclDefault),
-    train(NULL)
+    mayShootVhcl(mayShootVhclDefault)
 {
   int len= strlen(newDispName);
 
@@ -120,11 +121,6 @@ void player::InitForRound(gobList& gobs, coord hqDist, int numTeams)
     vhcl= gobs.insert(gobs.end(), g_BattleBallGame->createTank(homePos,pt3d(0,0),teamNum));
 
   }
-  else
-  {
-    homePos= pt3d(0,0,0);
-    vhcl= gobs.insert(gobs.end(), g_BattleBallGame->createTrain(homePos,pt3d(0,0,0),teamNum));
-  }
 
   usingHqView= false;
   ammo= shellsPerPlayer;
@@ -144,8 +140,8 @@ void player::CloseXStuff()
 /*-------------------------------------------------------------------------*/
 // Handle a key press event.
 
-void player::HandleKeyPress(KB_Key k, bool pressed, gobList& gobs,
-			    tranGob* bbTrain) {
+void player::HandleKeyPress(KB_Key k, bool pressed, gobList& gobs)
+{
 //  gobList::iterator gi;
   switch(k) {
     case KBK_a:                  // toggle player/autonomous pilot
@@ -180,13 +176,15 @@ void player::HandleKeyPress(KB_Key k, bool pressed, gobList& gobs,
       break;
     case KBK_Insert:
       if (pressed) {
-	if (train) {
-	  train->teamNum= -1;
-	  train= NULL;
-	} else {
-	  if (bbTrain and bbTrain->TeamNum()==-1) {
-	    train= bbTrain;
-	    train->teamNum= teamNum;
+	if (g_trainPlayer==this)
+        {
+          g_trainPlayer = NULL;
+	}
+        else
+        {
+	  if( (g_train != NULL) && (g_trainPlayer==NULL) )
+          {
+            g_trainPlayer = this;
 	  }
 	}
       }
@@ -199,7 +197,7 @@ void player::HandleKeyPress(KB_Key k, bool pressed, gobList& gobs,
       break;
     default:
       if (not paused) {
-	if (train==NULL)
+	if (g_trainPlayer != this)
 	  gobs.Update(Vhcl()->Control(k,pressed,&ammo),vhcl);
 	else
 	  Vhcl()->Control(k,pressed,&ammo);
@@ -212,7 +210,7 @@ void player::HandleKeyPress(KB_Key k, bool pressed, gobList& gobs,
 /*-------------------------------------------------------------------------*/
 // Handle an operating system event for this player.
 
-void player::HandleEvents(gobList& gobs, tranGob* bbTrain)
+void player::HandleEvents(gobList& gobs)
 {
   while (active and gt.Pending() >0)
   {
@@ -222,7 +220,7 @@ void player::HandleEvents(gobList& gobs, tranGob* bbTrain)
         textAreaNeedsRedrawing= true;
         break;
       case BBE_Key:
-        HandleKeyPress(event.key,event.pressed,gobs,bbTrain);
+        HandleKeyPress(event.key,event.pressed,gobs);
         break;
       case BBE_Resize:
         gt.HandleResize(&event,refitWindow);
@@ -293,11 +291,6 @@ void player::GetDest(const team& teamToGet, const gob& ball,
 
 void player::AutoPlay(gobList& gobs,int numTeams,team teams[],gob& ball) {
   team *teamToAttack= TeamToAttack(numTeams,teams,ball);
-
-  // If this is the train player, but a real player currently has control of
-  // the train, then don't do anything
-  if (teamNum==-1 and Vhcl()->TeamNum() != teamNum)
-    return;
 
   gob *target= NULL;
   if (autoGunner) {
@@ -415,6 +408,10 @@ void player::DrawStatus(const team teams[]) {
   textAreaNeedsRedrawing= false;
 }
 
+vhclGob* player::Vhcl() const
+{
+  return (g_trainPlayer == this) ? g_train : (vhclGob*) *vhcl;
+}
 
 /*-------------------------------------------------------------------------*/
 // Clear the text subwindow.

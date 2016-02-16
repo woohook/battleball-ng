@@ -5,6 +5,7 @@
 
 gobList track;
 gobList* g_track = &track;
+tranGob* g_train = NULL;
 
 Train::Train()
 {
@@ -52,6 +53,8 @@ void Train::initialize(int argc, char** argv)
     if(!strcmp(s,"-train"))
     {
       InitTrack();
+      g_train = (tranGob*)g_BattleBallGame->createTrain(pt3d(0,0,0),pt3d(0,0,0),-1);
+      g_scenery->push_back(g_train);
     }
   }
 }

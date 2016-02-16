@@ -6,7 +6,10 @@
 
 #include "gob.h"  // for gobList
 
+struct tranGob;
+
 extern gobList* g_track;
+extern tranGob* g_train;
 
 class Train
 {

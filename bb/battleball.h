@@ -69,7 +69,6 @@ class battleBall : public BattleBallGame, public CollisionHandler
   bounGob       *bounds;                // "boundary" (playfield) game object
   ballGob       *ball;                  // ball game object
   hrznGob       *horizon;               // horizon game object
-  tranGob       *train;                 // train game object; NULL if none
   int           intrinsicDelay;         // delay between each iteration (ms)
   int           startupDelay;           // delay before game starts (seconds)
   int           testIterations;         // =0: normal game play
@@ -78,7 +77,6 @@ class battleBall : public BattleBallGame, public CollisionHandler
                                         //     ends (used for testing)
   bool          doubleBuffer;           // double buffer game windows
   bool          keepInBounds;           // keep vhcls, etc. in  playfield
-  bool          wantTrain;              // user wants the train in the game
   int           flybys;                 // 0->none, 1->few, 2->many
   int           numTrees;               // number of tree game objects
   int           numMtns;                // number of mountain game objects

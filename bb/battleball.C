@@ -36,14 +36,12 @@ battleBall::battleBall(int argc, char *argv[])
     numPlayers(0),
     numTeams(0),
     pointsToWin(3),
-    train(NULL),
     intrinsicDelay(30),
     startupDelay(0),
     testIterations(0),
     hqDist(HQDIST),
     doubleBuffer(true),
     keepInBounds(true),
-    wantTrain(false),
     flybys(1),
     numTrees(TREES),
     numMtns(MTNS)
@@ -146,7 +144,6 @@ void battleBall::ReadCmdLine(int argc, char *argv[]) {
       if (i+1 <argc)
 	team::insigniaRandomizer= atoi(argv[++i]);
     }
-    else if (!strcmp(s,"-train"))     wantTrain= true;
     else if (!strcmp(s,"-trees")) {
       if (i+1 <argc) numTrees= atoi(argv[++i]);
     }
@@ -160,9 +157,6 @@ void battleBall::ReadCmdLine(int argc, char *argv[]) {
     else if (numTeams <MAXTEAMS)
       AddTeam(argv[i]);
   }
-
-  if (wantTrain)
-    players[numPlayers++]= player("comp",-1,0); // teamNum==-1 -> train dude
 
   if (helpRequested) {
     ShowHelp();
@@ -240,7 +234,6 @@ void battleBall::ShowHelp() {
 "    -svel #     Set shell muzzle velocity.  Defaults to 1.5 meters/frame.\n"
 "                At higher velocities, some collisions may not be reliably\n"
 "                detected.\n"
-"    -train      Include a train running on a track around the playfield.\n"
 "    -trees #    Set the number of trees.  Defaults to 12.\n"
 "    -wf         Use wireframe rendering.  Uses less cpu time.\n\n"
 
@@ -437,7 +430,6 @@ void battleBall::AddTeam(char *list) {
         Terminal* aTerminal = terminals.create();
         aTerminal->thePlayer = aPlayer;
         aTerminal->m_Display->m_GfxTarget = &aPlayer->gt;
-        aTerminal->train = &train;
         PerspectiveRenderer* aRenderer = new PerspectiveRenderer();
         aRenderer->doubleBuffer = &doubleBuffer;
         aRenderer->horizon = &horizon;
@@ -619,8 +611,6 @@ void battleBall::InitForRound(gobList& gobs, int startTime, roundInfo& ri) {
       players[i].autoPilot=  player::autoPilotAllowed;
       players[i].autoGunner= player::autoGunnerAllowed;
     }
-    if (players[i].TeamNum()==-1)
-      train= (tranGob*) players[i].Vhcl();
   }
 
   ball= g_BattleBallGame->createBall(pt3d(0,0),pt3d(0,0),-1);

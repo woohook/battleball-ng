@@ -5,7 +5,6 @@
 Terminal::Terminal()
 : m_Display(new Displayy())
 , thePlayer(NULL)
-, train(NULL)
 {
 }
 
@@ -16,7 +15,7 @@ Terminal::~Terminal()
 
 void Terminal::processInput()
 {
-  thePlayer->HandleEvents(*gob::gobs,*train);
+  thePlayer->HandleEvents(*gob::gobs);
 }
 
 void Terminal::processOutput()
